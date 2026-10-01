@@ -94,6 +94,8 @@ class ReleaseScope(unittest.TestCase):
             self.assertEqual(sorted(path.name for path in staged.iterdir()), sorted(self.baseline['moduleVersions']))
             self.assertFalse((staged / 'midi-scenes').exists())
             self.assertIn('usb-midi', registry.PLATFORM_NAMES)
+            # Windows cannot remove the compiler's temporary directory while it is the cwd.
+            os.chdir(original_directory)
             raise ScopeChecked()
         registry.modules = check_discovery
         def git_only(arguments, cwd):
