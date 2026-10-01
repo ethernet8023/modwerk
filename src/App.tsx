@@ -28,6 +28,7 @@ import { Icon } from './components/Icon'
 import { ModulePreview } from './components/ModulePreview'
 import { ModuleDetail } from './components/ModuleDetail'
 import { FaqPage } from './components/FaqPage'
+import { MobileMenu } from './components/MobileMenu'
 
 import { useWorkspace } from './hooks/useWorkspace'
 import { ConfigurationDialog } from './components/ConfigurationDialog'
@@ -65,6 +66,13 @@ export default function App() {
   const [configDialog, setConfigDialog] = useState<'create' | 'rename' | 'duplicate' | 'delete' | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const mainRef = useRef<HTMLElement>(null)
+  const libraryNavRef = useRef<HTMLElement>(null)
+  // On phones the library nav is a horizontal strip; keep the current section in view.
+  useEffect(() => {
+    const active = libraryNavRef.current?.querySelector('a.active')
+    if (active) active.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    else libraryNavRef.current?.scrollTo({ left: 0 })
+  }, [route])
   useEffect(() => { mainRef.current?.scrollTo({ top: 0 });document.title=(detailModule?.name??(route==='faq'?'FAQ':route==='privacy'?'Privacy':route==='configuration'?'Configuration':route.startsWith('submit')?'Submit a module':route==='activity'?'Your activity':(route==='review'||route==='admin')?'Admin workspace':route.startsWith('module-set')?'Module sets':'Module library'))+' · Octamod' }, [route,detailModule?.name])
   const selection = resolveSelection(selectedIds)
   const availabilityError = moduleAvailabilityError(selectedIds)
@@ -116,7 +124,7 @@ export default function App() {
       <aside className="sidebar" aria-label="App sidebar">
         <a className="app-brand" href="#library"><img src={import.meta.env.BASE_URL + 'favicon.svg'} width="34" height="34" alt="" /><span>Octamod<small>Firmware configurator</small></span></a>
         <div className="sidebar-section-label">Library</div>
-        <nav className="sidebar-nav" aria-label="Module library">
+        <nav className="sidebar-nav" aria-label="Module library" ref={libraryNavRef}>
           <a href="#library" className={route === 'library' ? 'active' : ''} aria-current={route === 'library' ? 'page' : undefined}><Icon name="grid" /><span>All modules</span><small>{AVAILABLE_MODULES.length}</small></a>
           <a href="#effects" onClick={()=>setFamily('all')} className={!detailModule && filter === 'effects' ? 'active' : ''} aria-current={!detailModule && filter === 'effects' ? 'page' : undefined}><Icon name="wave" /><span>Effects</span><small>{AVAILABLE_MODULES.filter((module) => module.category === 'effects').length}</small></a>
           <a href="#playback" onClick={()=>setFamily('all')} className={!detailModule && filter === 'playback' ? 'active' : ''} aria-current={!detailModule && filter === 'playback' ? 'page' : undefined}><Icon name="sliders" /><span>Playback</span><small>{AVAILABLE_MODULES.filter(module=>module.category==='playback').length}</small></a>
@@ -140,9 +148,11 @@ export default function App() {
       {configDialog && <ConfigurationDialog mode={configDialog} initialName={configDialog === 'create' ? '' : configDialog === 'duplicate' ? (active?.name ?? '') + ' copy' : active?.name ?? ''} onSubmit={submitConfigurationDialog} onClose={() => setConfigDialog(null)} />}
       <div className="workspace">
         <header className="app-toolbar">
+          <a className="toolbar-brand" href="#library"><img src={import.meta.env.BASE_URL + 'favicon.svg'} width="30" height="30" alt="" /><span>Octamod</span></a>
           <div className="toolbar-title"><Icon name={route === 'faq' ? 'help' : configuration ? 'file' : 'grid'} size={17} /><span>{route === 'faq' ? 'FAQ & flashing guide' : configuration ? 'Configuration' : route === 'privacy' ? 'Privacy' : communityRoute ? 'Community' : route.startsWith('module-set') ? 'Module sets' : 'Modules'}</span>{detailModule && <><span className="breadcrumb-divider">/</span><strong>{detailModule.name}</strong></>}<span className="preview-badge">Preview</span></div>
-          {['library',...MODULE_CATEGORIES,'module-sets'].includes(route) && <label className="search"><Icon name="search" size={15} /><input type="search" aria-label={route==='module-sets'?'Search module sets':'Search modules'} placeholder={route==='module-sets'?'Search module sets':'Search modules'} value={query} onChange={(event) => setQuery(event.target.value)} /></label>}
-          <a className="mobile-account-link" href="#submit" aria-label="Submit a module"><Icon name="plus" size={17}/></a><a className="mobile-account-link" href="#activity" aria-label="Your activity"><Icon name="message" size={17}/></a><a className="configuration-button" href="#configuration" aria-label={"Open configuration, " + selection.length + " modules selected"}><Icon name="sliders" size={16} /><span>Configuration</span><span className="toolbar-count">{selection.length}</span></a>
+          {['library',...MODULE_CATEGORIES,'module-sets'].includes(route) && <label className="search"><Icon name="search" size={15} /><input type="search" aria-label={route==='module-sets'?'Search module sets':'Search modules'} placeholder={route==='module-sets'?'Search sets':'Search modules'} value={query} onChange={(event) => setQuery(event.target.value)} /></label>}
+          <MobileMenu route={route} selectedCount={selection.length} admin={session.admin} />
+          <a className="configuration-button" href="#configuration" aria-label={"Open configuration, " + selection.length + " modules selected"}><Icon name="sliders" size={16} /><span>Configuration</span><span className="toolbar-count">{selection.length}</span></a>
         </header>
         <main className="workspace-content" id="main-content" ref={mainRef} tabIndex={-1}>
           {workspace.storageError && <div className="file-error" role="alert">{workspace.storageError} Export important configurations before closing this tab.</div>}
