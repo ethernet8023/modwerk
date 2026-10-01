@@ -35,6 +35,13 @@ class ReleaseScope(unittest.TestCase):
         self.assertIn('modules/midi-scenes/manifest.py', compiler.source_hashes(APP / 'sdk/octabam'))
         self.assertIn('usb-audio-out-tracks-main-cue', ids)
 
+    def test_reproduced_baseline_is_pinned_to_the_current_compiler_and_source_inventory(self):
+        recorded = json.loads((APP / 'src/engine/assets/module-build.json').read_text())
+        self.assertEqual(recorded['compilerSha256'], compiler.HASH((APP / 'scripts/build-module-packages.py').read_bytes()))
+        sources = compiler.source_hashes(APP / 'sdk/octabam')
+        fingerprint = compiler.HASH(json.dumps(sources, sort_keys=True, separators=(',', ':')).encode())
+        self.assertEqual(recorded['sourceTreeSha256'], fingerprint)
+
     def test_all_verified_and_all_pending_requested_profiles(self):
         for id in compiler.REQUESTED:
             self.documents[id].pop('build', None)
