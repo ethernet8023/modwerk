@@ -11,7 +11,10 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import posixpath
+import re
 import selectors
+import shutil
 import subprocess
 import tempfile
 import time
@@ -21,7 +24,7 @@ KEYS = {'FUNC': 0x2d, 'SRC': 0x22, 'AMP': 0x23, 'LFO': 0x24,
         'FX1': 0x25, 'FX2': 0x26, 'YES': 0x31, 'NO': 0x32,
         'UP': 0x33, 'DOWN': 0x20, 'LEFT': 0x34, 'RIGHT': 0x21,
         'MENU': 0x1c, 'MIDI': 0x35, 'PART': 0x1d, 'PAGE': 0x1b,
-        'SCENE A': 0x19, 'SCENE B': 0x1a, 'AED': 0x1e,
+        'SCENE A': 0x19, 'SCENE B': 0x1a, 'AED': 0x1e, 'CUE': 0x2a,
         **{f'PUSH {name}': 0x38 + i for i, name in enumerate('ABCDEF')},
         'PUSH LEVEL': 0x3e,
         **{f'TRIG{i + 1}': i for i in range(16)},
@@ -43,10 +46,44 @@ def main():
     parser.add_argument('--image-sha256', required=True, help='Expected SHA-256 of that local image')
     parser.add_argument('--plan', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True, help='New screenshot output directory')
-    parser.add_argument('--card', type=Path, help='Optional local card; otherwise create an empty scratch card')
+    parser.add_argument('--card', type=Path, required=True, help='Private FAT card containing the capture set/project; empty cards are rejected')
+    parser.add_argument('--set', dest='set_name', required=True, help='Mount this local fixture set; requires --card and --project')
+    parser.add_argument('--project', dest='project_name', required=True, help='Load this local fixture project; requires --card and --set')
     parser.add_argument('--mki', action='store_true', help='Default panel is MKII')
     parser.add_argument('--key-ms', type=int, default=150, help='Key down/up interval, 20–500 ms; use 50 for double taps')
+    parser.add_argument('--lcd-style', choices=['black-and-white', 'original'], default='black-and-white', help='Render actual LCD pixels in the publication palette or the original LCD colors')
     args = parser.parse_args()
+    if not all(re.fullmatch(r'[A-Za-z0-9_-]{1,32}', name) for name in [args.set_name, args.project_name]):
+        parser.error('Use simple set/project folder names.')
+    codec = load('octamod_card', ROOT / 'sdk/octabam/tools/emu/emu_card.py')
+    try:
+        card_bytes = args.card.read_bytes()
+        card_files = codec.extract_image(card_bytes)
+    except (OSError, ValueError, IndexError, ZeroDivisionError) as error:
+        parser.error('Cannot read the private fixture card: ' + str(error))
+    prefix = args.set_name + '/' + args.project_name + '/'
+    if not all(prefix + name in card_files for name in ['project.work', 'bank01.work']):
+        parser.error('The card does not contain the requested set/project and bank01.work; stage a valid fixture before capturing.')
+    # Detect fixture mistakes before spending time booting the native UI.
+    slots = set()
+    for block in re.findall(rb'\[SAMPLE\]\r?\n(.*?)\[/SAMPLE\]', card_files[prefix + 'project.work'], re.S):
+        fields = dict(line.split(b'=', 1) for line in block.splitlines() if b'=' in line)
+        machine, slot = fields.get(b'TYPE'), fields.get(b'SLOT', b'')
+        if machine not in [b'FLEX', b'STATIC'] or not slot.isdigit() or not 1 <= int(slot) <= 128:
+            continue  # Flex recorder buffers are RAM slots, not staged audio files.
+        identity = machine, int(slot)
+        if identity in slots:
+            parser.error('The capture project has duplicate sample slots; stage an unambiguous fixture before capturing.')
+        slots.add(identity)
+        path = fields.get(b'PATH', b'')
+        if path:
+            try:
+                relative = path.decode('utf-8').replace('\\', '/')
+            except UnicodeDecodeError:
+                parser.error('Use simple UTF-8 sample paths in the disposable capture fixture.')
+            if posixpath.normpath(prefix + relative) not in card_files:
+                parser.error('A capture-project sample path is missing from the card; stage its audio before capturing.')
+    del card_files
     if not 20 <= args.key_ms <= 500:
         parser.error('--key-ms must be 20–500 emulated milliseconds.')
     image = args.image.resolve()
@@ -92,38 +129,47 @@ def main():
     if output.exists():
         parser.error('Output exists; choose a new directory to preserve previous captures.')
     lcd = load('octamod_lcd', ROOT / 'sdk/octabam/tools/emu/lcd_view.py')
-    output.mkdir(parents=True)
+    if args.lcd_style == 'black-and-white':
+        lcd.ON, lcd.OFF = (232, 232, 232), (24, 24, 24)
     provenance = {'firmware': '1.40C', 'imageSha256': args.image_sha256,
                   'emulatorSha256': hashlib.sha256(args.emulator.read_bytes()).hexdigest(),
+                  'fixture': {'set': args.set_name, 'project': args.project_name,
+                              'cardSha256': hashlib.sha256(card_bytes).hexdigest()},
                   'setup': 'Headless ot_emu; ' + ('MKI' if args.mki else 'MKII') + ' panel; stopped transport; 128×64 LCD at integer scale 6.',
-                  'keyMs': args.key_ms, 'plan': plan, 'screenshots': {}}
+                  'keyMs': args.key_ms, 'lcdStyle': args.lcd_style, 'plan': plan, 'screenshots': {}}
     # Discard emulator diagnostics: never retain RAM, firmware, card or private logs.
     with tempfile.TemporaryDirectory(prefix='octamod-ui-capture.') as directory:
         work = Path(directory)
-        card = args.card.resolve() if args.card else work / 'card.img'
-        if not args.card:
-            codec = load('octamod_card', ROOT / 'sdk/octabam/tools/emu/emu_card.py')
-            (work / 'card-tree').mkdir()
-            card.write_bytes(codec.build_image(str(work / 'card-tree'), 32))
+        card = work / 'card.img'
+        card.write_bytes(card_bytes)
+        del card_bytes
         plane = work / 'lcd.bin'
+        capture_root = work / 'screenshots'
         command = [str(args.emulator.resolve()), '--image', str(image), '--card', str(card),
                    '--dsp', '--frame', '--ms', '3000', '--interactive', '--lcd', str(plane),
-                   '--main-level', 'off', '--rtc', 'host']
+                   '--main-level', 'off', '--rtc', 'host', '--load-ms', '45000']
         if not args.mki:
             command.append('--mkii')
+        if args.set_name:
+            command.extend(['--mount', '--set', args.set_name, '--project', args.project_name])
         env = {key: value for key, value in os.environ.items() if not key.startswith('OT_')}
         port = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                 stderr=subprocess.DEVNULL, cwd=work, env=env)
         poll = selectors.DefaultSelector()
         poll.register(port.stdout, selectors.EVENT_READ)
         pending = b''
+        startup = {'loadHandled': False, 'bankParsed': False}
 
-        def reply(prefixes):
+        def reply(prefixes, timeout=120):
             nonlocal pending
-            deadline = time.monotonic() + 120
+            deadline = time.monotonic() + timeout
             while True:
                 while b'\n' in pending:
                     line, pending = pending.split(b'\n', 1)
+                    if b'load run ended: LOAD PROJECT handled' in line:
+                        startup['loadHandled'] = True
+                    if re.search(rb'saved_bank: [0-9]+,', line):
+                        startup['bankParsed'] = True
                     if line.startswith(prefixes):
                         if line.startswith(b'err'):
                             raise RuntimeError('The emulator refused a capture command.')
@@ -145,7 +191,25 @@ def main():
 
         rows = [0] * 8
         try:
-            reply(b'ready ')
+            reply(b'ready ', timeout=300)
+            if not all(startup.values()):
+                raise RuntimeError('Capture preflight: the requested project did not finish loading. No screenshots were exported.')
+            # NO is the native panel action for dismissing the initial date prompt.
+            code = KEYS['NO']
+            send(f'key {0x20 | (code >> 3)} {1 << (code & 7)}')
+            send(f'run {args.key_ms}')
+            send(f'key {0x20 | (code >> 3)} 0')
+            send('run 500')
+            data = lcd.read_plane(plane)
+            if len(data) == 1024:
+                raise RuntimeError('Capture preflight requires an emulator with popup-window capture support.')
+            for i in range(lcd.WIN_SLOTS):
+                at = lcd.WIN_TABLE + i * lcd.WIN_ENTRY + 32
+                if int.from_bytes(data[at:at + 4], 'big') & 0x20:
+                    raise RuntimeError('Capture preflight: a startup dialog is still open. No screenshots were exported.')
+            provenance['preflight'] = {**startup, 'startupDialogsCleared': True}
+            capture_root.mkdir()
+            print('Capture preflight passed: project loaded; startup dialogs cleared.', flush=True)
             for action in plan:
                 key, value = next(iter(action.items()))
                 if key in ('press', 'hold', 'release'):
@@ -166,12 +230,14 @@ def main():
                 elif key == 'wait':
                     send(f'run {value}')
                 else:
-                    lcd.png(lcd.screen(lcd.read_plane(plane)), str(output / value), 6)
-                    provenance['screenshots'][value] = hashlib.sha256((output / value).read_bytes()).hexdigest()
+                    lcd.png(lcd.screen(lcd.read_plane(plane)), str(capture_root / value), 6)
+                    provenance['screenshots'][value] = hashlib.sha256((capture_root / value).read_bytes()).hexdigest()
                     print('Captured ' + value, flush=True)
             send('quit')
-            port.wait(timeout=10)
-            (output / 'capture.json').write_text(json.dumps(provenance, indent=2) + '\n')
+            if port.wait(timeout=10):
+                raise RuntimeError('The emulator exited unsuccessfully; no screenshots were exported.')
+            (capture_root / 'capture.json').write_text(json.dumps(provenance, indent=2) + '\n')
+            shutil.copytree(capture_root, output)
         finally:
             if port.poll() is None:
                 port.terminate()
@@ -181,4 +247,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except RuntimeError as error:
+        raise SystemExit(str(error)) from None

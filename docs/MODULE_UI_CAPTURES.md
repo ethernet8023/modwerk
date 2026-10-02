@@ -79,22 +79,30 @@ review/isolation rules. Never run pending/unreviewed sources on a trusted host.
 This script operates an existing image; it does not build source, qualify
 hardware or enable configurator downloads.
 
+Stage a private FAT card with a valid set/project using the SDK's
+`tools/emu/emu_card.py` `stage_project` helper. Pass `--card`, `--set` and
+`--project`; the tool rejects missing project/bank files before launching the
+emulator, verifies that LOAD PROJECT was handled and a bank was parsed,
+dismisses the startup date dialog with the real NO key, and checks that startup
+windows are closed. Plans begin from this ready state. Empty cards and failed
+loads cannot produce exported screenshots; output is copied only after the
+entire plan succeeds. The emulator uses a temporary card copy, preserving the
+input fixture. Duplicate sample slot entries and missing referenced audio files
+are also rejected before launch. Module selection and later controls still
+require visual review of the actual captured pages.
+
 Create a JSON panel plan using `press`, `encoder`, `wait` and `capture` actions.
 For scene editing, `hold` keeps panel keys down while turning an encoder;
 `release` must release those keys before the plan ends. For example:
 `{"hold":["SCENE A"]}`, `{"encoder":{"name":"A","delta":4}}`,
 `{"capture":"ot-scene-lock.png"}`, `{"release":["SCENE A"]}`.
-The supported UI keys also include `SCENE B`, `TRIG1`–`TRIG16`, MKII `AED`,
+The supported UI keys also include `CUE`, `SCENE B`, `TRIG1`–`TRIG16`, MKII `AED`,
 `PUSH A`–`PUSH F` and `PUSH LEVEL` for physical encoder presses.
 
 Example effect plan:
 
 ```json
 [
-  { "wait": 3000 },
-  { "press": ["YES"] },
-  { "wait": 2000 },
-  { "press": ["NO"] },
   { "press": ["FUNC", "FX2"] },
   { "encoder": { "name": "LEVEL", "delta": -20 } },
   { "encoder": { "name": "LEVEL", "delta": 1 } },
@@ -107,8 +115,8 @@ Example effect plan:
 
 This example assumes a fresh empty project and a chooser with Mini Verb as its
 first effect. Adapt the plan to the actual build and inspect the results; menu
-order depends on the composition. The first actions dismiss the initial date
-prompt on a fresh emulator session. A custom card/project may boot differently.
+order depends on the composition. Startup prompts are handled by preflight;
+do not add speculative YES/date-dismissal actions to module plans.
 Use `--key-ms 50` for track double taps; the default down/up interval is 150 ms.
 The selected interval is recorded as `keyMs` in the capture metadata.
 
@@ -118,19 +126,23 @@ python3 -B scripts/capture-module-ui.py \
   --image /local/private/mainos.bin \
   --image-sha256 <expected-local-image-sha256> \
   --plan /local/path/capture-plan.json \
+  --card /local/private/capture-card.img --set OCTABAM --project RIG \
   --output /local/path/new-screenshot-directory
 ```
 
-By default the script stages an empty scratch card, boots the MKII panel, runs
-the DSP cores needed for normal effect selection, keeps transport stopped and
-exports the firmware LCD including popup windows through `lcd_view.py`.
-`--mki` selects the MKI panel; `--card` accepts a private local fixture.
+The script mounts the validated fixture, boots the MKII panel, runs the DSP
+cores needed for normal UI, keeps transport stopped and exports the firmware
+LCD including popup windows through `lcd_view.py`. `--mki` selects the MKI
+panel. Black-and-white is the default palette; `--lcd-style original` is for
+local inspection only and does not satisfy the monochrome publication gate.
 On macOS the emulator needs shared-memory access. Do not capture a failed load
 as a successful control page or bypass selection guards to manufacture it.
 
 The output contains PNGs at six times the 128×64 LCD resolution and a
-`capture.json` record with image/emulator hashes, panel plan, setup and screenshot
-hashes. Review the pictures, then copy only these files into the module's
+`capture.json` record with image/emulator/card hashes, fixture set/project,
+preflight results, panel plan, setup and screenshot hashes. Use disposable
+set/project names without personal information. Review the pictures, then
+copy only these files into the module's
 `media/` folder and declare the PNGs. Record module version, source identity,
 build/capture commands, configuration and limitations in TESTING.md. Capture
 records must contain no firmware bytes, raw LCD/RAM dumps, card images, samples,
