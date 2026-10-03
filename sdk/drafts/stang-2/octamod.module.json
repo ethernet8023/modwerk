@@ -161,7 +161,7 @@
     "report": "TESTING.md",
     "summary": "Firmware-free core passed 244,800 deterministic/scale/density cases and native-record writer invariants under ASan/UBSan. Local UI capture is separate; native audio, first-PLAY timing, persistence, exact cycle/memory and hardware qualification remain pending.",
     "hardwareStatus": "untested",
-    "evidenceRevision": "56f3f936207b7bae53842bfe5293acb2ff8e6f3f",
+    "evidenceRevision": "ce3e5d469c4c0e659a07c9ae63849d8acc66afd2",
     "gates": [
       "Firmware-free deterministic generator and native-record safety tests",
       "Actual native LCD chooser, SRC generator and edit-view capture",
@@ -279,5 +279,14 @@
       "media/ot-edit.png",
       "media/ot-setup.png"
     ]
+  },
+  "source": {
+    "repository": "https://github.com/repeat98/octamod",
+    "revision": "ce3e5d469c4c0e659a07c9ae63849d8acc66afd2",
+    "path": "sdk/drafts/stang-2"
+  },
+  "build": {
+    "status": "pending",
+    "reason": "Source draft outside native discovery and the public catalog. Requires native transport/persistence verification, exact cycle/memory reports, 60-minute eight-track hardware stress evidence, browser/native integration and owner review."
   }
 }

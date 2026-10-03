@@ -2,7 +2,7 @@
   "firmware": "1.40C",
   "imageSha256": "48f3be3af84c64b51d22bf7047a44609a5f59a85c5b875d4474aef8a791a98b9",
   "emulatorSha256": "93484e4b71c70f48f795825103146a36ef95ef9ac06ee627e28608ae3e3bb3eb",
-  "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Fresh scratch card; initial Part ONE / pattern A01; no samples or existing project loaded; stock FX plus STANG 2. UI only; no audio or saved-project qualification.",
+  "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Fresh scratch card; initial Part ONE / pattern A01; no samples or existing project loaded; stock FX plus STANG 2. UI only; no audio or saved-project qualification.",
   "palette": {
     "on": [
       240,
@@ -213,5 +213,6 @@
     "prepare.py": "869ff54250200c28ae6c08967e0f84acb988d4159adf81eb0aeb1d553c4466c7",
     "manifest.py": "ab36c653edabe37b1f871042cce65bc8f177402b7c7943acc502c2c99a7278ad"
   },
-  "sourceSha256": "3c6b7079b0d8b065a61652c092b11f295813e9af97de682dc03b2ce09b43470a"
+  "sourceSha256": "3c6b7079b0d8b065a61652c092b11f295813e9af97de682dc03b2ce09b43470a",
+  "sourceRevision": "ce3e5d469c4c0e659a07c9ae63849d8acc66afd2"
 }
