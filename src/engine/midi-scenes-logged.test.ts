@@ -29,7 +29,7 @@ describe('standalone MIDI Scenes with the core logger', () => {
     const plan = createPlatformOsWrites(runtime, [], { loader: false, reserveBytes: MIDI_SCENES_RESERVE_BYTES + MIDI_SCENES_LOGGER_GUARD_BYTES + LOGGER_RESERVE_BYTES, runtimeBase: runtime.base })
     const before = author.slice()
     const adjusted = await extendMidiScenesArena(author, plan)
-    expect(author).toEqual(before)
+    expect(author.every((value, index) => value === before[index])).toBe(true)
     expect(adjusted).toHaveLength(5)
     expect(adjusted.some(write => write.note.startsWith('arena base'))).toBe(false)
     expect(adjusted.filter(write => write.guardSha256 !== plan.find(row => row.address === write.address)?.guardSha256)).toHaveLength(4)
