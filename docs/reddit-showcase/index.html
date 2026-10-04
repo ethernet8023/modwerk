@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modwerk · Reddit scenes</title>
+  <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+  <header class="gallery-header">
+    <a class="brand" href="#overview"><img src="assets/modwerk-mark.svg" alt="" width="32" height="32">Modwerk <span>Reddit scenes</span></a>
+    <span class="edition">Development preview · 04 Oct 2026</span>
+  </header>
+  <main>
+    <div class="intro"><div><p class="eyebrow">FOUR SCENES / REAL SITE CAPTURES</p><h1>Meet Modwerk.</h1><p>The library, forum, clear module documentation, and one shared SDK. Choose a scene, adjust the angle, and export.</p></div><a href="README.md">Sources & capture notes ↗</a></div>
+    <nav aria-label="Scene selection" id="scene-nav">
+      <button data-scene="0" aria-pressed="true">01 Overview</button><button data-scene="1" aria-pressed="false">02 Forum</button><button data-scene="2" aria-pressed="false">03 Module pages</button><button data-scene="3" aria-pressed="false">04 One shared SDK</button>
+    </nav>
+    <section class="viewer" aria-label="Three.js scene preview"><canvas id="preview" aria-label="Current feature scene"></canvas><div id="loading" role="status">Loading scene assets…</div></section>
+    <div class="controls"><label>Screen angle<input id="angle" type="range" min="0" max="100" value="35"></label><div><button id="reset">Reset angle</button><button id="export-png" class="primary" disabled>Export PNG · 2400 × 1800</button><button id="export-jpg" disabled>Export JPEG</button></div></div>
+    <p id="scene-description" class="description" aria-live="polite"></p>
+    <p class="note">Captures are from the Modwerk launch preview. The forum uses an empty local database. The SDK image is a rendered documentation excerpt.</p>
+  </main>
+  <script type="module" src="scenes.mjs"></script>
+</body>
+</html>

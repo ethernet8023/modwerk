@@ -1,0 +1,221 @@
+{
+  "formatVersion": 1,
+  "capturedOn": "2026-10-04",
+  "intent": "Reddit gallery for the Modwerk launch",
+  "rendering": {
+    "engine": "Three.js",
+    "version": "0.183.2",
+    "angle": 35,
+    "width": 2400,
+    "height": 1800,
+    "colorSpace": "sRGB"
+  },
+  "sources": {
+    "site": {
+      "branch": "modwerk/elemod-engine",
+      "commit": "503c7db2fb73624d5ab936391ad3057d23e8c312",
+      "capture": "Isolated local React preview; no production API writes"
+    },
+    "logo": {
+      "branch": "claude/elektron-thumbnail-redesign-btzzfu",
+      "commit": "33e224c6326f4ce0fd955f83ce7ad1cfbb0bd9e8",
+      "file": "public/modwerk-mark.svg"
+    },
+    "sdk": {
+      "file": "docs/SDK.md",
+      "renderedExcerpt": "sdk.html",
+      "original": "assets/SDK-source.md"
+    },
+    "deviceStatus": {
+      "original": "assets/device-status.json",
+      "launchPresentation": {
+        "available": [
+          "octatrack",
+          "digitakt",
+          "digitone"
+        ],
+        "authority": "Owner instruction on 4 October 2026: Digitakt and Digitone need to be in Builds available"
+      },
+      "note": "The captured registry remains unmodified. The gallery presents the owner-specified launch lineup, without changing site build gates."
+    },
+    "moduleExample": {
+      "id": "tapeecho",
+      "version": "0.1.2-experimental",
+      "screenshots": "Original ot_emu LCD captures, as credited in the module page. Not hardware-test evidence."
+    }
+  },
+  "captureNotes": [
+    "The new logo was applied only to the isolated local capture preview.",
+    "The original author is credited by the repeat98 handle and source link.",
+    "The forum uses an empty local database. No users or activity were staged.",
+    "No firmware was exported or included.",
+    "Screen crops are from actual browser JPEGs; only surrounding Three.js frames, editorial text and lighting are authored."
+  ],
+  "credits": "CREDITS.md",
+  "assets": [
+    {
+      "file": "assets/ADD_A_MACHINE-source.md",
+      "bytes": 2703,
+      "sha256": "e6bf620c11ab662bd7b5769e8b65a62cfe7deba14a6d31586ebf5fd35c03c50f"
+    },
+    {
+      "file": "assets/Archivo-LICENSE.txt",
+      "bytes": 4503,
+      "sha256": "c3c8402eec0e31dc9a76851235b1c02a0bb821488b2db8e35bcc2ab60ca8fc2b"
+    },
+    {
+      "file": "assets/JetBrainsMono-LICENSE.txt",
+      "bytes": 4524,
+      "sha256": "403581b69dac5cff4079205e01c6b467e56af449ecbd7247693ddb1baafa005b"
+    },
+    {
+      "file": "assets/OT-UI-LICENSE.md",
+      "bytes": 914,
+      "sha256": "3856b35e1dfeab0f4b02d8f76f7f50532aa75551b05f873915ee4de1fae9ee2b"
+    },
+    {
+      "file": "assets/SDK-source.md",
+      "bytes": 7981,
+      "sha256": "65e827b88c527024b25fc95331ddc11f88cc11b674214aadbf357aa80decd4a9"
+    },
+    {
+      "file": "assets/all-machines.jpg",
+      "bytes": 69221,
+      "sha256": "7ba95fd8371b2668722db66a60a22e12cc4efdae4712083f98bc78f7532d2f3f",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "assets/archivo.woff2",
+      "bytes": 90104,
+      "sha256": "e3a28eade21a900c7155a247757f4b2834c07bb7ef07ad7efa55cebaac1e8f5e"
+    },
+    {
+      "file": "assets/device-status.json",
+      "bytes": 1770,
+      "sha256": "f23f65b6da007ed200b5d99775566dc2c159879053373ce39fde6a80de1d1360"
+    },
+    {
+      "file": "assets/forum-categories.jpg",
+      "bytes": 59313,
+      "sha256": "ff034d7154de75fa799732a068362d51ed027b318c6887508899931757553d1c",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "assets/forum.jpg",
+      "bytes": 88345,
+      "sha256": "2d364a61c78389e0410617cce266009aad4a0fdebd888181a275fc230457b126",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "assets/jetbrains-mono.woff2",
+      "bytes": 40404,
+      "sha256": "18be452724bfdc236c074ca94a249a7f41a86752c7d04ab258ce9ed5651f6a7e"
+    },
+    {
+      "file": "assets/modwerk-mark.svg",
+      "bytes": 946,
+      "sha256": "2cca3e4b455d7f31e395d0fbb84b2294e4892b9a693c7c681e01d5dd2852a32e"
+    },
+    {
+      "file": "assets/sdk.jpg",
+      "bytes": 78903,
+      "sha256": "b50c58f355b4482ea5a1f2bf2f88298de8b2c20a98ea94b0799722542c2b214f",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "assets/tapeecho-controls.jpg",
+      "bytes": 66763,
+      "sha256": "4049f53b37717922e7fb6a6dfc2745ac9491393eddc1619bcafc0ac2fb4d09cc",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "assets/tapeecho-media.jpg",
+      "bytes": 95022,
+      "sha256": "a8288033069236f1d8c154512c349aaee6d83827c51f49bc1bbb33af92c4cc6b",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "assets/tapeecho-page.jpg",
+      "bytes": 73684,
+      "sha256": "8e0a55ffcce09bd3be604d0d21ebe03aaf812bbeef9a3134fde49318741939f1",
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "exports": [
+    {
+      "order": 1,
+      "id": "overview",
+      "title": "A home for (all) Elektron mods",
+      "width": 2400,
+      "height": 1800,
+      "png": {
+        "file": "exports/01-modwerk-overview.png",
+        "bytes": 985425,
+        "sha256": "ea1c2fed7f70c077715107d3718814390aba92543b221270ecb5d9b9c53b25a9"
+      },
+      "jpg": {
+        "file": "exports/01-modwerk-overview.jpg",
+        "bytes": 497463,
+        "sha256": "a60ae0f51e54478c8b2a828cbed0142e81341705a8990c1b896bd5b88212d9c9"
+      }
+    },
+    {
+      "order": 2,
+      "id": "forum",
+      "title": "Talk mods. Share discoveries.",
+      "width": 2400,
+      "height": 1800,
+      "png": {
+        "file": "exports/02-modwerk-forum.png",
+        "bytes": 1224957,
+        "sha256": "fb2f7474c1d61bdeb1d1ec00bf82f34439094db359cd03e678ca790e109c0d85"
+      },
+      "jpg": {
+        "file": "exports/02-modwerk-forum.jpg",
+        "bytes": 506295,
+        "sha256": "4f1c5b24516e0517acc179c4ffce4c92d5168c55d97fb547bfc322def5834860"
+      }
+    },
+    {
+      "order": 3,
+      "id": "module-pages",
+      "title": "Every mod, explained.",
+      "width": 2400,
+      "height": 1800,
+      "png": {
+        "file": "exports/03-modwerk-module-pages.png",
+        "bytes": 1028660,
+        "sha256": "23bf77507c5eac23e7de922f8969b4e5766daed6ec9c020de7b84f6c63abb19a"
+      },
+      "jpg": {
+        "file": "exports/03-modwerk-module-pages.jpg",
+        "bytes": 544624,
+        "sha256": "824c3498e8a14673e66fabce2f749292cf6372d896cec97c2df9d695ca038bac"
+      }
+    },
+    {
+      "order": 4,
+      "id": "sdk",
+      "title": "One shared SDK",
+      "width": 2400,
+      "height": 1800,
+      "png": {
+        "file": "exports/04-modwerk-sdk.png",
+        "bytes": 727934,
+        "sha256": "a0ee133a3a3218d17c6c2f3bd4d69f51cc3a35e969f8f17e569e21905ce39845"
+      },
+      "jpg": {
+        "file": "exports/04-modwerk-sdk.jpg",
+        "bytes": 531564,
+        "sha256": "ebcb82640155094ae135ee5f2d8824056b4ec1f0c619932b197cfc3fe4a5b842"
+      }
+    }
+  ]
+}

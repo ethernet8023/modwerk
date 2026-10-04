@@ -1,0 +1,115 @@
+[
+  {
+    "id": "octatrack",
+    "name": "Octatrack",
+    "variants": [
+      "MKI",
+      "MKII"
+    ],
+    "status": "available"
+  },
+  {
+    "id": "digitakt",
+    "name": "Digitakt",
+    "variants": [
+      "mk1"
+    ],
+    "status": "preview"
+  },
+  {
+    "id": "digitone",
+    "name": "Digitone",
+    "variants": [
+      "mk1",
+      "Digitone Keys"
+    ],
+    "status": "preview"
+  },
+  {
+    "id": "digitakt-ii",
+    "name": "Digitakt II",
+    "status": "research"
+  },
+  {
+    "id": "digitone-ii",
+    "name": "Digitone II",
+    "status": "research"
+  },
+  {
+    "id": "syntakt",
+    "name": "Syntakt",
+    "status": "open"
+  },
+  {
+    "id": "tonverk",
+    "name": "Tonverk",
+    "status": "open"
+  },
+  {
+    "id": "analog-rytm-mkii",
+    "name": "Analog Rytm",
+    "variants": [
+      "MKII"
+    ],
+    "status": "open"
+  },
+  {
+    "id": "analog-rytm-mki",
+    "name": "Analog Rytm",
+    "variants": [
+      "MKI"
+    ],
+    "status": "open"
+  },
+  {
+    "id": "analog-four-mkii",
+    "name": "Analog Four",
+    "variants": [
+      "MKII"
+    ],
+    "status": "open"
+  },
+  {
+    "id": "analog-four-mki",
+    "name": "Analog Four",
+    "variants": [
+      "MKI"
+    ],
+    "status": "open"
+  },
+  {
+    "id": "analog-keys",
+    "name": "Analog Keys",
+    "status": "open"
+  },
+  {
+    "id": "analog-heat",
+    "name": "Analog Heat",
+    "variants": [
+      "MKI",
+      "MKII",
+      "+FX"
+    ],
+    "status": "open"
+  },
+  {
+    "id": "model-samples",
+    "name": "Model:Samples",
+    "status": "open"
+  },
+  {
+    "id": "model-cycles",
+    "name": "Model:Cycles",
+    "status": "open"
+  },
+  {
+    "id": "machinedrum",
+    "name": "Machinedrum",
+    "status": "open"
+  },
+  {
+    "id": "monomachine",
+    "name": "Monomachine",
+    "status": "open"
+  }
+]
