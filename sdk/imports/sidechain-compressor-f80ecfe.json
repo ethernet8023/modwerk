@@ -3,7 +3,7 @@
   "repository": "https://github.com/sambanks/octabam",
   "revision": "f80ecfeabc187a33403588678e707443161afc96",
   "moduleVersion": "0.1.0-experimental",
-  "root": "sdk/drafts/sidechain-compressor",
+  "root": "sdk/octabam/modules/sidechain-compressor",
   "modules": [
     "sidechain-compressor"
   ],
@@ -144,5 +144,5 @@
     "Licence moduleComponents mapping for the promoted module",
     "Owner-reviewed PR merge and release reproduction"
   ],
-  "nativeSourceSha256": "e766c73e26155d28b10749fcec8f395fedc414b8115cbe16371d9f2f566a5273"
+  "nativeSourceSha256": "d82a431aa6e42611096d43c0a5299ace342c2f5ac6e21baa526b92777cf77dc9"
 }

@@ -6,7 +6,7 @@
 
 Drive the Octatrack stock **COMPRESSOR** detector from any audio track. A kick on T1 can duck a loop on T5, even though the tracks run on different DSP cores. KEY, KFLT, KGN and MON join RMS on page 2; all seven stock compression controls keep their stock behavior.
 
-Version **0.1.0-experimental** is a source draft. Its isolated native image compiles and its code/table parity passes. It is outside Modwerk's native discovery and configurator while qualification and browser package integration remain pending. [TESTING.md](TESTING.md) records exact evidence and limitations.
+Version **0.1.0-experimental** is selectable and buildable in Modwerk as a standalone profile. Its complete firmware download matches the pinned native build byte for byte. Software cycle bounds and exact memory accounting are recorded in [TESTING.md](TESTING.md); the owner explicitly waived fresh physical hardware evidence.
 
 ## Controls
 
@@ -34,7 +34,7 @@ MON replaces the receiving track's committed output after its whole FX1/FX2 chai
 
 ## Usage
 
-Select an audio track, hold FUNC and press FX1 or FX2 for SETUP, turn LEVEL to **COMPRESSOR**, then press YES. The effect name and ID remain stock COMPRESSOR, not SIDECHAIN_COMPRESSOR. Press the FX button for the main page; hold FUNC and press it to return to SETUP (page 2), which also contains the chooser. These panel instructions are checked against the actual MKII LCD captures below; MKI and live audio operation need separate qualification.
+Select an audio track, hold FUNC and press FX1 or FX2 for SETUP, turn LEVEL to **COMPRESSOR**, then press YES. The effect name and ID remain stock COMPRESSOR, not SIDECHAIN_COMPRESSOR. Press the FX button for the main page; hold FUNC and press it to return to SETUP (page 2), which also contains the chooser. These panel instructions are checked against the actual MKII LCD captures below. The author reports MKI operation; fresh physical testing of this exact Modwerk image is owner-waived.
 
 Keep levels low while auditioning the key. Restore self-keying with KEY OFF and MON OFF. Use MIX 0 for a dry comparison or select NONE to remove the effect. Returning to stock firmware removes these four controls; don't rely on saved sidechain values surviving a different composition. Back up projects before switching builds and reassign any SPRING REV slots.
 
@@ -54,14 +54,14 @@ Keep levels low while auditioning the key. Restore self-keying with KEY OFF and 
 - **BusDelay and BusVerb are incompatible**: their private/shared Y reservations overlap the keybus/window. They are not imported by this request.
 - No MUTE_MODES module is imported. The upstream muted-key report concerns a combined image with its matching MUTE_MODES variant; do not infer the same behavior under every mute mode in this profile.
 - Both-core timing/rate locking, simultaneous instances sharing one KEY, detector state transitions, stale MON behavior on effect changes, maximum load, persistent project reload and recovery remain qualification cases.
-- A local native build does not install executable code into Modwerk. Its current source compiler/browser composer lacks this stock-descriptor and per-core-hook path. Public source-only packages, browser/native full-file parity and selection rejection checks remain required.
+- Select this module alone. Its verified profile removes SPRING REV and includes no appended Core Logger; Modwerk refuses all fourteen companion modules in either selection order. The stock FX2 retention switch produces the same fixed profile in either position.
 - Firmware, private project/card state and extracted stock bytes stay local.
 
 ## Tests and measurements
 
 [TESTING.md](TESTING.md) and [native-evidence.json](reports/native-evidence.json) give the pinned source/build/tool identities and actual results. The 134-byte ColdFire UI unit matches its author reference. Both cores place 340 DSP code words and 48 identical table words; only the two documented table-load substitutions differ from the standalone instructions.
 
-Declared per-core Y reservations total 1,042 words (528 private + 514 shared-window), or 3,126 bytes. These are **reservations**, not a complete allocation or peak-memory report. Stock state reuse, descriptor/chooser and stack/allocator bounds still need accounting. Worst-case cycles and current-build physical hardware qualification are pending; no measurements or passes are invented. Resource gauges are documented ordinal source estimates.
+Exact accounting for sixteen instances is **23,292 logical bytes**, including inherited instance/scratch/stack capacities and all authored code/tables, Y windows, descriptor, chooser and extra formatter stack. No new heap, SDRAM or delay buffer is allocated. The conditional DSP bound is **69,496 cycles/core/block** against **72,560**, including stock reserve and a 2× instruction-model allowance. These are software bounds under stated assumptions; silicon timing and current-build hardware canaries are unmeasured.
 
 The author's MKI report from 4 October 2026 is attributed in TESTING.md. It is upstream evidence, not a test of this Modwerk version/local image.
 
@@ -69,7 +69,7 @@ The author's MKI report from 4 October 2026 is attributed in TESTING.md. It is u
 
 Zac Kyoti (@Zac-Kyoti) and the OT Kyoti FW contributors wrote the sidechain source, table generator and standalone build. Sam Banks (@sambanks) integrated it into octabam. This import pins octabam f80ecfeabc187a33403588678e707443161afc96 and author d3e0801a5f666abc04bc05fc1cb37969d7fb38d0.
 
-[LICENSE](LICENSE) and [upstream/LICENSE](upstream/LICENSE) preserve the full MIT terms, copyright and exclusions. Modwerk's original documentation/thumbnail uses MIT. The author assembly and table generator remain byte-identical; the native manifest changes only paths and replaces stock expectation literals with lazy fingerprinted local reads. Per-file provenance and transforms are in [the import record](../../imports/sidechain-compressor-f80ecfe.json).
+[LICENSE](LICENSE) and [upstream/LICENSE](upstream/LICENSE) preserve the full MIT terms, copyright and exclusions. Modwerk's original documentation/thumbnail uses MIT. The author assembly and table generator remain byte-identical; the native manifest changes only paths and replaces stock expectation literals with lazy fingerprinted local reads. Per-file provenance and transforms are in [the import record](../../../imports/sidechain-compressor-f80ecfe.json).
 
 No Elektron firmware or private project/card is part of this source distribution. LCD captures have a separate rights declaration; underlying Elektron rights remain reserved.
 
@@ -91,4 +91,4 @@ Use a new private workspace, the exact octabam revision above, a reviewed matchi
 
     REMIX=sidechain-compressor XBUS=1 SPEC=1 DEV=0 NOROUNDTRIP=0 BUILD=81 python3 -B tools/build/build_bus.py
 
-This is the **pinned native proof workflow**, not a supported public Modwerk configurator build. Keep out/mainos_bus.bin and every generated firmware container private. The current Modwerk SDK schema cannot directly load this newer declaration; do not broaden the SDK or release scope without parity proof for existing modules.
+This is the **pinned native proof workflow**. Keep out/mainos_bus.bin and every generated firmware container private. Modwerk independently compiles authored source with tools/compile_package.py and reconstructs guarded stock fields from the user's original firmware. Its legacy mixed-remix SDK skips this newer declaration; existing packages remain independently checked.

@@ -97,23 +97,26 @@ class SidechainDraft(unittest.TestCase):
         self.assertTrue(proof['rejections']['disjointClaimAccepted'])
         self.assertTrue(all(v is None for v in proof['qualification'].values()))
 
-    def test_source_only_draft_cannot_enter_public_catalog(self):
-        self.assertEqual(RECORD['root'], 'sdk/drafts/sidechain-compressor')
-        self.assertFalse((APP / 'sdk/octabam/modules/sidechain-compressor').exists())
-        for path in ['sdk/catalog.json', 'src/catalog/module-documents.json',
-                     'sdk/module-qualification-baseline.json', 'sdk/module-release-waivers.json']:
+    def test_build_ready_release_has_narrow_hardware_waiver(self):
+        self.assertEqual(RECORD['root'], 'sdk/octabam/modules/sidechain-compressor')
+        for path in ['sdk/catalog.json', 'src/catalog/module-documents.json']:
+            entries = json.loads((APP / path).read_text())['modules']
+            self.assertIn('sidechain-compressor', {entry['id'] for entry in entries})
+        for path in ['sdk/module-qualification-baseline.json', 'sdk/module-release-waivers.json']:
             entries = json.loads((APP / path).read_text())['modules']
             self.assertNotIn('sidechain-compressor', {entry['id'] for entry in entries})
         document = json.loads((DRAFT / 'octamod.module.json').read_text())
-        self.assertEqual(document['build']['status'], 'pending')
-        self.assertEqual(document['tests']['hardwareStatus'], 'historical')
-        self.assertNotIn('qualification', document['tests'])
-        self.assertNotIn('releaseWaiver', document['tests'])
+        self.assertNotIn('build', document)
+        q = document['tests']['qualification']
+        self.assertEqual(q['hardware']['kind'], 'owner-waived')
+        self.assertEqual(q['memory']['totalBytes'], 23292)
+        self.assertEqual([c['processor'] for c in q['cycles']], ['dsp', 'coldfire'])
+        self.assertTrue(all(c['maxConfiguration'] < c['budget'] for c in q['cycles']))
         for path in DRAFT.rglob('*'):
             self.assertFalse(path.is_symlink(), str(path))
             self.assertNotIn(path.name, ['.git', 'out', 'downloads', 'vendor', '__pycache__'])
             if path.is_file():
-                self.assertIn(path.suffix, ['', '.md', '.json', '.py', '.s', '.asm', '.svg', '.png'])
+                self.assertIn(path.suffix, ['', '.md', '.json', '.py', '.cpp', '.s', '.asm', '.svg', '.png'])
                 if path.suffix == '.png':
                     self.assertTrue(path.read_bytes().startswith(b'\x89PNG\r\n\x1a\n'))
                 else:

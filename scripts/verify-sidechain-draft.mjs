@@ -1,4 +1,4 @@
-// Static draft checks only. Never import/evaluate pending native Python or firmware.
+// Static release checks only. Never import/evaluate native Python or firmware.
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
@@ -9,13 +9,13 @@ import { requireModuleDocumentation } from './module-documentation.mjs'
 import { moduleNativeSourceSha256, requireFolderQualification } from './module-qualification.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const folder = resolve(root, 'sdk/drafts/sidechain-compressor')
+const folder = resolve(root, 'sdk/octabam/modules/sidechain-compressor')
 const json = async path => JSON.parse(await readFile(path, 'utf8'))
 const document = parseModuleDocument(await json(resolve(folder, 'octamod.module.json')))
-const template = await json(resolve(folder, 'qualification.example.json'))
+const template = document.tests.qualification
 const capture = await json(resolve(folder, 'media/capture.json'))
 const proof = await json(resolve(folder, 'reports/native-evidence.json'))
-assert.equal(document.build.status, 'pending')
+assert.equal(document.build, undefined)
 assert.equal(document.tests.hardwareStatus, 'historical')
 assert.equal(template.moduleVersion, document.version)
 assert.equal(template.imageSha256, capture.imageSha256)
@@ -37,10 +37,10 @@ for (const media of document.media) {
   assert.equal(media.otUi.moduleVersion, document.version)
   assert.equal(media.otUi.imageSha256, capture.imageSha256)
 }
-assert.throws(() => requireModuleQualificationForPublication(document), /worst-case cycles, exact memory and hardware test evidence/)
-await assert.rejects(requireFolderQualification(folder, document, new Map()), /worst-case cycles, exact memory and hardware test evidence/)
+requireModuleQualificationForPublication(document)
+assert.equal(await requireFolderQualification(folder, document, new Map()), 'qualified')
 const thumbnail = await readFile(resolve(folder, 'presentation/thumbnail.svg'), 'utf8')
 assert.match(thumbnail, /viewBox="0 0 320 192"/)
 assert.match(thumbnail, /KEY/)
 assert.match(thumbnail, /COMP/)
-console.log('Sidechain draft: strict schema, complete synchronized docs/tutorial, actual monochrome UI hashes, source binding and publication refusal passed; no native source executed.')
+console.log('Sidechain release: strict schema, complete synchronized docs/tutorial, actual monochrome UI hashes, source binding and hardware-only approval passed; no native source executed.')
