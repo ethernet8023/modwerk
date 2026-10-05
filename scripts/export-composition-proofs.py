@@ -81,6 +81,18 @@ def main():
         cases=[(ids,keep) for ids,keep in cases if (tuple(sorted(ids)),keep) in wanted]
         if len(cases)!=len(wanted):p.error('--select named a profile this suite does not carry.')
     cases=cases[a.shard::a.shards]
+    # The browser always links the core logger, which moves the runtime and everything that points into it. Those pointers are the
+    # platform writes (arena sizes, the boot call, runtime detours), so a native image is compared with them reset to the original bytes.
+    platform=json.loads((app/'src/engine/assets/platform-writes.json').read_text());osBase=platform['osBase']
+    def platformSpans(ids):
+        spans=[(row['address'],4) for row in platform['arena']]+[(platform['boot']['address'],6)]
+        for group in platform['groups']:
+            if group['moduleId']!='dsp-dynload-stock' and group['moduleId'] in ids:spans+=[(row['address'],row['writeLength']) for row in group['detours']]
+        return spans
+    def maskedOsSha(image,ids):
+        data=bytearray(image[:len(original)])
+        for address,length in platformSpans(ids):data[address-osBase:address-osBase+length]=original[address-osBase:address-osBase+length]
+        return sha(bytes(data))
     proofs=[];originalRemix=registry.remix
     packTemp=None;packing=None
     if a.stock_bin:
@@ -116,7 +128,7 @@ def main():
                     image=build.OUT.read_bytes()
                     if a.verbose:print(log.getvalue())
                     if a.image_dir:a.image_dir.mkdir(parents=True,exist_ok=True);(a.image_dir/(('+'.join(sorted(ids)) or 'stock')+('-keep' if default else '-compact')+'.bin')).write_bytes(image)
-                    proof={'moduleIds':ids,**({'keepStockFx2':default} if a.static_stock else {'default':default}),'menu':menu,'bytes':len(image),'sha256':sha(image),'osSha256':sha(image[:len(original)]),'appendSha256':sha(image[len(original):])}
+                    proof={'moduleIds':ids,**({'keepStockFx2':default} if a.static_stock else {'default':default}),'menu':menu,'bytes':len(image),'sha256':sha(image),'osSha256':sha(image[:len(original)]),'maskedOsSha256':maskedOsSha(image,ids),'appendSha256':sha(image[len(original):])}
                     if packing:
                         container=work/'out/container.bin';update=work/'out/update.bin';version=packing['version']
                         subprocess.run([str(executable),str(stockContainer),str(build.OUT),version,str(container)],check=True,capture_output=True)

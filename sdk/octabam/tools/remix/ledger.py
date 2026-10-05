@@ -80,6 +80,16 @@ def private_y(m) -> set[int]:
     return words
 
 
+# What stock firmware itself keeps in the shared window (Y:0x30000-0x3FFFF, where X, Y and P alias), measured
+# in the stock payloads: payload A's per-frame parameter staging (payload B reads X:0x30000-0x30045 and writes
+# X:0x30044), and the 16-word cross-core mailbox that payload B fills and payload A reads (it sits at 0x38000
+# in this base; newer octabam moves it to 0x37F00 in every build, for BusDelay's line). A declared range that
+# meets either is refused. A stock FX2 effect's buffer lies in its 16,384-word track slot but is written no
+# further than slot + 0x3DA2, so a claim in the last 0x25E words of a slot (Sidechain's key window) is clear.
+STOCK_SHARED_TENANTS = ((0x30000, 0x30048, "payload A's per-frame parameter staging"),
+                        (0x38000, 0x38010, "the stock cross-core mailbox"))
+
+
 def _payloads(m) -> frozenset:
     """The payloads a module's DSP code runs on. A module without a DspSection
     or with no payload set counts as on both."""
@@ -113,6 +123,8 @@ def data_literals(m, xbus: bool) -> set[tuple[str, int]]:
     found: set[tuple[str, int]] = set()
     for space, digits in _ABS_ADDR.findall(code):
         addr = int(digits, 16)
+        if addr == 0x30000 and m.dsp.ybase is not YBase.NEVER:
+            continue                    # the per-payload Y base the build substitutes, not an absolute word
         if client and _BUS_SCRATCH.fullmatch(digits):
             addr = base + int(digits[1:], 16)
         found.add((space.lower(), addr))
@@ -514,7 +526,8 @@ def check(selected) -> list[str]:
     # meet it; a range in the shared window is one memory for both cores and
     # for X, Y and P alike. A half-relative range resolves to a different
     # address per payload, so one module never meets itself across cores.
-    claimed: list[tuple[str, int, int, str, str]] = []
+    claimed: list[tuple[str, int, int, str, str]] = [
+        ("shared", start, end, "stock firmware", what) for start, end, what in STOCK_SHARED_TENANTS]
     reported: set[tuple] = set()
 
     def report(what, a, b, detail, key):

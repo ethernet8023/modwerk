@@ -1,0 +1,4521 @@
+{
+  "schema": 1,
+  "revision": "b8deefc88b2c3e5f3c6158e364eb741df1924e1d",
+  "sourceSha256": "164f31224bf61181e3f50e7dec40df9afcae5b16dbf6e4c0d0cc5e986af0a84e",
+  "staticStock": true,
+  "packing": null,
+  "proofs": [
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "c4a81091dcb5632afa7add47862cdad1fe3c8d7315289d8a08c25095572f5a3b",
+      "osSha256": "697250994a6284dd45c7271065c2db6fa668c4ef36ece704261b88eb6d2614e0",
+      "maskedOsSha256": "4a834ce301bde6bf671ea2c348a151e2d76dc311bf43c5925da2cb67777b10f8",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "82fd1a3469db07af1177a612be19275c380709e29ff4837f06ad6393d5cf775b",
+      "osSha256": "1a6560ac8a441500dcaacfeaa21ee5512e2d1465c9da1f82589a5cfa134c9859",
+      "maskedOsSha256": "5a1075652f484a90f53f99002daed65c86fb1b4c428655c323b85837bfbc9705",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "528922d71f09df23715ddd1788a3db1e5e64768eb64d47ce1d59ce99f704730c",
+      "osSha256": "3ed8bb76cf671c57208ca9aced1884abbec4804adc16bb35c097937523265508",
+      "maskedOsSha256": "fcd449dec6bd169aa9746f70fd1401f58fab091b920b3f0df94a9011db81f2fc",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "e88fdef7948b29c13e154c57d67c4e79e6f1450617c4a485a461ea60bc3d2b5a",
+      "osSha256": "b96ff85ecbb90f91cb07295b89b1b8a1f513aa4f8d9b7ef2108328c999b31217",
+      "maskedOsSha256": "00f1a1fb6c5ca39a74887deb223df6acdccd6c08eea63486c86f3d92969b9217",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "8edea9f8af8047a94868a6f7e561bd778589b0536db1bee80f797480736e3315",
+      "osSha256": "88364615f0f1a1bac946c59fbe1fe13d298f65294c9bbca7a7192f4d8bf1482b",
+      "maskedOsSha256": "b2ee37213c9ddf0fc98bc19084ea2a59a5e2279a979e447eb463e8e6d3b5e108",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "f6f40826626611953163f0597274c5175e0de702282b46da1e82c663859c1663",
+      "osSha256": "b7adfca85c5a1d5268ed5b49c56c8b13da81623048be0bf00fc382a24b430f38",
+      "maskedOsSha256": "6049e5497ab143a379f889226f41a0c73231de5a1cb031e9d35e6646ea76f618",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "ba779c69e9dcd04085d05b895190db92d017e337dea8acb6d578ad17a8d77080",
+      "osSha256": "aac9752434693d00ec45548a874b4c61c2f64a4edc0f8aeae2e89a880cb31a28",
+      "maskedOsSha256": "1c496e3c220f23354a2f13b26404924351c70b409e8fb3268f6311d7e286bed6",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "5e832347e1ba7df4b4b7a20e57fd7e0b8bc7dbaecf905fd89aeafab0f19cb343",
+      "osSha256": "2cd662f333a3cfd0937c8d7b1e13f0798073efe74985c8bed76f0c14782729d2",
+      "maskedOsSha256": "08cb7fe1a58478f8e0341cd0e1c208eb85f75b1cc8e471225b89a7026794987f",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "c67e3eb3ff93ffb0b3124e312fcfbb33a5180ce761a77e6e060fcfecead271e1",
+      "osSha256": "1aca7bc7f53f865b2e7eda73d3150ce12bbba1ba824f2c45cae18dd03ce82fdf",
+      "maskedOsSha256": "049980c9e502bfe7ca9d20b4e45b0bf5486251f6604530927c89094142fe4c14",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "6d7701b1b5d7bd90a13e6ec7338df6b102e65a3d5661d07cf587144bc6dd6451",
+      "osSha256": "6b8200b1ff35d631afb02fb9e077b57bf3e3255915f0e35595b0b2f533254167",
+      "maskedOsSha256": "54dfcda69e84d952345cce0192c611c6ca6a5e64905dcdad8f5898f963cc263a",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "3e9c00d0f620a4c81244e4fe7a166e9127bce5b4d0a414a9c4e361a94493f6bd",
+      "osSha256": "5b5e800bc6a6ae5ea80d0e7afc3c92a4398050f202989b9cec23a85353f7c667",
+      "maskedOsSha256": "025dfd0b9dea94a946aa9b4a68125a5fe77225e44c856683616d5cc81d114301",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "7339ed5e1d62fa342b74a1ffcef741e131097ec245fe7917a8d4fcedb9c46572",
+      "osSha256": "9f405f7330a8c3136b10dc3672a32a1c81bff0be164eb70f31323f64db24f80d",
+      "maskedOsSha256": "52e85c2aee164f26b4727c144ff8b785d4df0384380ea585c98e76074aab3452",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "a0a67fb2976bac1ce29dbccfdfec662cdbaccaab64129f6099c671c500a89a3b",
+      "osSha256": "a0a67fb2976bac1ce29dbccfdfec662cdbaccaab64129f6099c671c500a89a3b",
+      "maskedOsSha256": "a0a67fb2976bac1ce29dbccfdfec662cdbaccaab64129f6099c671c500a89a3b",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "b8897b2097c0658376bd87974b183005e5d92d83da58047bf551c24cbd209e23",
+      "osSha256": "b8897b2097c0658376bd87974b183005e5d92d83da58047bf551c24cbd209e23",
+      "maskedOsSha256": "b8897b2097c0658376bd87974b183005e5d92d83da58047bf551c24cbd209e23",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "3613e005638bc9144a01c87b38b0e3e134cac4ce502bee605c655084df524839",
+      "osSha256": "3613e005638bc9144a01c87b38b0e3e134cac4ce502bee605c655084df524839",
+      "maskedOsSha256": "3613e005638bc9144a01c87b38b0e3e134cac4ce502bee605c655084df524839",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "324db084ccc656d4bff0ca9255caf195c20f4d4941ec8f757fcbdb4ffb8e9b6f",
+      "osSha256": "324db084ccc656d4bff0ca9255caf195c20f4d4941ec8f757fcbdb4ffb8e9b6f",
+      "maskedOsSha256": "324db084ccc656d4bff0ca9255caf195c20f4d4941ec8f757fcbdb4ffb8e9b6f",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "f90a43d85721c0763c7dc8b4d47e25adbc8e6a8d25d79d4f3862a355188e6627",
+      "osSha256": "33bb491dee31e91c9329fa0c66e13e31b382fa6d20c06e66c815aeeee1367fa8",
+      "maskedOsSha256": "f5a86f60453a1816e0b777042e1861972e7977bc91434a56a2727352e441b5b0",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "0b8390fe3177908574f72f02dbec1ad6414c38c1db17f12d44fadb1bff07e53d",
+      "osSha256": "2702d2c8954385a7ed9b289850699ea66dc886e2c1e185699d92d1379c1a53e1",
+      "maskedOsSha256": "613169b78734eced9236905e43ce9e97a59976d8a099358f09b93847d8b489d8",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "807fe98d2434daa6335c8db22d5bcefddff9ce39b45e9ce6b15c07e17a97d361",
+      "osSha256": "907e84d4363de68a754d0ea5735c5ef3f71e5f75acd76d66f018b46006434126",
+      "maskedOsSha256": "fb7ec5c69b8030da8af4f88152de96f20539ed9f9b07f592547015683c84bd87",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "1259823e2afadede4d3fcf5563b7ed228fc2a70eb6d249f810c69783a63ac1eb",
+      "osSha256": "d813899c706477719670531f832a990eb062db6e8fc9b440eb7af7d6b9e90266",
+      "maskedOsSha256": "fb0426f7541c978e7c8ac5bba2bd8212fe278858768823b745e0bb4979c1800c",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "14a89f10b3ca250e091bad1dea2483020a4f0351af0409dcc5ad18ad46ce7763",
+      "osSha256": "c5824ee35e0b3c01befcfa899e01f1be66573bc0fec1df8468e6cf901ad91c40",
+      "maskedOsSha256": "fef349400fa8b742539ec141429f8db0d29e262de8680f51dd7078455010f889",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "77ed0d028c5cb5d0fd17da5fd37405cbffa3da4dd2689295383002764c8749a0",
+      "osSha256": "07d31c5c5742bcd321f64338507615167b1c3f2ee195ffcf493a6caf9dc66a57",
+      "maskedOsSha256": "db4c81908251c0aa3ec4988582c85ffaab929a0810ce4541fd25a525b5c51341",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "b9904b66fe0f57180c4858e4af352b630d76501fa4562fd10cf57efaf54c9642",
+      "osSha256": "821f49c9dfa13af8f06d6b01abb3f8b8e9b52ef285a4a6e25c4b109153243840",
+      "maskedOsSha256": "b88bcdd1986bbadaeecc0e2debfee6c2d62893a1e205c84bacb97b6c1c0b0835",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "9017296c5321c1fb013ec3fce6dfc7283013da439e3de95046017349b862be2d",
+      "osSha256": "30ab735f065a597bb76a5fc88a25a0e0dd5f2d2914c4fd0542d7c583e3e93593",
+      "maskedOsSha256": "8955229abfee049e328455e0467bf375dc4084f6b65b2233c812cfd5206f440c",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "7dd2b2e9b966635ac80ecb82d00335caef3d1097e7cf366247ff67660f94cb92",
+      "osSha256": "141b0d849776e9b0477251974ee0f566fb0b92c0040abf7e0eb0932b43d8e4ec",
+      "maskedOsSha256": "bd4e01bd357e57325b1af4a63c89eda1b0be6d2c2c4ecaf1135e7c0abb7b5359",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "bce1c3c46bd3aba6452364ba0dc99e99bc4e96547bd17bf707c6a3b61ce43cb6",
+      "osSha256": "efc7e818be9da778c6b4a9894ef5787a9390523d69a2600a1aec718995475ad0",
+      "maskedOsSha256": "2898c6fa53c7fbee8a9ceb4ae861fdd379290a5d15a233dd2fcaf2d24c75ecbb",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "246629eccbec18ce9bea1b8b0d033bcd9e6c75375e3a1a2a26bbe10063412dcb",
+      "osSha256": "2b0c827c0bc53b27f5aae03ae7778a274b71d9dc34c4fbc459a9435195634b9b",
+      "maskedOsSha256": "435e8f3d57da41c7a223ae9cfe05c9003c1fe9205fa3a3f58a6f072edc485485",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "df74eefa94347eee80a010df84afbf0af0983c5c6fc6c47b1893bea65ea5ffe0",
+      "osSha256": "44fc9508d8a100fe8070d030eba16e59dd51bbf3398fb1e9692c2053a05dcdb3",
+      "maskedOsSha256": "5e966dabc5492625af07abbb9f9f3c0cfc641b0b0bb27ba79ff725d1380058ec",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "0dbd37937dbe932aa8ccb7a51d3642519c160b44aee01205a4fd82d196c8dbb4",
+      "osSha256": "0dbd37937dbe932aa8ccb7a51d3642519c160b44aee01205a4fd82d196c8dbb4",
+      "maskedOsSha256": "0dbd37937dbe932aa8ccb7a51d3642519c160b44aee01205a4fd82d196c8dbb4",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "547d7fac18cb0d69ef5627712ef726c226ef6bf1a03784714540f38758f4d8e7",
+      "osSha256": "547d7fac18cb0d69ef5627712ef726c226ef6bf1a03784714540f38758f4d8e7",
+      "maskedOsSha256": "547d7fac18cb0d69ef5627712ef726c226ef6bf1a03784714540f38758f4d8e7",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "6bda312fed3b495b455235b1c368381b6fce8fa2dfa04a5ab7303b42cf28fe0f",
+      "osSha256": "6bda312fed3b495b455235b1c368381b6fce8fa2dfa04a5ab7303b42cf28fe0f",
+      "maskedOsSha256": "6bda312fed3b495b455235b1c368381b6fce8fa2dfa04a5ab7303b42cf28fe0f",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "5d14a8087d7e4f7adb1594f4a7ae3d3744e1c373954ef7c0a57b0ef4481fdc33",
+      "osSha256": "5d14a8087d7e4f7adb1594f4a7ae3d3744e1c373954ef7c0a57b0ef4481fdc33",
+      "maskedOsSha256": "5d14a8087d7e4f7adb1594f4a7ae3d3744e1c373954ef7c0a57b0ef4481fdc33",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "a5171dc09740cdc8a56cf9a849995d87787b20ad841003afb2b2b4bd182b228f",
+      "osSha256": "92826737153325255dddaef2fa917e4d1063f307ed24aee4ab188913f5ad8320",
+      "maskedOsSha256": "6768d97ec78bdcf0a829a275cfe155079f10453de8d06e0572a43bba6d1dd575",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "da45820ba0d72c88c72dea77537ebb6fff154d13e555fea2848384914efbd112",
+      "osSha256": "4c38a532ce000039a853f674a1a0705a4202b17811e1831e772337cc83d857e7",
+      "maskedOsSha256": "0c7d8c9147f64c9b13f61797a828338773facdde6507b6955da6947ee60e60df",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "aab4dc69dbdb85397f2abb65b51174e1207f1216e74bf9ba30337ba8121060dc",
+      "osSha256": "4191835b7462acf29a7b0be338bf157aa608636696b34df1414ac59aa1c89999",
+      "maskedOsSha256": "69c52470bce43d2cc374e7d52cd0aecbbef61d1e50a677ffa95505874e7fd10d",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "23438cfd0c91f1903805f733f6f909daf54741c347b8e38c6869ac389f794188",
+      "osSha256": "ab02a4b8134f85d9226778edeb7e9d3baff2479adfedac7c4199d34db38c4306",
+      "maskedOsSha256": "f8c12ed4121886f5130137a93b0ebf68efd3574187cd89f7180c69acca45bd71",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "da716e24212a1395b287dac5c5fded187f4bb584a9845d42d2e9627151a39494",
+      "osSha256": "b906062b910510d5a2834cc9883bc4db7be5055a85d3ab0bbeea240565637fea",
+      "maskedOsSha256": "34f2e0141611052e512fefe71dffa921de87aeb269ddd2f78fe3ad5615960e0e",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "d8342b47b28e67d29e9e93eb580029028b71db79d2d6bf4892ec587a948ae4aa",
+      "osSha256": "641c0efd5cc479e70334b0b381ca864bd68578cf51ccab87c0cbabe35e8d2a52",
+      "maskedOsSha256": "c56c66b9b53bc85d88d16e786f469a971075d6a0ff83a657c9c60090c39f5c0b",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "011127c5866e6e88f0b4fee9a2702c5dc72f7daa48df14d6bf836d37b3a5a983",
+      "osSha256": "51308d65a13585b81e15a110eefc89fd611c2fcab312e7c9c9e06f1a997fbd59",
+      "maskedOsSha256": "17a0050ebc35ccaa677e53b4a7941f58f6eada569b6edf0124d0c3e7c2704080",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "3ff70403f4c807b34ba54d053780f8a1c4c0744ed357ac9850acf52a4b91b2dc",
+      "osSha256": "fbf10fe270e069557bced3244326d00c6ad65da766465f9183245f2d8d6eba8c",
+      "maskedOsSha256": "9ebff5a7b68132b60784384eb38bb6a39a10e1477bdd1f02fc548f35965180d9",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "f705a515caf489ab51294a9f26b0fe6ecd2fba83d8e7261b9bff055f16166b18",
+      "osSha256": "a4437f03a20ff2ee96e4f4279ce08b61f2f06f714917438e5305c8bd701c2e30",
+      "maskedOsSha256": "92643c6c063a7f8ce5a17b94f46c7569938e59cb26ae0aa5a728b0f04db90fca",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "c6320c6fc92f6014abba51c51b735448a1000454613acfefed544eaccfe416bd",
+      "osSha256": "3e79442e9dd4550b763000da290d54dff29846acba9e3c29da1ffb7dd3995662",
+      "maskedOsSha256": "cc8bfdaf9ff88a86d2cff496c25ccd76d416f601f157004f3e2827409cfa8681",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "1a5829714808727287891b9f00931773425b8e271ecd38ae2f0e7d751d7261ab",
+      "osSha256": "0db08bca78a21f3696aa3355d4df8630343cb5c61d545457fe79bbeb94c9e2ee",
+      "maskedOsSha256": "7ac0d9bd8f2c1ac80b3b8451a91be09024ebc3cb7c48d7c935ca42d17a1c1446",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "87ad25af4a74e7c6770fa261d147c2458fac391c2115bcc09e99ea3ed91c7bf0",
+      "osSha256": "5f0d09adb872609ca3086a76e8067dd812589322449c8a6afd27061b3dfdb04e",
+      "maskedOsSha256": "408f5f1e13c61ef2b1f572000cc3cf73e8882b56b0738b17e41a0554150599d6",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "695ccb176240a97c622b089dfab0a1b9420cbe54b8c34a9f2f28eb176593e0bd",
+      "osSha256": "695ccb176240a97c622b089dfab0a1b9420cbe54b8c34a9f2f28eb176593e0bd",
+      "maskedOsSha256": "695ccb176240a97c622b089dfab0a1b9420cbe54b8c34a9f2f28eb176593e0bd",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "4c3af5882f76fc3feb8d4048e8a2fb844aefcefaddf7fdf4620af7c7d06f177e",
+      "osSha256": "4c3af5882f76fc3feb8d4048e8a2fb844aefcefaddf7fdf4620af7c7d06f177e",
+      "maskedOsSha256": "4c3af5882f76fc3feb8d4048e8a2fb844aefcefaddf7fdf4620af7c7d06f177e",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "0d817f95dd94175c4d2646d2a0092c6cc469715e4062468f3dca538a208fe4fe",
+      "osSha256": "0d817f95dd94175c4d2646d2a0092c6cc469715e4062468f3dca538a208fe4fe",
+      "maskedOsSha256": "0d817f95dd94175c4d2646d2a0092c6cc469715e4062468f3dca538a208fe4fe",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1112560,
+      "sha256": "619f19b851a3e62d25cd25898b0d6e0cc7be5d6de7e88270ee741a041226dfcd",
+      "osSha256": "619f19b851a3e62d25cd25898b0d6e0cc7be5d6de7e88270ee741a041226dfcd",
+      "maskedOsSha256": "619f19b851a3e62d25cd25898b0d6e0cc7be5d6de7e88270ee741a041226dfcd",
+      "appendSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "7ff3105ecf2895d197208964f57972ee42eb50008365531ac482359d339b56d4",
+      "osSha256": "e7eed0f3a43f64d35801eea467ae1a801cba9e9e3d4371408c9c9accffe594d3",
+      "maskedOsSha256": "abe2295cd0f42c025fb3f5cd8fdc7bcfbcc641bedd0754fc2f0ba4fc780197cf",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "cfdefaa1d8c80991792a59b3952102bcc5f2e477529a1a019c34889f880accbf",
+      "osSha256": "d8b956fa79150d09fd9a551d2807cab9ca0f4035e3ede489797366c6eaeaf252",
+      "maskedOsSha256": "c908aed8c97cb72939a2206b157adb311b41f368131b9ac03c0fc8d71a8ef7d0",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "6252455af7b994100222262d8ee22c58e8a74fbaa8b547e57ba302975dc7309a",
+      "osSha256": "39fa5429cde0f51f57e814a41bfd447661130dc4adb6911816f87121a787b664",
+      "maskedOsSha256": "ed2b51586e917f7968bbb4b22582058663fe998e48c44d763f1f17010962e41a",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115070,
+      "sha256": "17a66f1bb4352e07a59ff816801da6439b7c4f8748b6db3d2f62b6fc5299604a",
+      "osSha256": "56da98673df10ecdf950e7233145f282686e55d242cff75d5e6ec346411e0d3e",
+      "maskedOsSha256": "571b4dfe8c9aa609b06f36dadc147f0982e36e5fcbad923ce0b53dcb11cca4f6",
+      "appendSha256": "7df30e37b1d62a23305204fdcb8391156686a489a3dbd0dbc7533214aec5fe5d"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "c6b0b7348d2576a75850fe435c4b6ccb6e75f8bfb92810fbfff86a57eaed13ee",
+      "osSha256": "31282e87ac43174298b0fa1dfff846fa7a0f3f23aba7606c5d9110dc11e9a210",
+      "maskedOsSha256": "6c95dd44ccd8f3d484178b6bd6f6cbeeb3e4cdf45476eb2fbfd1133ee4e93e3a",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "4381b2f05581690f7a386d84916a16b19ff8ef9ff2fa93c9ce2d0d88e75290b2",
+      "osSha256": "4db02d3a4fb2542ce70d75f7c2c820738efd13f01babd076d8e9350c0e3a1658",
+      "maskedOsSha256": "60b9711a97c8044e90b2ffee8e54479ce84c3de2857f5fce4c6cfa565f93dbc6",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "a419e3a06c5759e587d9efcde426122e1ca807118e7bc7a31de092c6c8e0223a",
+      "osSha256": "633d0684bd6b621838c83e316e3157aa840dbf58ce35e9add697b374aee2fae5",
+      "maskedOsSha256": "c4a0b23a4ff6b0655c1fa28c7ecae9e282ed7b5b856aba046dd47eb3cfb71042",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1115052,
+      "sha256": "22ef916a5f603980f0ee1ea7e3f2cf3ba9640485b677488751f97242dd584418",
+      "osSha256": "7893f2ae253a05d2c86931fd60f338267ee7ad42886551c6b7ccde3cb97ef8c1",
+      "maskedOsSha256": "f0c056cd4a64f53d206b959c7b2bc72f3f06e3d0d7d3448886b3e2f5423e068a",
+      "appendSha256": "591525a329c439c6c3788f8108aa64f7eeafdf23d43b615b414f2b15ddac4192"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "f001f27f609c1b308c441876c41c7fc98cc80ec295ad6ae33b8e4c1d6375caf2",
+      "osSha256": "f485f3ca9c6348ee437dccff51d0c39de906d13486bed638fe97802e117823f0",
+      "maskedOsSha256": "37cabab33645cc1e55b195c23e60f040150bee4d8a4a80cb06edca2241bdc554",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "af235faccc4a71955b774931332fc55a2638079c6146fb175b3759a69683c9ab",
+      "osSha256": "9cc591f0569db5bd146ef6f1d77193050655be200a14552637757a3e7ea0176c",
+      "maskedOsSha256": "69700063804bfc3d5ebc7ee1c756f761d0472ee2375c1d6da8ea9f957ee33d93",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "SPRING REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "9c7366b80a2831de110b541f96f8fe56e12db674c6d55dff6a0434b7c5a7d281",
+      "osSha256": "f83d3033ebd417b82430e044ab338687e7ec0927e4d120a4b98049848aa28398",
+      "maskedOsSha256": "62f2fa9a51c5f7d87fab2115bed86fe36dd1fc137994190a5bbb70a760f7122c",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "bytes": 1117276,
+      "sha256": "bfa22cd592bdef5c6a2e90aa97c6360289b297ba02e3072f3cf22e279196e60c",
+      "osSha256": "40fcc718418cf997cb5b11b2ac45342721392e101508c00e340d30080a5ca585",
+      "maskedOsSha256": "867a73405083775c4440f94a3279ce9708892e4151103590684c6e4553069c88",
+      "appendSha256": "57f657fd3a68f8336aacbe2bf1affe8c73ef16d9860adad7918e39b00bc109db"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "PLATE REV",
+          "DARK REV"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": true,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI",
+          "DELAY",
+          "DARK REV",
+          "MINIVERB"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    },
+    {
+      "moduleIds": [
+        "miniverb",
+        "analog-bassdrum",
+        "usb-audio-out-tracks-main-cue",
+        "quantizer",
+        "previewvol",
+        "cc-map",
+        "sidechain-compressor"
+      ],
+      "keepStockFx2": false,
+      "menu": {
+        "fx1": [
+          "FILTER",
+          "EQUALIZER",
+          "DJ EQ",
+          "PHASER",
+          "FLANGER",
+          "CHORUS",
+          "SPATIALIZER",
+          "COMB FILTER",
+          "SIDECHAIN_COMPRESSOR",
+          "LO-FI"
+        ],
+        "fx2": [
+          "MINIVERB",
+          "SIDECHAIN_COMPRESSOR"
+        ],
+        "hidden": []
+      },
+      "error": "ANALOG BD's DSP source currently composes with stock effects only"
+    }
+  ]
+}
