@@ -580,7 +580,6 @@ class DspRange:
 
 @dataclass(frozen=True)
 class Claims:
-    dsp_ranges: tuple[DspRange, ...] = ()
     """Resources a module reserves that the ledger cannot see for itself.
 
     Deliberately tiny. Anything derivable from the module's own source is
@@ -590,6 +589,10 @@ class Claims:
     """
 
     reserved_private_y: tuple[int, ...] = ()
+    # DSP data words the module writes, per payload (DspRange). The ledger
+    # refuses two modules whose ranges overlap, and a module whose own source
+    # addresses another module's range by literal.
+    dsp_ranges: tuple[DspRange, ...] = ()
     owns_fx2_buffers: bool = False
     # A STOCK effect that allocates an FX2 instance buffer through the host's
     # bump allocator (it reads X:0x213 at init -- docs/firmware/DSP.md section 10).

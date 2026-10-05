@@ -50,8 +50,8 @@ import os
 
 from remix.stock_guard import stock_dsp_words
 
-from remix.schema import (Claims, DspHook, DspRange, DspSection, Kind, Linked, MenuEntry,
-                          Module, Param, YBase)
+from remix.schema import (Category, Claims, DspHook, DspRange, DspSection, Kind, Linked,
+                          MenuEntry, Module, Param, YBase)
 
 # This module's own directory, relative to the build's cwd (octabam's repo root):
 # "modules/sidechain-compressor" checked out directly, or
@@ -82,6 +82,8 @@ MODULE = Module(
     name="sidechain-compressor",
     key="SIDECHAIN_COMPRESSOR",
     author="Zac-Kyoti",
+    author_url="https://github.com/Zac-Kyoti",
+    category=Category.TRACK,
     kind=Kind.DSP_EFFECT,
     doc="Stock COMPRESSOR with a side-chain KEY from any of T1-T8, a key filter, "
         "key gain and a key listen switch on page 2.",

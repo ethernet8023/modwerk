@@ -8,8 +8,13 @@ async function hash(bytes: Uint8Array) {
   const digest = await crypto.subtle.digest('SHA-256', new Uint8Array(bytes).buffer)
   return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('')
 }
-export async function composeDescriptors(original: Uint8Array, ids: readonly string[]) {
-  const selected = resolveSelection(ids).filter(module => module.fxId !== undefined)
+/** Placement order of the selected modules: catalog order, except that `leading` modules come first. Native lists a module that
+ *  replaces a kept stock effect at that effect's chooser slot, ahead of every module of its own, and places clones in that order. */
+export function placementOrder<T extends { id: string }>(selected: readonly T[], leading: readonly string[] = []): T[] {
+  return [...selected.filter(module => leading.includes(module.id)), ...selected.filter(module => !leading.includes(module.id))]
+}
+export async function composeDescriptors(original: Uint8Array, ids: readonly string[], leading: readonly string[] = []) {
+  const selected = placementOrder(resolveSelection(ids).filter(module => module.fxId !== undefined), leading)
   if (recipes.schema !== 1 || recipes.revision !== CATALOG_SOURCE.revision || recipes.descriptorBytes !== 0x192 || recipes.cloneStride !== 0x1a0 || recipes.cloneBase !== 0x400d6b20 || recipes.safeCeiling !== 0x400d8000 || recipes.buildTag !== '79') throw new Error('Descriptor recipes do not match the pinned catalog layout.')
   if (await hash(original) !== recipes.sourceSha256) throw new Error('Descriptor composition needs the original OS fingerprint.')
   const writes: OsWrite[] = [], descriptors = []
