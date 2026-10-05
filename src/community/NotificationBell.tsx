@@ -4,12 +4,12 @@ import { useCommunity } from './context'
 import { Icon } from '../components/Icon'
 import { NotificationList } from './NotificationList'
 import { notificationLines, type NotificationLine } from './notification-text'
-import type { NotificationItem } from './notification-contract'
+import type { BellItem } from './notification-contract'
 
 const POLL_MS = 60000
 export function NotificationBell() {
   const { session } = useCommunity(), member = session.available && !!session.user?.verified
-  const [unread, setUnread] = useState(0), [open, setOpen] = useState(false), [items, setItems] = useState<NotificationItem[] | null>(null), [error, setError] = useState('')
+  const [unread, setUnread] = useState(0), [open, setOpen] = useState(false), [items, setItems] = useState<BellItem[] | null>(null), [error, setError] = useState('')
   const root = useRef<HTMLDivElement>(null), button = useRef<HTMLButtonElement>(null)
   const count = useCallback(() => { void api<{ unread: number }>('/notifications/unread').then(value => setUnread(value.unread)).catch(() => {}) }, [])
   useEffect(() => {
@@ -24,7 +24,7 @@ export function NotificationBell() {
   useEffect(() => {
     if (!open) return
     let cancelled = false
-    void api<{ items: NotificationItem[]; unread: number }>('/notifications').then(value => { if (!cancelled) { setItems(value.items); setUnread(value.unread) } }).catch(error => { if (!cancelled) setError(error instanceof Error ? error.message : 'Notifications could not load.') })
+    void api<{ items: BellItem[]; unread: number }>('/notifications').then(value => { if (!cancelled) { setItems(value.items); setUnread(value.unread) } }).catch(error => { if (!cancelled) setError(error instanceof Error ? error.message : 'Notifications could not load.') })
     const outside = (event: PointerEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false) }
     const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') { setOpen(false); button.current?.focus() } }
     document.addEventListener('pointerdown', outside); document.addEventListener('keydown', escape)
@@ -34,7 +34,8 @@ export function NotificationBell() {
   function markRead(ids?: string[]) {
     setItems(current => current?.map(item => !ids || ids.includes(item.id) ? { ...item, seen: true } : item) ?? null)
     setUnread(current => ids ? Math.max(0, current - (items?.filter(item => ids.includes(item.id) && !item.seen).length ?? 0)) : 0)
-    void post('/notifications', ids ? { ids } : {}, 'PATCH').catch(() => count())
+    // Say why a read did not stick instead of quietly restoring the count.
+    void post('/notifications', ids ? { ids } : {}, 'PATCH').catch(error => { setError(error instanceof Error ? error.message : 'Notifications could not be marked as read.'); setOpen(true); count() })
   }
   const lines = items ? notificationLines(items) : []
   return <div className="notification-bell" ref={root}>
@@ -42,7 +43,7 @@ export function NotificationBell() {
     {open && <section className="notification-panel" id="notification-panel" aria-label="Notifications">
       <header><h2>Notifications</h2><button type="button" className="text-button" disabled={!items?.some(item => !item.seen)} onClick={() => markRead()}>Mark all read</button></header>
       {error ? <p className="file-error" role="alert">{error}</p> : !items ? <p className="notification-empty" role="status">Loading…</p> : lines.length ? <NotificationList lines={lines} onOpen={(line: NotificationLine) => { if (!line.seen) markRead(line.ids); setOpen(false) }} /> : <p className="notification-empty">You're all caught up. Replies, mentions, likes and activity on your modules show up here.</p>}
-      <footer><a href="#account" onClick={() => setOpen(false)}>All notifications</a><a href="#account/notifications" onClick={() => setOpen(false)}>Email settings</a></footer>
+      <footer><a href="#account/activity" onClick={() => setOpen(false)}>All notifications</a><a href="#account/notifications" onClick={() => setOpen(false)}>Email settings</a></footer>
     </section>}
   </div>
 }

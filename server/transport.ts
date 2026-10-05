@@ -2,8 +2,12 @@ import { startPush } from './push'
 import { handleApi } from './api'
 import type { Env } from './platform'
 import { appOrigin, HttpError, response } from './security'
+import { withAccountAuth } from './accounts'
 /** One trusted website origin, including failure responses and preflights. */
-export async function handleCommunity(request: Request, env: Env, context?: {waitUntil(promise: Promise<unknown>): void}): Promise<Response> {
+export function handleCommunity(request: Request, env: Env, context?: { waitUntil(promise: Promise<unknown>): void }): Promise<Response> {
+  return withAccountAuth(() => handleRequest(request, env, context))
+}
+async function handleRequest(request: Request, env: Env, context?: { waitUntil(promise: Promise<unknown>): void }): Promise<Response> {
   const started=performance.now()
   let allowed: string
   try { allowed = appOrigin(env) } catch (error) { return response({ error: error instanceof Error ? error.message : 'Service unavailable.' }, 503) }

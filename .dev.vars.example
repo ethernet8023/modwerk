@@ -42,3 +42,6 @@ WEB_PUSH_ENABLED=false
 VAPID_PUBLIC_KEY=
 VAPID_PRIVATE_KEY=
 VAPID_SUBJECT=https://modwerk.app/
+
+# One welcome for each new verified member, independently of optional news.
+WELCOME_MAIL_ENABLED=true

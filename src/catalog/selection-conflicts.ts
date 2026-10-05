@@ -1,15 +1,16 @@
-import { resolveSelection } from './modules.ts'
+import { DSP_EFFECT_IDS, resolveSelection } from './modules.ts'
 
 export type ConflictFix = { label: string; removeIds?: string[]; keepStockFx2?: boolean }
 export type SelectionConflict = { id: string; title: string; description: string; moduleIds: string[]; fixes: ConflictFix[] }
-// Native build_bus.py admits Analog BD with stock DSP effects only. These
-// are the custom DSP sections in the pinned catalog, including paused ones.
-const customDspIds = ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'tapehead']
+// Native build_bus.py admits Analog BD with stock DSP effects only, so it refuses every DSP effect module.
+// These build beside the stock FX2 effects: TapeHead fits in the space they leave, and Sidechain
+// Compressor hooks stock COMPRESSOR instead of taking a slot. Every other DSP effect needs their space.
+const FITS_BESIDE_STOCK_FX2 = ['tapehead', 'sidechain-compressor']
 const crowdedMenuIds = ['miniverb', 'tapeecho', 'euclid', 'repitch', 'quantizer']
 
 export function selectionConflicts(ids: readonly string[], keepStockFx2 = false): SelectionConflict[] {
   const modules = resolveSelection(ids), selected = new Set(modules.map(module => module.id))
-  const dsp = modules.filter(module => customDspIds.includes(module.id))
+  const analogBdBlockers = modules.filter(module => DSP_EFFECT_IDS.includes(module.id))
   const conflicts: SelectionConflict[] = []
   if (selected.has('midi-scenes') && modules.length > 1) {
     const companions = modules.filter(module => module.id !== 'midi-scenes')
@@ -19,13 +20,13 @@ export function selectionConflicts(ids: readonly string[], keepStockFx2 = false)
       fixes: [{ label: 'Keep MIDI Scenes', removeIds: companions.map(module => module.id) }, { label: 'Remove MIDI Scenes', removeIds: ['midi-scenes'] }] })
   }
   const keepEffectsRemoves = ['analog-bassdrum', ...(crowdedMenuIds.every(id => selected.has(id)) ? ['euclid'] : [])]
-  if (selected.has('analog-bassdrum') && dsp.length) conflicts.push({
+  if (selected.has('analog-bassdrum') && analogBdBlockers.length) conflicts.push({
     id: 'analog-bd-custom-dsp', title: 'Choose Analog BD or custom effects',
-    description: 'Analog BD currently works with the original effects. It cannot run alongside ' + dsp.map(module => module.name).join(', ') + '.' + (keepEffectsRemoves.length > 1 ? ' Removing Analog BD and Euclid also resolves the menu-space limit.' : ''),
-    moduleIds: ['analog-bassdrum', ...dsp.map(module => module.id)],
-    fixes: [{ label: keepEffectsRemoves.length > 1 ? 'Remove Analog BD & Euclid' : 'Remove Analog BD', removeIds: keepEffectsRemoves }, { label: 'Keep Analog BD · remove custom effects', removeIds: dsp.map(module => module.id) }],
+    description: 'Analog BD currently works with the original effects. It cannot run alongside ' + analogBdBlockers.map(module => module.name).join(', ') + '.' + (keepEffectsRemoves.length > 1 ? ' Removing Analog BD and Euclid also resolves the menu-space limit.' : ''),
+    moduleIds: ['analog-bassdrum', ...analogBdBlockers.map(module => module.id)],
+    fixes: [{ label: keepEffectsRemoves.length > 1 ? 'Remove Analog BD & Euclid' : 'Remove Analog BD', removeIds: keepEffectsRemoves }, { label: 'Keep Analog BD · remove custom effects', removeIds: analogBdBlockers.map(module => module.id) }],
   })
-  const stockFx2Dsp = dsp.filter(module => module.id !== 'tapehead')
+  const stockFx2Dsp = analogBdBlockers.filter(module => !FITS_BESIDE_STOCK_FX2.includes(module.id))
   if (keepStockFx2 && (stockFx2Dsp.length || selected.has('analog-bassdrum'))) conflicts.push({
     id: 'stock-fx2-space', title: 'Make room for your modules',
     description: 'These modules need space used by the original FX2 effects. Turn off “Keep stock FX2 effects” to continue. Original FX1 effects stay available.',

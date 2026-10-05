@@ -1,13 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { runInNewContext } from 'node:vm'
-import type { DatabaseSync } from 'node:sqlite'
+import { DatabaseSync } from 'node:sqlite'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { testServer } from './test-server'
 import { PushSettings } from './PushSettings'
 import { dispatchPush, pushEndpoint } from '../../server/push'
 import { handleCommunity } from '../../server/transport'
+import worker from '../../worker'
 import { digest } from '../../server/security'
 import { COMMUNITY_RULES_VERSION } from '../legal/policy'
 import type { DevicePush, DeviceSubscription } from './push-contract'
@@ -74,6 +75,44 @@ async function decrypt(record: Captured, receiver: Awaited<ReturnType<typeof dev
 const count = (db: DatabaseSync) => Number(db.prepare('SELECT COUNT(*) AS count FROM push_deliveries').get()!.count)
 
 describe('private device push', () => {
+  it('upgrades the current schema without replaying signups or disturbing welcomes and announcements', () => {
+    const db = new DatabaseSync(':memory:'); databases.push(db)
+    const folder = new URL('../../migrations/', import.meta.url)
+    for (const name of readdirSync(folder).filter(name => name.endsWith('.sql') && name < '0032').sort()) db.exec(readFileSync(new URL(name, folder), 'utf8'))
+    for (const id of ['existingadmin', 'pendingmember']) {
+      db.prepare('INSERT INTO auth_users(id,name,email,emailVerified,createdAt,updatedAt) VALUES(?,?,?,1,?,?)').run(id, id, id + '@example.test', new Date().toISOString(), new Date().toISOString())
+      db.prepare('INSERT INTO users(id,display_name,username,email_verified,is_admin) VALUES(?,?,?,1,?)').run(id, id, id, Number(id === 'existingadmin'))
+    }
+    db.prepare('INSERT INTO account_policy_acceptances(user_id,version) VALUES(?,?)').run('existingadmin', COMMUNITY_RULES_VERSION)
+    db.prepare("INSERT INTO member_welcome_mail(user_id,state) VALUES('existingadmin','accepted')").run()
+    db.prepare("INSERT INTO announcements(id,slug,title,body,created_by) VALUES('oldannouncement','schema-upgrade','Existing announcement','Keep this announcement.','existingadmin')").run()
+    db.prepare("INSERT INTO announcement_reads(user_id,announcement_id) VALUES('existingadmin','oldannouncement')").run()
+    db.exec(readFileSync(new URL('0032_web_push.sql', folder), 'utf8'))
+    expect(db.prepare('SELECT user_id,username FROM signup_events').all()).toEqual([{ user_id: 'existingadmin', username: 'existingadmin' }])
+    expect(db.prepare('SELECT state,template_version FROM member_welcome_mail').get()).toEqual({ state: 'accepted', template_version: 'modwerk-welcome-001' })
+    expect(db.prepare('SELECT announcement_id FROM announcement_reads').get()).toEqual({ announcement_id: 'oldannouncement' })
+    db.prepare("INSERT INTO push_subscriptions(id,user_id,endpoint,p256dh,auth,vapid_key,signups) VALUES('device','existingadmin','https://web.push.apple.com/upgrade','synthetic-public','synthetic-auth','synthetic-vapid',1)").run()
+    db.prepare('INSERT INTO account_policy_acceptances(user_id,version) VALUES(?,?)').run('existingadmin', 'later-version')
+    expect(count(db)).toBe(0)
+    db.prepare('INSERT INTO account_policy_acceptances(user_id,version) VALUES(?,?)').run('pendingmember', COMMUNITY_RULES_VERSION)
+    expect(db.prepare('SELECT subscription_id,signup_id FROM push_deliveries').all()).toEqual([{ subscription_id: 'device', signup_id: 'pendingmember' }])
+  })
+  it('dispatches minute push jobs independently of five-minute welcome emails', async () => {
+    const { call, member, env, db } = await fixture(), admin = await member('cronadmin', true), receiver = await device('cron')
+    await call('/push/subscriptions', 'POST', { topic: 'signups', subscription: receiver.subscription }, admin.session)
+    env.WELCOME_MAIL_ENABLED = 'true'
+    const joined = await member('cronmember'), mailCount = mail.length
+    const jobs: Promise<unknown>[] = [], context = { waitUntil(job: Promise<unknown>) { jobs.push(job) } }
+    worker.scheduled({ cron: '* * * * *' }, env, context)
+    await Promise.all(jobs.splice(0))
+    expect(captured).toHaveLength(1); expect(count(db)).toBe(0); expect(mail).toHaveLength(mailCount)
+    expect(await decrypt(captured[0], receiver)).toMatchObject({ body: '@cronmember created an account.' })
+    worker.scheduled({ cron: '*/5 * * * *' }, env, context)
+    await Promise.all(jobs.splice(0))
+    expect(captured).toHaveLength(1)
+    expect(db.prepare('SELECT state FROM member_welcome_mail WHERE user_id=?').get(joined.id)).toEqual({ state: 'accepted' })
+    expect(mail.length).toBeGreaterThan(mailCount)
+  })
   it('requires verified membership, hides private keys, and forbids member signup subscriptions', async () => {
     const { call, member, env, db } = await fixture(), owner = await member('pushmember'), receiver = await device('member')
     expect((await call('/push/config')).status).toBe(401)
