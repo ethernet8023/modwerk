@@ -57,7 +57,7 @@ class SidechainCompressor(unittest.TestCase):
         self.assertEqual(actual, [(g['payload'], g['address'], g['words'], g['sha256']) for g in RECORD['stockGuards']])
         # It is stock COMPRESSOR: the module replaces its row and keeps its dispatch.
         menu = next(n for n in calls if n.func.id == 'MenuEntry')
-        keywords = {k.arg: ast.literal_eval(k.value) for k in menu.keywords}
+        keywords = {k.arg: ast.literal_eval(k.value) for k in menu.keywords if k.arg in ('replaces', 'stock_dsp', 'fx2_id')}
         self.assertEqual((keywords['replaces'], keywords['stock_dsp'], keywords['fx2_id']), ('COMPRESSOR', True, 0x18))
         ranges = [n for n in calls if n.func.id == 'DspRange']
         self.assertEqual([(ast.literal_eval(n.args[1]), ast.literal_eval(n.args[2])) for n in ranges],
@@ -91,7 +91,8 @@ class SidechainCompressor(unittest.TestCase):
             self.assertEqual(hashlib.sha256((FOLDER / entry['path']).read_bytes()).hexdigest(), capture['screenshots'][name])
             self.assertEqual(capture['composedImage']['screenshots'][name], capture['screenshots'][name])
         # The record's counts are the committed fingerprints' counts.
-        both = proofs('sidechain-composition-proofs.json') + proofs('sidechain-visible-proofs.json')
+        both = (proofs('sidechain-composition-proofs.json') + proofs('sidechain-visible-proofs.json')
+                + proofs('sidechain-analog-bd-proofs.json'))
         self.assertEqual(builder['composition']['selections'], len(both))
         self.assertEqual(builder['composition']['nativeBuilt'], sum('error' not in p for p in both))
         self.assertEqual(builder['composition']['nativeRefused'], sum('error' in p for p in both))

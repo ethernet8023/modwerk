@@ -6,22 +6,25 @@ import { CATALOG_SOURCE } from './modules'
 import { checkSelection } from './compatibility'
 import { selectionConflicts } from './selection-conflicts'
 import { defaultChoosers } from '../engine/choosers'
+import { parseModuleDocument, requireModuleQualificationForPublication } from './module-contract'
+import manifest from '../../sdk/octabam/modules/sidechain-compressor/octamod.module.json'
 
 const key = (ids: readonly string[], keep: boolean) => [...ids].sort().join('+') + ':' + keep
 const visible = ['miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map']
 const suites = [
-  { name: 'original eight modules', proofs: composition, scope: ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor'), expected: 512 },
-  { name: 'nine visible modules without Analog BD', proofs: visibleProofs, scope: [...visible, 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor'), expected: 1024 },
-  { name: 'Analog BD', proofs: analogProofs, scope: ['analog-bassdrum', ...visible, 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor') && ids.includes('analog-bassdrum') && [2, 3, 11].includes(ids.length), expected: 22 },
+  { name: 'original eight modules', data: composition, built: 216, scope: ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor'), expected: 512 },
+  { name: 'nine visible modules without Analog BD', data: visibleProofs, built: 798, scope: [...visible, 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor'), expected: 1024 },
+  { name: 'Analog BD', data: analogProofs, built: 0, scope: ['analog-bassdrum', ...visible, 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor') && ids.includes('analog-bassdrum') && [2, 3, 11].includes(ids.length), expected: 22 },
 ]
 const refusalClass = /overruns the region|label formatters do not fit|wide dial hook|chooser list of|not free|past the stock zero run|fits neither the clone window|stock effects only/
 
 describe('Sidechain Compressor native evidence on the shared builder', () => {
   it('covers every selection of each suite, with and without stock FX2, and holds no firmware bytes', () => {
-    for (const { name, proofs, scope, member, expected } of suites) {
-      expect(proofs.schema).toBe(1)
-      expect(proofs.revision).toBe(CATALOG_SOURCE.revision)
-      expect(proofs.staticStock).toBe(true)
+    for (const { name, data, scope, member, expected } of suites) {
+      expect(data.schema).toBe(1)
+      expect(data.revision).toBe(CATALOG_SOURCE.revision)
+      expect(data.staticStock).toBe(true)
+      const proofs = data
       const actual = new Set(proofs.proofs.map(proof => key(proof.moduleIds, proof.keepStockFx2)))
       expect(proofs.proofs, name).toHaveLength(expected)
       expect(actual.size, name).toBe(expected)
@@ -39,12 +42,13 @@ describe('Sidechain Compressor native evidence on the shared builder', () => {
     }
   })
   it('builds the same menus as the native profiles for every selection', () => {
-    for (const { proofs } of suites) for (const proof of proofs) {
+    for (const { data } of suites) for (const proof of data.proofs) {
       expect(defaultChoosers(proof.moduleIds, proof.keepStockFx2), key(proof.moduleIds, proof.keepStockFx2)).toEqual({ fx1: proof.menu.fx1, fx2: proof.menu.fx2 })
     }
   })
   it('records which selections native builds and why it refuses the others', () => {
-    for (const { name, proofs, expected, built } of suites) {
+    for (const { name, data, expected, built } of suites) {
+      const proofs = data.proofs
       expect(proofs.filter(proof => !('error' in proof)), name).toHaveLength(built)
       expect(proofs.filter(proof => 'error' in proof), name).toHaveLength(expected - built)
       for (const proof of proofs) if ('error' in proof) expect(proof.error).toMatch(refusalClass)
@@ -55,6 +59,14 @@ describe('Sidechain Compressor native evidence on the shared builder', () => {
       expect(proof, other + ' ' + keep).toBeDefined(); expect(proof).not.toHaveProperty('error')
     }
   })
+  it('builds beside every other visible module and every pair of them, in both menu modes', () => {
+    // The promise made to users: adding it never costs a selection of one or two other modules.
+    const smallSets = visibleProofs.proofs.filter(proof => proof.moduleIds.length <= 3)
+    expect(smallSets).toHaveLength(2 * (1 + visible.length + visible.length * (visible.length - 1) / 2))
+    for (const proof of smallSets) expect(proof, key(proof.moduleIds, proof.keepStockFx2)).not.toHaveProperty('error')
+    // Larger selections that fit without it still do, except where the effect menus have no room left for it.
+    for (const proof of visibleProofs.proofs) if ('error' in proof && proof.moduleIds.length > 3) expect(proof.error).toMatch(refusalClass)
+  })
   it('pins the native image of the module alone, both menu modes', () => {
     const alone = (keep: boolean) => composition.proofs.find(proof => key(proof.moduleIds, proof.keepStockFx2) === key(['sidechain-compressor'], keep))!
     expect(alone(true)).toMatchObject({ bytes: 1112560, sha256: '4fd5fcb49ed17cd4e707d407a6e42a64ec30b50aefaad3b1eeb1bb804493aef0' })
@@ -62,9 +74,12 @@ describe('Sidechain Compressor native evidence on the shared builder', () => {
   })
   it('refuses Analog BD beside it, in the site and in native alike', () => {
     for (const proof of analogProofs.proofs) {
-      expect(proof).toHaveProperty('error'); expect((proof as { error: string }).error).toMatch(/stock effects only/)
+      expect(proof).toHaveProperty('error')
+      // Native refuses it for the stock-effects rule, except where a crowded menu runs out of cave space first.
+      expect((proof as { error: string }).error).toMatch(/stock effects only|fits neither the clone window/)
       expect(selectionConflicts(proof.moduleIds, proof.keepStockFx2).map(conflict => conflict.id)).toContain('analog-bd-custom-dsp')
     }
+    expect(analogProofs.proofs.filter(proof => 'error' in proof && /stock effects only/.test(proof.error)).length).toBeGreaterThanOrEqual(20)
     expect(selectionConflicts(['sidechain-compressor', 'analog-bassdrum']).find(conflict => conflict.id === 'analog-bd-custom-dsp')?.moduleIds).toEqual(['analog-bassdrum', 'sidechain-compressor'])
     // It keeps stock COMPRESSOR and needs no stock FX2 space, so keeping stock FX2 is not a conflict for it alone.
     expect(selectionConflicts(['sidechain-compressor'], true)).toEqual([])
@@ -76,5 +91,22 @@ describe('Sidechain Compressor native evidence on the shared builder', () => {
       const result = checkSelection([...others.filter((_, bit) => mask >> bit & 1), 'sidechain-compressor'])
       expect(result.notes).toEqual([])
     }
+  })
+  it('grants the hardware-only waiver to this exact release and nothing else', () => {
+    const waived = () => parseModuleDocument(JSON.parse(JSON.stringify(manifest)))
+    expect(() => requireModuleQualificationForPublication(waived())).not.toThrow()
+    expect(waived().tests.qualification?.hardware).toMatchObject({ kind: 'owner-waived', status: 'waived', approvedBy: 'repeat98', approvedOn: '2026-10-05' })
+    expect(waived().tests.hardwareStatus).toBe('historical')
+    // Another module, another version or a reported hardware status cannot use it.
+    for (const change of [
+      (doc: ReturnType<typeof waived>) => { (doc as { id: string }).id = 'other-module' },
+      (doc: ReturnType<typeof waived>) => { (doc as { version: string }).version = '0.1.2-experimental'; doc.tests.qualification!.moduleVersion = '0.1.2-experimental' },
+      (doc: ReturnType<typeof waived>) => { (doc.tests as { hardwareStatus: string }).hardwareStatus = 'reported' },
+    ]) { const doc = waived(); change(doc); expect(() => requireModuleQualificationForPublication(doc)).toThrow('hardware-only owner approval covers only') }
+    // Both processor bounds and the sixteen-instance memory accounting stay mandatory.
+    const noColdFire = waived(); noColdFire.tests.qualification!.cycles = noColdFire.tests.qualification!.cycles.filter(cycle => cycle.processor === 'dsp')
+    expect(() => requireModuleQualificationForPublication(noColdFire)).toThrow('both processor bounds')
+    const fewer = waived(); fewer.tests.qualification!.memory.maxInstances = 15
+    expect(() => requireModuleQualificationForPublication(fewer)).toThrow()
   })
 })
