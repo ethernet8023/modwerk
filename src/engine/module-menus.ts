@@ -1,6 +1,7 @@
 import { requestedRom, requestedTables, requestedHooks } from './requested-modules.ts'
 import { composeUtilityRom } from './utility-modules.ts'
 import type { CfRuntimeLink } from './coldfire-link.ts'
+import descriptorRecipes from './assets/descriptor-recipes.json' with { type: 'json' }
 import recipes from './assets/menu-recipes.json' with { type: 'json' }
 import { CATALOG_SOURCE, resolveSelection } from '../catalog/modules.ts'
 import { composeDescriptors } from './descriptors.ts'
@@ -48,6 +49,25 @@ export async function composeModuleMenus(original: Uint8Array, ids: readonly str
         } else throw new Error('A Repitch patch has an unsupported kind.')
       }
       writes.push({ address: patch.address, guardLength: patch.guardLength, guardSha256: patch.guardSha256, bytes, note: patch.note }); regions.push({ address: patch.address, bytes: bytes.length, note: patch.note })
+    }
+  }
+  for (const descriptor of baseline.descriptors) {
+    const recipe = descriptorRecipes.recipes.find(recipe => recipe.id === descriptor.id)!
+    if (!('rawPointers' in recipe)) continue
+    const symbols = new Map<string, number>()
+    for (const unit of [...new Set(recipe.rawPointers.map(pointer => pointer.unit))]) {
+      let address = align(cursor, 128), linked = linkRomText(await readRomPackage(unit), address)
+      const inside = address + linked.bytes.length <= caveLimit
+      if (!inside) { address = align(overflow, 4); linked = linkRomText(await readRomPackage(unit), address) }
+      await cave(address, linked.bytes, descriptor.id + ' ' + unit + ' ROM unit')
+      for (const [name, value] of linked.symbols) symbols.set(unit + ':' + name, value)
+      if (inside) cursor = address + linked.bytes.length
+      else overflow = align(address + linked.bytes.length, 4)
+    }
+    for (const field of recipe.rawPointers) {
+      const address = symbols.get(field.unit + ':' + field.symbol)
+      if (address === undefined || !Number.isInteger(field.offset) || field.offset < 0 || field.offset + 4 > descriptor.bytes.length) throw new Error('A raw descriptor pointer has no linked symbol.')
+      new DataView(descriptor.bytes.buffer).setUint32(field.offset, address)
     }
   }
   const rom = await requestedRom(ids, cursor, overflow, caveLimit, cave)

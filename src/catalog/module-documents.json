@@ -280,10 +280,10 @@
         ]
       },
       "resources": {
-        "recorded": "26–27 Sep 2026",
+        "recorded": "26\u201327 Sep 2026",
         "storage": {
           "label": "DSP buffer",
-          "display": "2 × 1,024 words",
+          "display": "2 \u00d7 1,024 words",
           "value": null,
           "unit": "see display",
           "method": "static",
@@ -292,7 +292,7 @@
         },
         "processing": {
           "label": "DSP estimate",
-          "display": "298–354",
+          "display": "298\u2013354",
           "value": null,
           "unit": "see display",
           "method": "static",
@@ -364,7 +364,7 @@
           "Compression, tone and stereo width"
         ],
         "usage": [
-          "Choose CHARACTER in FX1. Its fixed chain is fold → saturate → tone → compress → width → mix.",
+          "Choose CHARACTER in FX1. Its fixed chain is fold \u2192 saturate \u2192 tone \u2192 compress \u2192 width \u2192 mix.",
           "SAT selects tape, tube or inflator character; DRV sets the drive amount. FOLD adds wavefolding before saturation.",
           "KEY selects the compressor source. WDTH at 64 keeps the original width, 0 is mono. Start with MIX low when exploring stronger drive or fold."
         ]
@@ -531,9 +531,9 @@
       },
       "author": {
         "github": "repeat98",
-        "name": "Jannik Aßfalg",
+        "name": "Jannik A\u00dffalg",
         "credits": [
-          "Jannik Aßfalg",
+          "Jannik A\u00dffalg",
           "octabam: Sam Banks; additional source attribution in SDK THIRD_PARTY.md"
         ]
       },
@@ -724,9 +724,9 @@
       },
       "author": {
         "github": "repeat98",
-        "name": "Jannik Aßfalg",
+        "name": "Jannik A\u00dffalg",
         "credits": [
-          "Jannik Aßfalg",
+          "Jannik A\u00dffalg",
           "octabam: Sam Banks; additional source attribution in SDK THIRD_PARTY.md"
         ]
       },
@@ -919,9 +919,9 @@
       },
       "author": {
         "github": "repeat98",
-        "name": "Jannik Aßfalg",
+        "name": "Jannik A\u00dffalg",
         "credits": [
-          "Jannik Aßfalg",
+          "Jannik A\u00dffalg",
           "octabam: Sam Banks; additional source attribution in SDK THIRD_PARTY.md"
         ]
       },
@@ -1368,9 +1368,9 @@
       },
       "author": {
         "github": "repeat98",
-        "name": "Jannik Aßfalg",
+        "name": "Jannik A\u00dffalg",
         "credits": [
-          "Jannik Aßfalg",
+          "Jannik A\u00dffalg",
           "octabam: Sam Banks; additional source attribution in SDK THIRD_PARTY.md"
         ]
       },
@@ -1388,7 +1388,7 @@
         "usage": [
           "For a Flex or Static track, open SRC SETUP and choose RPCH in TSTR. Alternatively set the sample attribute to REPITCH and use AUTO on the track.",
           "Playback speed follows project BPM divided by sample BPM. A 120 BPM loop at 90 BPM plays lower and lasts longer.",
-          "PTCH is disabled for Repitch, but RATE still applies. Pickup machines are not supported; sample tempo must be 30–300 BPM and playback speed is capped at 2×."
+          "PTCH is disabled for Repitch, but RATE still applies. Pickup machines are not supported; sample tempo must be 30\u2013300 BPM and playback speed is capped at 2\u00d7."
         ]
       },
       "controls": [],
@@ -1489,7 +1489,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "fd48ea8b84227dfbd31ed2824661087ddfe53d9ade8c82535e5da43c9a41fd38",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; original two-second 44.1 kHz mono PCM sample on a temporary scratch card; actual 128×64 LCD at integer scale 6."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; original two-second 44.1 kHz mono PCM sample on a temporary scratch card; actual 128\u00d764 LCD at integer scale 6."
           }
         },
         {
@@ -1506,7 +1506,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "fd48ea8b84227dfbd31ed2824661087ddfe53d9ade8c82535e5da43c9a41fd38",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; original two-second 44.1 kHz mono PCM sample on a temporary scratch card; actual 128×64 LCD at integer scale 6."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; original two-second 44.1 kHz mono PCM sample on a temporary scratch card; actual 128\u00d764 LCD at integer scale 6."
           }
         }
       ]
@@ -1695,7 +1695,7 @@
                 "parameterModulation": "Both-core benchmark changes every active parameter at every 16-sample block; all 16 trigger splits. LFO, p-lock, CC and scene edits converge on these same parameter words. Hardware p-lock operation is author-reported.",
                 "modeSwitching": "COLOR branch paths are bounded; two processing calls per block cover a trigger split, with reselection init charged separately. NONE bypass reduces work. Part/recovery behavior was not measured on hardware.",
                 "maxLoad": "Eight inserts per core, FX1 and FX2 on each of four tracks, sixteen total. The static model includes control updates, a split and initialization; eight-FX2-instance render covers both cores. Standard dispatcher/streaming reserve is deducted from the core budget. Bus stalls are not measured.",
-                "inputConditions": "Reference render covers silence, impulses, steps and 220 Hz–12 kHz tones. The sample loop and saturating stores contain no signal-dependent control transfers; full-scale input has the same instruction path."
+                "inputConditions": "Reference render covers silence, impulses, steps and 220 Hz\u201312 kHz tones. The sample loop and saturating stores contain no signal-dependent control transfers; full-scale input has the same instruction path."
               },
               "report": "evidence/cycles.md"
             }
@@ -1836,7 +1836,7 @@
           "Select an audio track with its TRACK key.",
           "Hold FUNC and press SRC to open SRC SETUP. Use DOWN to reach ANALOG BD, then press YES to assign it.",
           "Press SRC to close SETUP and edit the main controls. The 808 model uses PITCH, DECAY, TONE, ATK, SWEEP and SAT; the 909 uses TUNE and TDEP in place of TONE and SWEEP.",
-          "Double-tap the assigned track’s TRACK key to open the engine browser. Choose 808 or 909 with UP/DOWN or LEVEL, then press YES. Selecting a model retains the existing knob settings.",
+          "Double-tap the assigned track\u2019s TRACK key to open the engine browser. Choose 808 or 909 with UP/DOWN or LEVEL, then press YES. Selecting a model retains the existing knob settings.",
           "Hold FUNC and press SRC for the shared ACCNT, LPF, LOW and HIGH controls. AMP and the track FX pages remain available."
         ],
         "screenshots": [
@@ -1849,7 +1849,7 @@
       },
       "author": {
         "github": "repeat98",
-        "name": "Jannik Aßfalg",
+        "name": "Jannik A\u00dffalg",
         "credits": [
           "repeat98: original 808/909 fixed-point engines and machine integration",
           "Sam Banks: octabam composition infrastructure"
@@ -1877,7 +1877,7 @@
           "name": "PITCH",
           "default": 64,
           "count": 128,
-          "doc": "808 body pitch; 909 body frequency spans approximately 30–100 Hz.",
+          "doc": "808 body pitch; 909 body frequency spans approximately 30\u2013100 Hz.",
           "labels": null
         },
         {
@@ -1972,7 +1972,7 @@
         },
         "processing": {
           "label": "DSP execution",
-          "display": "808: 220.94 · 909: 326.13",
+          "display": "808: 220.94 \u00b7 909: 326.13",
           "value": null,
           "unit": "instructions/sample",
           "method": "emulator",
@@ -2037,14 +2037,14 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
           "path": "media/ot-engines.png",
           "captureType": "emulator",
-          "caption": "Analog BD’s engine browser: choose 808 or 909, then press YES.",
-          "alt": "Analog BD’s engine browser: choose 808 or 909, then press YES.",
+          "caption": "Analog BD\u2019s engine browser: choose 808 or 909, then press YES.",
+          "alt": "Analog BD\u2019s engine browser: choose 808 or 909, then press YES.",
           "credit": "Octamod contributors (headless capture)",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -2054,7 +2054,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
@@ -2071,7 +2071,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
@@ -2088,7 +2088,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
@@ -2105,7 +2105,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         }
       ]
@@ -2299,7 +2299,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
@@ -2316,7 +2316,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
@@ -2333,7 +2333,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
@@ -2350,7 +2350,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
@@ -2367,7 +2367,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
@@ -2384,14 +2384,14 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
           "path": "media/ot-lfo.png",
           "captureType": "emulator",
-          "caption": "MIDI LFO: SPD1–3 and DEP1–3.",
-          "alt": "MIDI LFO: SPD1–3 and DEP1–3.",
+          "caption": "MIDI LFO: SPD1\u20133 and DEP1\u20133.",
+          "alt": "MIDI LFO: SPD1\u20133 and DEP1\u20133.",
           "credit": "Octamod contributors (headless capture)",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -2401,14 +2401,14 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         },
         {
           "path": "media/ot-control2.png",
           "captureType": "emulator",
-          "caption": "MIDI CONTROL 2: CC5–10 inactive at OFF.",
-          "alt": "MIDI CONTROL 2: CC5–10 inactive at OFF.",
+          "caption": "MIDI CONTROL 2: CC5\u201310 inactive at OFF.",
+          "alt": "MIDI CONTROL 2: CC5\u201310 inactive at OFF.",
           "credit": "Octamod contributors (headless capture)",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -2418,7 +2418,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.2.4-experimental",
             "imageSha256": "debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no external MIDI receiver; channel OFF."
           }
         }
       ]
@@ -2436,15 +2436,15 @@
         "path": "modules/usb-audio-out-tracks-main-cue"
       },
       "access": {
-        "location": "The Octatrack USB port and your recording host’s audio input selector.",
+        "location": "The Octatrack USB port and your recording host\u2019s audio input selector.",
         "steps": [
           "Include USB Audio in the firmware configuration. This source import is still pending verification.",
-          "Connect the Octatrack’s USB port to your recording host using high-speed USB for all twenty channels.",
-          "Choose the Octatrack USB audio input in your recording software. Channels 1–16 are the eight track stereo pairs, 17–18 MAIN and 19–20 CUE.",
-          "Allow the stream to settle before recording; upstream reports reordered startup samples around 0.5–1.5 seconds after opening."
+          "Connect the Octatrack\u2019s USB port to your recording host using high-speed USB for all twenty channels.",
+          "Choose the Octatrack USB audio input in your recording software. Channels 1\u201316 are the eight track stereo pairs, 17\u201318 MAIN and 19\u201320 CUE.",
+          "Allow the stream to settle before recording; upstream reports reordered startup samples around 0.5\u20131.5 seconds after opening."
         ],
         "screenshots": [],
-        "noUiReason": "This automatic USB output contribution adds no dedicated OT page, chooser entry or panel controls. Access is through the USB connection and the host’s audio input selector. The reviewer must verify this absence of OT UI against the pinned source before publication."
+        "noUiReason": "This automatic USB output contribution adds no dedicated OT page, chooser entry or panel controls. Access is through the USB connection and the host\u2019s audio input selector. The reviewer must verify this absence of OT UI against the pinned source before publication."
       },
       "author": {
         "github": "markandrus",
@@ -2460,16 +2460,16 @@
         "label": "20 CHANNELS",
         "family": "USB audio",
         "summary": "Record eight stereo tracks, MAIN and CUE over USB at 44.1 kHz and 24 bits.",
-        "overview": "This is octabam’s 20-channel USB output implementation. At high speed it sends each track after its effects and before its fader, plus the final MAIN and CUE buses. At full speed it sends the tracks’ stereo sum. Required USB MIDI support is included in the SDK source.",
+        "overview": "This is octabam\u2019s 20-channel USB output implementation. At high speed it sends each track after its effects and before its fader, plus the final MAIN and CUE buses. At full speed it sends the tracks\u2019 stereo sum. Required USB MIDI support is included in the SDK source.",
         "highlights": [
           "20 channels at high speed: eight tracks plus MAIN and CUE",
           "44.1 kHz, 24-bit class-compliant UAC2 output",
           "Recorded hardware evidence on both MKI and MKII"
         ],
         "usage": [
-          "Connect the Octatrack’s USB port to your recording host and choose its USB audio input. Use high-speed USB for all twenty channels.",
-          "Channels 1–16 are track 1–8 stereo pairs, 17–18 MAIN, and 19–20 CUE. Track channels are post-effects and pre-fader; MAIN/CUE include the mixdown.",
-          "Allow the stream to settle before recording: upstream reports reordered startup samples around 0.5–1.5 seconds after opening. Full-speed USB carries a stereo track sum."
+          "Connect the Octatrack\u2019s USB port to your recording host and choose its USB audio input. Use high-speed USB for all twenty channels.",
+          "Channels 1\u201316 are track 1\u20138 stereo pairs, 17\u201318 MAIN, and 19\u201320 CUE. Track channels are post-effects and pre-fader; MAIN/CUE include the mixdown.",
+          "Allow the stream to settle before recording: upstream reports reordered startup samples around 0.5\u20131.5 seconds after opening. Full-speed USB carries a stereo track sum."
         ]
       },
       "controls": [],
@@ -2498,7 +2498,7 @@
           "value": 90112,
           "unit": "bytes",
           "method": "static",
-          "conditions": "Two rings: 1,024 × 80 bytes plus 1,024 × 8 bytes = 90,112 bytes (88 KiB). Four 32-byte dTDs and four 960-byte packet buffers add 3,968 bytes, before code and MIDI state.",
+          "conditions": "Two rings: 1,024 \u00d7 80 bytes plus 1,024 \u00d7 8 bytes = 90,112 bytes (88 KiB). Four 32-byte dTDs and four 960-byte packet buffers add 3,968 bytes, before code and MIDI state.",
           "source": "README.md"
         },
         "processing": {
@@ -2568,7 +2568,7 @@
           "Use UP/DOWN to select CONTROL, then press RIGHT to enter its list.",
           "Select SEQUENCER with UP/DOWN and press YES.",
           "Scroll DOWN to SCALE and turn LEVEL to choose a scale. OFF restores stock pitch behavior.",
-          "Scroll to ROOT and turn LEVEL to select the key. GLIDE is the next row; its effect depends on the track’s LEG setting."
+          "Scroll to ROOT and turn LEVEL to select the key. GLIDE is the next row; its effect depends on the track\u2019s LEG setting."
         ],
         "screenshots": [
           "media/ot-location.png",
@@ -2593,7 +2593,7 @@
         "overview": "Scale Quantizer adds SCALE, ROOT and GLIDE to PROJECT > CONTROL > SEQUENCER. Pitch turns and parameter locks move through scale degrees, and chromatic trig keys snap to the chosen scale. ROOT transposes the scale and keyboard. SCALE OFF restores stock pitch behavior.",
         "highlights": [
           "24 scales plus OFF",
-          "Selectable root C–B",
+          "Selectable root C\u2013B",
           "Pitch knob, parameter locks and chromatic keys follow the scale"
         ],
         "usage": [
@@ -2660,7 +2660,7 @@
           "name": "GLIDE",
           "default": 0,
           "count": 128,
-          "doc": "OFF or 1–127 slide time; the track LEG setting controls legato. Synth features require the separate SYNTH MACHINE module.",
+          "doc": "OFF or 1\u2013127 slide time; the track LEG setting controls legato. Synth features require the separate SYNTH MACHINE module.",
           "labels": null
         }
       ],
@@ -2672,7 +2672,7 @@
         "limitations": [
           "Sample pitch quantization works on Flex, Static and Pickup; RATE is not a semitone control.",
           "Synth polyphony and synth-specific tuning/glide depend on SYNTH MACHINE, which is outside this catalog.",
-          "v2.9’s last fixes have emulator evidence; the earlier MKI result does not qualify the complete current pin."
+          "v2.9\u2019s last fixes have emulator evidence; the earlier MKI result does not qualify the complete current pin."
         ]
       },
       "resources": {
@@ -2744,7 +2744,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
@@ -2761,7 +2761,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
@@ -2778,7 +2778,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         },
         {
@@ -2795,7 +2795,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2e5abefa1484788a6953db45e111b266a1f31d810fb45fa7155104a9780e8d3e",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Empty scratch card; no samples or user projects."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Empty scratch card; no samples or user projects."
           }
         }
       ]
@@ -2915,7 +2915,7 @@
       },
       "tests": {
         "report": "TESTING.md",
-        "summary": "Native/browser byte parity passed for all 1,024 supported selections: 522 exact images and 502 matching refusals. Eight full native upgrades and actual browser downloads match. Authored assembly/relocation and MKII LCD documentation checked. Physical stress, audio behavior and chip timing remain untested/unmeasured under the owner’s exact-version waiver.",
+        "summary": "Native/browser byte parity passed for all 1,024 supported selections: 522 exact images and 502 matching refusals. Eight full native upgrades and actual browser downloads match. Authored assembly/relocation and MKII LCD documentation checked. Physical stress, audio behavior and chip timing remain untested/unmeasured under the owner\u2019s exact-version waiver.",
         "hardwareStatus": "untested",
         "evidenceRevision": "906fc354536d9a1d6ccd90a87fcf3c1f6edb6488",
         "gates": [
@@ -2968,7 +2968,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -2985,7 +2985,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3002,7 +3002,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3019,7 +3019,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3036,7 +3036,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3053,7 +3053,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3070,7 +3070,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "a19a0bf4352a6ebf98546cf33f68e44cbd101757ec16b17ca44efdfa49215302",
-            "setup": "Headless ot_emu; MKII panel; stopped transport; 128×64 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6. Original 440 Hz fixture; project-load/date preflight passed; black-and-white actual pixels. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         }
       ]
@@ -3088,11 +3088,11 @@
         "path": "modules/cc-map"
       },
       "access": {
-        "location": "MKII: PROJ > MIDI > CONTROL enables AUDIO CC IN; MIDI > CHANNELS sets the audio track’s TRIG CH. FUNC+FX1 opens effect page-2 SETUP.",
+        "location": "MKII: PROJ > MIDI > CONTROL enables AUDIO CC IN; MIDI > CHANNELS sets the audio track\u2019s TRIG CH. FUNC+FX1 opens effect page-2 SETUP.",
         "steps": [
           "On the MKII panel, press PROJ. Select MIDI with UP/DOWN and press RIGHT to enter its list.",
           "Select CONTROL and press YES. Select AUDIO CC IN and turn LEVEL until its checkbox is enabled.",
-          "Press NO to return to MIDI, select CHANNELS and press YES. Match the target audio track’s TRIG CH to the external controller. The captured T1 uses channel 1; AUTO CH 11 is a different setting.",
+          "Press NO to return to MIDI, select CHANNELS and press YES. Match the target audio track\u2019s TRIG CH to the external controller. The captured T1 uses channel 1; AUTO CH 11 is a different setting.",
           "Press NO twice to return to the track. Press T1, then hold FUNC and press FX1 for FX1 SETUP. Turn LEVEL to FILTER and press YES to assign it.",
           "FILTER SETUP shows page-2 HP, LP, ENV, HOLD, Q and DIST. Send CC 68 value 1 on channel 1 to change HP from 12 dB to 24 dB.",
           "Close SETUP with FX1 and reopen with FUNC+FX1 to refresh the displayed HP value.",
@@ -3118,17 +3118,17 @@
       "presentation": {
         "label": "MIDI CC to effect page 2",
         "family": "Incoming MIDI control",
-        "summary": "Map MIDI CC 68–73 to FX1 SETUP controls on audio tracks. Uses no effect slot.",
+        "summary": "Map MIDI CC 68\u201373 to FX1 SETUP controls on audio tracks. Uses no effect slot.",
         "overview": "CC Map maps incoming MIDI CCs on audio tracks' trig channels to effect page-2 parameters, respecting AUDIO CC IN and clamping values. It writes Part, live and shadow values and marks the Part changed.",
         "highlights": [
-          "CC 68–73 address FX1 page-2 slots 6–11 for a non-NONE FX1.",
+          "CC 68\u201373 address FX1 page-2 slots 6\u201311 for a non-NONE FX1.",
           "Writes every audio track whose trig channel matches the message.",
           "Clamps values using the target effect's parameter limits.",
-          "Passes CCs outside 62–73 to the next handler."
+          "Passes CCs outside 62\u201373 to the next handler."
         ],
         "usage": [
           "On the verified MKII emulator panel, press PROJ, choose MIDI, press RIGHT, choose CONTROL and press YES. Enable AUDIO CC IN with LEVEL.",
-          "In MIDI > CHANNELS, match the target audio track’s TRIG CH to the controller. The captured T1 uses channel 1, independently of AUTO CH 11.",
+          "In MIDI > CHANNELS, match the target audio track\u2019s TRIG CH to the controller. The captured T1 uses channel 1, independently of AUTO CH 11.",
           "Select T1 and FILTER in FUNC+FX1 SETUP. Send CC 68 value 1 on channel 1, then close/reopen SETUP: HP changes from 12 dB to 24 dB. Physical audio and save/reload behavior remain untested."
         ]
       },
@@ -3139,9 +3139,9 @@
         "location": "Audio tracks",
         "conflicts": [],
         "limitations": [
-          "CC 62–67 write FX2 page 2 only for BusDelay/BusVerb, which are outside scope and not imported. Current catalog/stock FX2 support is not claimed.",
-          "CC 62–73 are consumed even if AUDIO CC IN is disabled or the track's effect has no eligible target.",
-          "CC 64–67 overlap common sustain/portamento/sostenuto/soft-pedal messages.",
+          "CC 62\u201367 write FX2 page 2 only for BusDelay/BusVerb, which are outside scope and not imported. Current catalog/stock FX2 support is not claimed.",
+          "CC 62\u201373 are consumed even if AUDIO CC IN is disabled or the track's effect has no eligible target.",
+          "CC 64\u201367 overlap common sustain/portamento/sostenuto/soft-pedal messages.",
           "Upstream MODE DEFAULTS and SCENES KITS overrides are not imported or enabled.",
           "Upstream leaves hardware SCENES KITS chaining and FX1-to-DSP updates on THRU tracks open.",
           "Released with owner approval for software verification only: real hardware stress and chip worst-case timing are untested/unmeasured. The waiver covers this version only.",
@@ -3192,7 +3192,7 @@
       },
       "tests": {
         "report": "TESTING.md",
-        "summary": "Native/browser byte parity passed for all 1,024 supported selections: 522 exact images and 502 matching refusals. Eight full native upgrades and actual browser downloads match. Authored assembly/relocation and MKII LCD documentation checked. Physical stress, audio behavior and chip timing remain untested/unmeasured under the owner’s exact-version waiver.",
+        "summary": "Native/browser byte parity passed for all 1,024 supported selections: 522 exact images and 502 matching refusals. Eight full native upgrades and actual browser downloads match. Authored assembly/relocation and MKII LCD documentation checked. Physical stress, audio behavior and chip timing remain untested/unmeasured under the owner\u2019s exact-version waiver.",
         "hardwareStatus": "untested",
         "evidenceRevision": "8d0ad6f4f82c2efbc10e1c65eefbce0ad1cec4bf",
         "gates": [
@@ -3210,7 +3210,7 @@
             "tutorial": {
               "title": "Try an FX1 setup parameter",
               "steps": [
-                "Enable AUDIO CC IN in PROJ > MIDI > CONTROL. In MIDI > CHANNELS, set T1’s TRIG CH to 1 and send from the controller on channel 1.",
+                "Enable AUDIO CC IN in PROJ > MIDI > CONTROL. In MIDI > CHANNELS, set T1\u2019s TRIG CH to 1 and send from the controller on channel 1.",
                 "Select T1 and FILTER in FUNC+FX1 SETUP. Send CC 68 value 1 on channel 1 to change the first setup parameter, HP, from 12 dB to 24 dB.",
                 "Close SETUP with FX1 and reopen with FUNC+FX1 to refresh the display. Send CC 68 value 0 to restore 12 dB; disable AUDIO CC IN to stop incoming control."
               ]
@@ -3230,7 +3230,7 @@
       "license": {
         "spdx": "MIT",
         "file": "LICENSE",
-        "declaration": "Sam Banks’ full MIT licence and exact source pin are preserved; a lazy local stock-vector guard supplies no firmware bytes. The original Octamod thumbnail is MIT under media/LICENSE.md. Original emulator LCD captures use LicenseRef-OT-UI-Documentation with underlying Elektron rights reserved. No firmware, extracted routines/tables or generated native output is included. Contributor declaration and owner/reviewer verification of rights and actual reports remain required before publication; review is not automatic legal clearance."
+        "declaration": "Sam Banks\u2019 full MIT licence and exact source pin are preserved; a lazy local stock-vector guard supplies no firmware bytes. The original Octamod thumbnail is MIT under media/LICENSE.md. Original emulator LCD captures use LicenseRef-OT-UI-Documentation with underlying Elektron rights reserved. No firmware, extracted routines/tables or generated native output is included. Contributor declaration and owner/reviewer verification of rights and actual reports remain required before publication; review is not automatic legal clearance."
       },
       "media": [
         {
@@ -3247,7 +3247,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2ca87b1313e1f6a1776eb11314dfd2082ec273fad3fa8c0432dc23a35ab59812",
-            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128×64 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128\u00d764 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3264,14 +3264,14 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2ca87b1313e1f6a1776eb11314dfd2082ec273fad3fa8c0432dc23a35ab59812",
-            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128×64 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128\u00d764 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
           "path": "media/ot-channels.png",
           "captureType": "emulator",
-          "caption": "T1 TRIG CH is 1. AUTO CH 11 is a separate setting; match the controller to the audio track’s trig channel.",
-          "alt": "T1 TRIG CH is 1. AUTO CH 11 is a separate setting; match the controller to the audio track’s trig channel.",
+          "caption": "T1 TRIG CH is 1. AUTO CH 11 is a separate setting; match the controller to the audio track\u2019s trig channel.",
+          "alt": "T1 TRIG CH is 1. AUTO CH 11 is a separate setting; match the controller to the audio track\u2019s trig channel.",
           "credit": "Octamod contributors (headless capture)",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -3281,7 +3281,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2ca87b1313e1f6a1776eb11314dfd2082ec273fad3fa8c0432dc23a35ab59812",
-            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128×64 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128\u00d764 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3298,7 +3298,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2ca87b1313e1f6a1776eb11314dfd2082ec273fad3fa8c0432dc23a35ab59812",
-            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128×64 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128\u00d764 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3315,7 +3315,7 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2ca87b1313e1f6a1776eb11314dfd2082ec273fad3fa8c0432dc23a35ab59812",
-            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128×64 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128\u00d764 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
           }
         },
         {
@@ -3332,7 +3332,456 @@
             "firmware": "1.40C",
             "moduleVersion": "0.1.2-experimental",
             "imageSha256": "2ca87b1313e1f6a1776eb11314dfd2082ec273fad3fa8c0432dc23a35ab59812",
-            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128×64 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+            "setup": "Isolated Linux ot_emu; MKII panel; stopped transport; fresh empty scratch FAT card; actual 128\u00d764 LCD pixels at integer scale 6 with monochrome on/off palette. Stock effects plus CC MAP only; no audio/hardware qualification. Actual 0.1.1 capture retained for the 0.1.2 documentation/browser release: assembly and native manifest hashes are unchanged; original version/build provenance remains in media/capture.json."
+          }
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "id": "sidechain-compressor",
+      "key": "SIDECHAIN_COMPRESSOR",
+      "name": "Sidechain Compressor",
+      "version": "0.1.1-experimental",
+      "category": "effects",
+      "source": {
+        "repository": "https://github.com/sambanks/octabam",
+        "revision": "f80ecfeabc187a33403588678e707443161afc96",
+        "path": "modules/sidechain-compressor"
+      },
+      "author": {
+        "github": "Zac-Kyoti",
+        "name": "Zac Kyoti",
+        "credits": [
+          "Zac-Kyoti and the OT Kyoti FW contributors: original ColdFire/DSP source and coefficient generator, MIT.",
+          "Sam Banks (@sambanks): octabam integration and stock-preserving module composition, MIT.",
+          "Modwerk contributors: fingerprint-only stock guards, documentation, original thumbnail and emulator captures."
+        ]
+      },
+      "nativeManifest": "manifest.py",
+      "presentation": {
+        "label": "TRACK-KEYED COMPRESSION",
+        "family": "Dynamics",
+        "summary": "Drive the stock COMPRESSOR detector from any audio track, with key filtering, gain and audition controls.",
+        "overview": "The stock COMPRESSOR gains KEY, KFLT, KGN and MON beside RMS on its SETUP page. Choose T1-T8 as the detector input, filter and adjust the key, or audition it on the receiving track.",
+        "highlights": [
+          "KEY selects OFF or any of T1-T8, including the other DSP core.",
+          "KFLT provides low-pass, bypass and high-pass key filtering.",
+          "KGN applies a smoothed, stepped detector gain; 64 is unity.",
+          "MON auditions the processed key on the receiving track.",
+          "Stock ATK, REL, THRS, RAT, GAIN, MIX and RMS remain available."
+        ],
+        "usage": [
+          "Select COMPRESSOR in FUNC + FX1/FX2 SETUP with LEVEL and YES.",
+          "Hold FUNC and press the selected FX button to open SETUP; choose the key with encoder C.",
+          "Turn MON off before normal listening; KEY OFF restores self-keying."
+        ]
+      },
+      "access": {
+        "location": "Audio track FX1 or FX2: COMPRESSOR in FUNC + FX SETUP; main compression controls on page 1; RMS and KEY/KFLT/KGN/MON on page 2.",
+        "steps": [
+          "Select the receiving audio track. Hold FUNC and press FX1 or FX2 to open its SETUP chooser.",
+          "Turn LEVEL to COMPRESSOR and press YES. The visible name stays COMPRESSOR; the sidechain build replaces that stock row on both FX menus.",
+          "Press the selected FX button for ATK, REL, THRS, RAT, GAIN and MIX. Hold FUNC and press that FX button for SETUP with RMS, KEY, KFLT, KGN and MON.",
+          "In SETUP use encoder C for KEY, D for KFLT, E for KGN and F for MON. The unnamed inherited descriptor slot is not a new sidechain control.",
+          "Set KEY to OFF and MON to OFF to restore self-keying; choose NONE to remove the effect."
+        ],
+        "screenshots": [
+          "media/ot-compressor-selection.png",
+          "media/ot-compressor-main.png",
+          "media/ot-sidechain-key-selected.png"
+        ]
+      },
+      "controls": [
+        {
+          "name": "ATK",
+          "default": 64,
+          "count": 128,
+          "doc": "Stock attack control, raw 0-127; determines how quickly compression engages. Exact time mapping is inherited from stock.",
+          "labels": null
+        },
+        {
+          "name": "REL",
+          "default": 64,
+          "count": 128,
+          "doc": "Stock release control, raw 0-127; determines recovery after detector level falls.",
+          "labels": null
+        },
+        {
+          "name": "THRS",
+          "default": 127,
+          "count": 128,
+          "doc": "Stock threshold, raw 0-127; lower it until the selected key causes gain reduction.",
+          "labels": null
+        },
+        {
+          "name": "RAT",
+          "default": 0,
+          "count": 128,
+          "doc": "Stock compression ratio, raw 0-127; raise it to increase compression.",
+          "labels": null
+        },
+        {
+          "name": "GAIN",
+          "default": 0,
+          "count": 128,
+          "doc": "Stock output make-up gain, raw 0-127. This is distinct from KGN, which changes the detector input.",
+          "labels": null
+        },
+        {
+          "name": "MIX",
+          "default": 127,
+          "count": 128,
+          "doc": "Stock dry/wet balance, raw 0-127; 127 is fully processed and 0 is dry.",
+          "labels": null
+        },
+        {
+          "name": "RMS",
+          "default": 0,
+          "count": 128,
+          "doc": "Stock RMS detector control, raw 0-127; retained on page 2 without changing its implementation.",
+          "labels": null
+        },
+        {
+          "name": "KEY",
+          "default": 0,
+          "count": 9,
+          "doc": "OFF restores self-keyed stock detection; 1-8 selects absolute T1-T8, including tracks on the other DSP core.",
+          "labels": [
+            "OFF",
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7",
+            "T8"
+          ]
+        },
+        {
+          "name": "KFLT",
+          "default": 64,
+          "count": 128,
+          "doc": "0-63 low-pass; 64 bypass; 65-127 high-pass. LCD shows LP/OFF/HP. One-pole filter uses a 32-entry 40-2200 Hz table and special near-bypass edges; no exact cutoff readout.",
+          "labels": null
+        },
+        {
+          "name": "KGN",
+          "default": 64,
+          "count": 128,
+          "doc": "Raw 0-127 about unity at 64. Sixteen 8-value buckets yield -24 to +21 dB in 3 dB steps; the gain is smoothed with a nominal 5 ms block-rate time constant. LCD displays the stock bipolar raw offset, not dB.",
+          "labels": null
+        },
+        {
+          "name": "MON",
+          "default": 0,
+          "count": 2,
+          "doc": "OFF is normal compression; ON plays the processed key on this receiving track instead of its output, after both effects. MON requires a selected KEY.",
+          "labels": [
+            "OFF",
+            "ON"
+          ]
+        }
+      ],
+      "compatibility": {
+        "firmware": "1.40C",
+        "effectId": 24,
+        "location": "FX1 / FX2",
+        "conflicts": [
+          "midi-scenes"
+        ],
+        "limitations": [
+          "Draft: not published or selectable in Modwerk until qualification and package integration pass.",
+          "Replaces COMPRESSOR on both FX menus with the same stock effect ID 0x18; the visible effect name remains COMPRESSOR.",
+          "The verified native profile gives up SPRING REV for code space. Reassign old SPRING REV slots before using it; do not assume project compatibility across remixes.",
+          "Core-private keybus and cross-core window overlap BusDelay/BusVerb. Their combination must be refused by the native resource ledger.",
+          "MUTE_MODES is not imported here. The author reports that muted-key behavior with MUTE_MODES needs its matching integration variant.",
+          "Cross-core keys use a buffered shared window. Core rate-locking and real-time race behavior require hardware qualification; no exact hardware latency is claimed.",
+          "The fixed-key MON stash is indexed by the source track. Simultaneous compressors sharing one KEY with different key processing need explicit interaction testing.",
+          "No current Modwerk hardware or maximum-load result is claimed. MKII panel captures do not qualify audio, transport or MKI operation.",
+          "Standalone native profile only; select no companion module. SPRING REV is removed; remaining stock effects retain their native rows.",
+          "No Core Logger is appended to this exact native profile.",
+          "Cycle bounds are conditional software models; current-image physical hardware and silicon wall-clock timing remain unverified."
+        ]
+      },
+      "resources": {
+        "recorded": "2026-10-05; software/static qualification and owner hardware-only approval",
+        "storage": {
+          "label": "Declared DSP reservation",
+          "display": "23,292 logical bytes / 16 instances",
+          "value": 23292,
+          "unit": "bytes",
+          "method": "static",
+          "conditions": "Full native standalone reservation including inherited stock state/scratch and complete hardware DSP stack capacity; no new heap, SDRAM or delay buffer. Stock RTOS/UI frames remain inherited. See exact addresses in TESTING.md.",
+          "source": "TESTING.md"
+        },
+        "processing": {
+          "label": "Worst-case processing",
+          "display": "6,196 cycles/block bound",
+          "value": 6196,
+          "unit": "cycles/block",
+          "method": "static",
+          "conditions": "One instance plus shared tap/MON work, all branches with 2x instruction-model allowance; sixteen-slot core upper 69,496 includes stock reserve.",
+          "source": "TESTING.md"
+        },
+        "impact": {
+          "conditions": "Standalone sixteen-slot compressor configuration; bounds are conditional software estimates. No arbitrary whole-device utilization claim.",
+          "cpu": {
+            "level": "low",
+            "basis": "source-estimate",
+            "rationale": "Formatters only; no new DSP-streaming CPU callback. Maximum KEY call 132 instructions.",
+            "source": "TESTING.md"
+          },
+          "dsp": {
+            "level": "moderate",
+            "basis": "source-estimate",
+            "rationale": "Bounded key tap, gain/filter detector and monitor stages. Sixteen-slot core bound 69,496 modeled cycles/block including reserved stock work.",
+            "source": "TESTING.md"
+          },
+          "memory": {
+            "level": "low",
+            "basis": "source-estimate",
+            "rationale": "23,292 bytes at sixteen instances including inherited stock buffers; no new heap/SDRAM delay storage.",
+            "source": "TESTING.md"
+          }
+        }
+      },
+      "tests": {
+        "report": "TESTING.md",
+        "summary": "Native instruction/table parity, original dispatch preservation, software cycle model and static bounds, exact memory inventory, numerical stages and actual LCD evidence; fresh hardware evidence explicitly owner-waived.",
+        "hardwareStatus": "historical",
+        "evidenceRevision": "f80ecfeabc187a33403588678e707443161afc96",
+        "gates": [
+          "Native both-core source and table parity",
+          "Source-only reproducible package build",
+          "Conditional bounded cycle model and exact memory inventory",
+          "Shared worker MAIN/update byte parity and all companion refusals",
+          "Original firmware and malformed recipe rejection",
+          "Actual LCD captures and complete tutorial",
+          "Fresh hardware evidence owner-waived; historical report retained"
+        ],
+        "qualification": {
+          "moduleVersion": "0.1.1-experimental",
+          "sourceSha256": "d82a431aa6e42611096d43c0a5299ace342c2f5ac6e21baa526b92777cf77dc9",
+          "imageSha256": "b5aa8cee7787a3dc0ea53007fe31358ba14d155421ebec9c7f98948de740675f",
+          "cycles": [
+            {
+              "processor": "dsp",
+              "worstCase": 6196,
+              "maxConfiguration": 69496,
+              "maxInstances": 16,
+              "budget": 72560,
+              "unit": "cycles/block",
+              "method": "static",
+              "conditions": {
+                "parameterExtremes": "Every KEY 0..8, KFLT 0..127, sixteen KGN table buckets, MON/RMS switches and stock parameter endpoints; static all-branch analysis.",
+                "parameterModulation": "Block-wise simultaneous parameter changes model published LFO/scene/p-lock/CC values; no new control-source callback or unbounded DSP loop.",
+                "modeSwitching": "Every split 0..15, both stock init and split COMPRESSOR calls; OFF/ON KEY, HP re-entry and MON toggle. Firmware Part reload scheduling belongs to reserved stock work.",
+                "maxLoad": "Sixteen COMPRESSOR FX slots, eight per core. Standard stock dispatcher/transport reserve; arbitrary other stock FX/USB or RTOS stalls are not a measured streaming deadline.",
+                "inputConditions": "Silence and impulse matrix; author numeric stage suite; signal-independent all-branch bound includes every fixed loop. No physical audible or cross-core timing claim."
+              },
+              "report": "TESTING.md"
+            },
+            {
+              "processor": "coldfire",
+              "worstCase": 135168,
+              "maxConfiguration": 8162688,
+              "maxInstances": 16,
+              "budget": 8800000,
+              "unit": "cycles/event",
+              "method": "static",
+              "conditions": {
+                "parameterExtremes": "Every KEY 0..8, KFLT 0..127, sixteen KGN table buckets, MON/RMS switches and stock parameter endpoints; static all-branch analysis.",
+                "parameterModulation": "Block-wise simultaneous parameter changes model published LFO/scene/p-lock/CC values; no new control-source callback or unbounded DSP loop.",
+                "modeSwitching": "Every split 0..15, both stock init and split COMPRESSOR calls; OFF/ON KEY, HP re-entry and MON toggle. Firmware Part reload scheduling belongs to reserved stock work.",
+                "maxLoad": "Sixteen COMPRESSOR FX slots, eight per core. Standard stock dispatcher/transport reserve; arbitrary other stock FX/USB or RTOS stalls are not a measured streaming deadline.",
+                "inputConditions": "Silence and impulse matrix; author numeric stage suite; signal-independent all-branch bound includes every fixed loop. No physical audible or cross-core timing claim."
+              },
+              "report": "TESTING.md"
+            }
+          ],
+          "memory": {
+            "regions": [
+              {
+                "name": "Inherited stock X instance block",
+                "space": "dsp-x",
+                "words": 256,
+                "wordBits": 24,
+                "bytes": 768,
+                "scope": "instance"
+              },
+              {
+                "name": "Two authored DSP code blocks",
+                "space": "dsp-p",
+                "words": 680,
+                "wordBits": 24,
+                "bytes": 2040,
+                "scope": "shared"
+              },
+              {
+                "name": "Two coefficient tables",
+                "space": "dsp-p",
+                "words": 96,
+                "wordBits": 24,
+                "bytes": 288,
+                "scope": "shared"
+              },
+              {
+                "name": "Two core-private Y keybus/MON regions",
+                "space": "dsp-y",
+                "words": 1056,
+                "wordBits": 24,
+                "bytes": 3168,
+                "scope": "shared"
+              },
+              {
+                "name": "Two shared Y windows including seeds/counters",
+                "space": "dsp-y",
+                "words": 1028,
+                "wordBits": 24,
+                "bytes": 3084,
+                "scope": "shared"
+              },
+              {
+                "name": "Inherited low X scratch on both cores",
+                "space": "dsp-x",
+                "words": 512,
+                "wordBits": 24,
+                "bytes": 1536,
+                "scope": "shared"
+              },
+              {
+                "name": "Both complete 16-entry 48-bit DSP stacks",
+                "space": "dsp-x",
+                "words": 192,
+                "wordBits": 8,
+                "bytes": 192,
+                "scope": "shared"
+              },
+              {
+                "name": "Cloned descriptor and stride padding",
+                "space": "cpu-flash",
+                "words": 416,
+                "wordBits": 8,
+                "bytes": 416,
+                "scope": "shared"
+              },
+              {
+                "name": "ColdFire authored code and alignment",
+                "space": "cpu-flash",
+                "words": 136,
+                "wordBits": 8,
+                "bytes": 136,
+                "scope": "shared"
+              },
+              {
+                "name": "Chooser reservation",
+                "space": "cpu-flash",
+                "words": 128,
+                "wordBits": 8,
+                "bytes": 128,
+                "scope": "shared"
+              },
+              {
+                "name": "Additional formatter arguments/return stack",
+                "space": "cpu-ram",
+                "words": 16,
+                "wordBits": 8,
+                "bytes": 16,
+                "scope": "shared"
+              }
+            ],
+            "perInstanceBytes": 768,
+            "sharedBytes": 11004,
+            "maxInstances": 16,
+            "totalBytes": 23292,
+            "conditions": "Full native standalone reservation including inherited stock state/scratch and complete hardware DSP stack capacity; no new heap, SDRAM or delay buffer. Stock RTOS/UI frames remain inherited. See exact addresses in TESTING.md.",
+            "report": "TESTING.md"
+          },
+          "hardware": {
+            "kind": "owner-waived",
+            "status": "waived",
+            "approvedBy": "repeat98",
+            "approvedOn": "2026-10-05",
+            "reason": "Owner explicitly approved release without fresh physical hardware evidence; upstream author reports live MKI operation. Cycles, memory and software checks are still required.",
+            "report": "evidence/software.json"
+          },
+          "documentation": {
+            "tutorial": {
+              "title": "Quick tutorial: duck T5 from a T1 kick",
+              "steps": [
+                "Back up the project, work on a disposable copy, and put a kick on T1 and a sustained sample or loop on T5. Use a locally verified sidechain build with SPRING REV removed.",
+                "Select T5, hold FUNC and press FX1, turn LEVEL to COMPRESSOR and press YES. Press FX1 for the main page; hold FUNC and press FX1 to return to SETUP with the key controls.",
+                "Set KEY to T1, KFLT to 64, KGN to 64 and MON to OFF. On the main page, keep MIX at 127, raise RAT and lower THRS until the T5 signal dips when the T1 kick plays; adjust ATK and REL for the desired envelope.",
+                "Briefly set MON to ON on page 2 to hear the processed T1 key on T5, then return MON to OFF. Try KFLT below 64 to focus on bass, or above 64 to remove bass from the detector.",
+                "Return KEY to OFF and MON to OFF to restore self-keyed stock compression. Set MIX to 0 for the dry signal or select NONE to remove this effect; stop transport before saving the disposable project."
+              ]
+            },
+            "screenshots": [
+              "media/ot-compressor-selection.png",
+              "media/ot-compressor-main.png",
+              "media/ot-sidechain-key-selected.png"
+            ],
+            "screenshotStyle": "black-and-white"
+          }
+        }
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "declaration": "Only authored source and fingerprint/address/length guards are imported from the exact pinned repositories. Full Zac-Kyoti MIT terms, scope and exclusions are preserved. No firmware image, extracted stock instruction/table, runtime binary or private project/card is distributed. Modwerk original documentation/thumbnail: MIT. Real LCD captures: LicenseRef-OT-UI-Documentation, underlying Elektron rights reserved; reviewer rights and authenticity verification remains required."
+      },
+      "media": [
+        {
+          "path": "media/ot-compressor-selection.png",
+          "captureType": "emulator",
+          "caption": "COMPRESSOR selected in FX1 SETUP with RMS and the default external-key controls.",
+          "alt": "Actual Octatrack FX1 SETUP chooser with COMPRESSOR selected, KEY OFF, KFLT, KGN and MON OFF.",
+          "credit": "Modwerk contributor; actual ot_emu LCD, 5 October 2026.",
+          "license": "LicenseRef-OT-UI-Documentation",
+          "source": "original",
+          "otUi": {
+            "page": "FX1 SETUP",
+            "shows": "location-and-controls",
+            "firmware": "1.40C",
+            "moduleVersion": "0.1.0-experimental",
+            "imageSha256": "b5aa8cee7787a3dc0ea53007fe31358ba14d155421ebec9c7f98948de740675f",
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6."
+          }
+        },
+        {
+          "path": "media/ot-compressor-main.png",
+          "captureType": "emulator",
+          "caption": "Stock main compression page: ATK, REL, THRS, RAT, GAIN and MIX.",
+          "alt": "Actual Octatrack COMPRESSOR FX1 main page showing the six retained stock compression controls.",
+          "credit": "Modwerk contributor; actual ot_emu LCD, 5 October 2026.",
+          "license": "LicenseRef-OT-UI-Documentation",
+          "source": "original",
+          "otUi": {
+            "page": "FX1 main",
+            "shows": "controls",
+            "firmware": "1.40C",
+            "moduleVersion": "0.1.0-experimental",
+            "imageSha256": "b5aa8cee7787a3dc0ea53007fe31358ba14d155421ebec9c7f98948de740675f",
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6."
+          }
+        },
+        {
+          "path": "media/ot-sidechain-key-selected.png",
+          "captureType": "emulator",
+          "caption": "KEY T2 selected through encoder C; MON remains OFF.",
+          "alt": "Actual Octatrack COMPRESSOR FX1 SETUP showing KEY T2 and the KFLT, KGN and MON controls.",
+          "credit": "Modwerk contributor; actual ot_emu LCD, 5 October 2026.",
+          "license": "LicenseRef-OT-UI-Documentation",
+          "source": "original",
+          "otUi": {
+            "page": "FX1 SETUP",
+            "shows": "controls",
+            "firmware": "1.40C",
+            "moduleVersion": "0.1.0-experimental",
+            "imageSha256": "b5aa8cee7787a3dc0ea53007fe31358ba14d155421ebec9c7f98948de740675f",
+            "setup": "Headless ot_emu; MKII panel; stopped transport; 128\u00d764 LCD at integer scale 6."
           }
         }
       ]

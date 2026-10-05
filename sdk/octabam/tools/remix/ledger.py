@@ -155,11 +155,12 @@ def check(selected) -> list[str]:
     for m in selected:
         for h in (m.dsp.hooks if m.dsp is not None else ()):
             for pl in sorted(m.dsp.payloads):
-                if (pl, h.site) in dsp_hooks:
-                    clash("DSP hook site", dsp_hooks[(pl, h.site)], m.name,
-                          f"P:0x{h.site:05x} on payload {pl} -- the second jsr "
+                site = h.site_on(pl)
+                if (pl, site) in dsp_hooks:
+                    clash("DSP hook site", dsp_hooks[(pl, site)], m.name,
+                          f"P:0x{site:05x} on payload {pl} -- the second jsr "
                           f"overwrites the first, so the first section never runs")
-                dsp_hooks[(pl, h.site)] = m.name
+                dsp_hooks[(pl, site)] = m.name
 
     # ---- on-chip SRAM windows (Claims.sram) --------------------------------
     sram: list[tuple[int, int, str, str]] = []

@@ -21,10 +21,19 @@ export async function composeDescriptors(original: Uint8Array, ids: readonly str
     const bytes = new Uint8Array(original.subarray(donorOffset, donorOffset + recipes.descriptorBytes))
     if (await hash(bytes) !== recipe.donorSha256) throw new Error('The local descriptor donor fingerprint does not match.')
     const view = new DataView(bytes.buffer)
+    const inheritedLo = view.getUint32(0x18e), inheritedHi = view.getUint32(0x18a)
     for (const field of recipe.integers) {
       if (![1,4].includes(field.width) || !Number.isInteger(field.offset) || field.offset < 0 || field.offset + field.width > bytes.length || !Number.isInteger(field.value) || field.value < 0 || field.value >= 2 ** (field.width * 8)) throw new Error('A descriptor field has an invalid width, offset or value.')
       if (field.width === 1) view.setUint8(field.offset, field.value)
       else view.setUint32(field.offset, field.value)
+    }
+    if ('inheritedEnable' in recipe) {
+      for (const slot of recipe.inheritedEnable) {
+        if (!Number.isInteger(slot) || slot < 0 || slot > 11) throw new Error('Invalid inherited descriptor control.')
+        const offset = slot < 8 ? 0x18e : 0x18a, shift = (slot % 8) * 4, mask = (0xf << shift) >>> 0
+        const inherited = slot < 8 ? inheritedLo : inheritedHi
+        view.setUint32(offset, ((view.getUint32(offset) & ~mask) | (inherited & mask)) >>> 0)
+      }
     }
     for (const field of recipe.strings) {
       if (!Number.isInteger(field.offset) || !Number.isInteger(field.width) || field.offset < 0 || field.width < 1 || field.offset + field.width > bytes.length || field.value.length >= field.width || [...field.value].some(char => char.charCodeAt(0) > 255 || char.charCodeAt(0) === 0)) throw new Error('A descriptor name exceeds its terminated field.')
