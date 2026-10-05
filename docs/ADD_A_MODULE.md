@@ -66,7 +66,16 @@ The checks reject missing sections, coloured screenshots and a version that did 
    npm run modules:import -- ../module-packages/packages --development
    ```
    Commit what the import changes. CI compiles the same packages again and fails if they differ.
-5. **Compare with native octabam** on your own 1.40C. Modwerk's browser builder must refuse every selection that native octabam refuses, and reproduce every selection that it builds. Run this on the selections that contain your module. [Sidechain Compressor's TESTING.md](../sdk/octabam/modules/sidechain-compressor/TESTING.md) and `scripts/verify-sidechain-native.mjs` are the current worked example. A module with a shape no earlier module had, such as one that replaces a stock effect or claims new memory, needs changes in both `src/engine/` and `sdk/octabam/tools/build/build_bus.py`.
+5. **Compare with native octabam** on your own 1.40C update file:
+   ```sh
+   npm run module:verify -- <id> --os ~/path/to/OCTATRACK_OS1.40C.bin
+   ```
+   - **What it builds.** Native octabam builds your module inside the toolchain image, without network: alone, beside each other module, in the fullest selections and in a fixed sample in between, each with and without the stock FX2 effects.
+   - **What must match.** Modwerk's browser builder must refuse what native refuses, and reproduce what native builds.
+   - **What it updates.** It records the declaration checks and your module's chooser entry, and writes `sdk/native-comparisons/<id>.json`. Commit everything it changed.
+   - **Reruns.** Native results are cached, so after a fix only the affected builds run again. After a change to `src/engine/` alone, `npm run module:verify -- --all --os <file> --check` repeats only the browser side for every recorded module.
+   - **Your firmware.** The MAIN OS extracted from your file stays in `~/.cache/modwerk-native`, outside the checkout, with the cache. `npm run module:verify -- --clean` deletes it.
+   - **New shapes.** A module with a shape no earlier module had, such as one that replaces a stock effect or claims new memory, needs changes in both `src/engine/` and `sdk/octabam/tools/build/build_bus.py`. Expect the comparison to point at them.
 6. **Capture the screenshots** in the headless emulator with `scripts/capture-module-ui.py` ([how](MODULE_UI_CAPTURES.md)). Open every image before keeping it.
 7. **Check how it shows on the site.** The catalog entry puts the module in the library and the configurator; `npm run dev` shows it.
    - The library card draws `presentation/thumbnail.svg` (320×192). Hand-drawn art in `src/components/ModulePreview.tsx` is optional.
