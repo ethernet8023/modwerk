@@ -6,7 +6,7 @@
             KGN   the key's gain, about -24..+24 dB around 64
             MON   ON = hear the processed key instead of the track (audition)
 
-Hardware-confirmed in this octabam form (the author's MKI, 2026-10-04; see MEASURED).
+Reported working by the author in this octabam form (the author's MKI, 2026-10-04; see MEASURED). Modwerk has not run it on hardware.
 
 COLDFIRE. One ROM unit, sc_cf (tools/patch_sidechain.s, 134 B): KEY's and KFLT's
 formatters and KEY's list widget. The page-2 slots are written as raw descriptor words
@@ -30,9 +30,11 @@ KEY GAIN site through the source's single base literal and at the KEY FLT site a
 `lua (r1+$10),r1` + `nop` from that same base (r1 is not written between the two reads).
 
 CLAIMS. Core-private Y $7f0-$9ff (MON words, keybus) on both cores, and the last $202
-words of each core's half of the shared window (A $33dfe.., B $3bdfe..). BusDelay and
-BusVerb use that window, so the ledger refuses this module beside them: a later version
-moves the window.
+words of each core's half of the shared window (A $33dfe.., B $3bdfe..): the unused tail of
+the track-3 FX2 buffer slot, past the +$3DA2 that any stock effect writes. The ledger refuses
+a module whose own range overlaps either, a module whose source addresses one of the words
+by literal, and a range that meets stock's own tenants of the shared window. BusDelay and
+BusVerb use that window, so it refuses this module beside them if they are added.
 
 MEASURED. The ColdFire unit, linked at the standalone image's own address, is that
 image's bytes (5407 and 54455 alike). The DSP source is the standalone's

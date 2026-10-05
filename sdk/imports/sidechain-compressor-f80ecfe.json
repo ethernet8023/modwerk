@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "https://github.com/sambanks/octabam",
   "revision": "f80ecfeabc187a33403588678e707443161afc96",
-  "moduleVersion": "0.1.0-experimental",
+  "moduleVersion": "0.1.1-experimental",
   "root": "sdk/octabam/modules/sidechain-compressor",
   "modules": [
     "sidechain-compressor"
@@ -69,10 +69,14 @@
       "sourcePath": "octabam-modules/sidechain-compressor/manifest.py",
       "sourceSha256": "1098ccb699d551ffd9c18c253360ea11ffce69a1fad1a9ee8b94f1158497a7d9",
       "sourceGitBlob": "7bfa73ec20f32ddaff4d051f37fe79ea9e6faf94",
-      "vendoredSha256": "3ad1caa964b27968f13e8382ad920b3c2df2c20db7bc489faff0fb1affc153b3",
+      "vendoredSha256": "aaa7c593ec62745a540cf82d7b4d7ac2f17f393cfedd5a9e1ff1a1453165ecd7",
       "transforms": [
         "module-local tool paths",
-        "lazy local stock DSP guard declarations"
+        "lazy local stock DSP guard declarations",
+        "stock COMPRESSOR kept and hooked: MenuEntry(replaces, stock_dsp), inherited stock enable nibbles (Param active=None), raw descriptor formatter/widget words into the module's ColdFire unit",
+        "per-core hook sites and substitutions (DspHook with payload addresses, DspSection.subst)",
+        "declared DSP data ranges (Claims.dsp_ranges) for the keybus and cross-core window",
+        "author, author_url and category"
       ]
     },
     {
@@ -124,25 +128,22 @@
       "note": "Both payloads have the same guarded instruction at their declared sites; recover expectations only from a verified local stock OS."
     }
   ],
-  "status": "Pinned draft; qualification and browser package integration pending.",
+  "status": "Pinned; built by Modwerk's shared firmware builder and compared with native octabam on 2,048 + 512 module selections; hardware evidence owner-waived.",
   "nativeProof": {
-    "report": "reports/native-evidence.json",
-    "builderRevision": "f80ecfeabc187a33403588678e707443161afc96",
-    "profile": "remixes/test/sidechain-compressor",
-    "scope": [
-      "stock effects except SPRING REV",
-      "SIDECHAIN_COMPRESSOR"
-    ],
-    "status": "passed; normalized standalone instruction/table parity, not browser composition or hardware qualification"
+    "report": "evidence/common-builder.json",
+    "builderRevision": "b8deefc88b2c3e5f3c6158e364eb741df1924e1d",
+    "referenceRevision": "f80ecfeabc187a33403588678e707443161afc96",
+    "profile": "every selection of the visible modules that contains the module, with and without stock FX2",
+    "status": "passed; refusals match native, module-owned writes reproduce native outside the platform writes, and the module's own bytes equal the author-form image. Not hardware qualification."
   },
-  "promotionRequirements": [
-    "Stock descriptor clone/formatter and per-core DSP hook/substitution integration with parity for existing SDK modules",
-    "Source-only native package generation and deterministic reproduction",
-    "Browser/native full-file composition and rejection parity",
+  "nativeSourceSha256": "301d7dc13d0f7f4567e9bb121e8fc50c8cebbc1fb4bf544c511c28769370edbc",
+  "releaseRequirements": [
+    "Stock descriptor clone/formatter and per-core DSP hook/substitution integration, with unchanged native output for the existing SDK modules",
+    "Source-only package generation reproduced in the pinned container",
+    "Browser/native composition and refusal comparison on every selection containing the module",
     "Worst-case cycle and complete memory qualification",
-    "Owner-reviewed version/source/image-bound hardware report",
-    "Licence moduleComponents mapping for the promoted module",
+    "Owner-reviewed hardware decision: fresh hardware evidence waived on 5 October 2026",
+    "Licence moduleComponents mapping for the module",
     "Owner-reviewed PR merge and release reproduction"
-  ],
-  "nativeSourceSha256": "d82a431aa6e42611096d43c0a5299ace342c2f5ac6e21baa526b92777cf77dc9"
+  ]
 }

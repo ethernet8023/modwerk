@@ -1,7 +1,7 @@
 // Private developer parity check for Sidechain Compressor. Reads the owner's own 1.40C update in memory; retains no firmware bytes.
 //
 // The proofs are native octabam images of every module selection that contains Sidechain Compressor, with and without the
-// stock FX2 effects (scripts/export-composition-proofs.py --suite sidechain / sidechain-companions). The browser composer always
+// stock FX2 effects (scripts/export-composition-proofs.py --suite sidechain / sidechain-visible / sidechain-analog-bd). The browser composer always
 // links the core logger, which native does not have, so the comparison is made on what native can produce:
 //   * every selection native refuses is refused here, for the same reason class;
 //   * every selection native builds is built here, and the module-owned writes (chooser, descriptors, ROM units, DSP payloads)
@@ -18,18 +18,23 @@ import { defaultChoosers } from '../src/engine/choosers.ts'
 import { planStaticOs } from '../src/engine/static-compose.ts'
 import { applyGuardedOsWrites } from '../src/engine/os-patches.ts'
 import { CATALOG_SOURCE } from '../src/catalog/modules.ts'
-const [file] = process.argv.slice(2)
-if (!file || process.argv.length !== 3) throw new Error('Usage: node scripts/verify-sidechain-native.mjs local-original-1.40C.bin')
+const [file, ...options] = process.argv.slice(2)
+// --shard=i/n checks every n-th selection of each suite, so the larger suites can run in parallel.
+const shard = options.find(option => /^--shard=\d+\/\d+$/.test(option))?.slice(8).split('/').map(Number) ?? [0, 1]
+if (!file || options.length > 1 || (options.length === 1 && options[0] !== `--shard=${shard[0]}/${shard[1]}`) || shard[0] >= shard[1]) throw new Error('Usage: node scripts/verify-sidechain-native.mjs local-original-1.40C.bin [--shard=i/n]')
+const visible = ['miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map']
 const suites = [
-  { name: 'sidechain with the original eight modules', file: 'sidechain-composition-proofs.json', scope: ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'sidechain-compressor'], expected: 512 },
-  { name: 'sidechain with the requested and utility modules', file: 'sidechain-companion-proofs.json', scope: ['miniverb', 'analog-bassdrum', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map', 'sidechain-compressor'], companions: ['analog-bassdrum', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map'], expected: 124 },
+  { name: 'the original eight modules', file: 'sidechain-composition-proofs.json', scope: ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'sidechain-compressor'], member: ids => ids.includes('sidechain-compressor'), expected: 512 },
+  { name: 'the nine visible modules other than Analog BD', file: 'sidechain-visible-proofs.json', scope: [...visible, 'sidechain-compressor'], member: ids => ids.includes('sidechain-compressor'), expected: 1024 },
+  // Native refuses Analog BD beside every custom DSP module, after minutes of its own DSP work, so it is covered by the module alone, with each other visible module, and with all of them.
+  { name: 'Analog BD', file: 'sidechain-analog-bd-proofs.json', scope: ['analog-bassdrum', ...visible, 'sidechain-compressor'], member: ids => ids.includes('sidechain-compressor') && ids.includes('analog-bassdrum') && [2, 3, 11].includes(ids.length), expected: 22 },
 ]
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const source = readFileSync(file), original = decodeFirmware(source).mainOs, before = sha(original)
 // A native refusal and the browser's wording for the same limit. Only the class has to agree.
 const classes = [
   ['DSP region', /overruns the region/, /overruns the region/],
-  ['menu space', /label formatters do not fit|wide dial hook|chooser list of|not free|past the stock zero run|does not fit|do not fit/, /module menu cave exceeds|choosers need more space|does not fit|do not fit/],
+  ['menu space', /label formatters do not fit|wide dial hook|chooser list of|not free|past the stock zero run|fits neither the clone window|does not fit|do not fit/, /module menu cave exceeds|choosers need more space|does not fit|do not fit/],
   ['Analog BD', /stock effects only/, /stock effects only/],
 ]
 const reasonClass = (text, side) => classes.find(row => row[side].test(text))?.[0] ?? 'unclassified'
@@ -41,11 +46,12 @@ for (const suite of suites) {
   const expected = new Set()
   for (let mask = 0; mask < 2 ** suite.scope.length; mask++) for (const keepStockFx2 of [true, false]) {
     const ids = suite.scope.filter((_, bit) => mask >> bit & 1)
-    if (ids.includes('sidechain-compressor') && (!suite.companions || suite.companions.some(id => ids.includes(id)))) expected.add(key(ids, keepStockFx2))
+    if (suite.member(ids)) expected.add(key(ids, keepStockFx2))
   }
   assert.equal(expected.size, suite.expected); assert.equal(facts.proofs.length, expected.size)
   const seen = new Set(), failures = []; let built = 0, identical = 0, masked = 0, refused = 0
-  for (const proof of facts.proofs) {
+  for (const [index, proof] of facts.proofs.entries()) {
+    if (index % shard[1] !== shard[0]) continue
     const label = key(proof.moduleIds, proof.keepStockFx2)
     assert.ok(expected.has(label) && !seen.has(label), 'complete unique native coverage: ' + label); seen.add(label)
     const menus = defaultChoosers(proof.moduleIds, proof.keepStockFx2)

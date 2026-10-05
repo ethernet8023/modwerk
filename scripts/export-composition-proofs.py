@@ -5,7 +5,8 @@ def sha(data):return hashlib.sha256(data).hexdigest()
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('worktree',type=pathlib.Path);p.add_argument('destination',type=pathlib.Path);p.add_argument('--app',type=pathlib.Path,required=True);p.add_argument('--stock-bin',type=pathlib.Path);p.add_argument('--static-stock',action='store_true',help='Loader-free builds: stock DSP code stays built in; every module subset with and without stock FX2')
     p.add_argument('--vendored-sdk',action='store_true',help='Verify reviewed SDK sources against the app checkout instead of the legacy upstream worktree')
-    p.add_argument('--suite',choices=['original','tapehead','tapehead-utilities','sidechain','sidechain-companions'],default='original')
+    p.add_argument('--suite',choices=['original','tapehead','tapehead-utilities','sidechain','sidechain-visible','sidechain-analog-bd','visible'],default='original')
+    p.add_argument('--cache',action='store_true',help="Reuse octabam's content-addressed compiler memo (source, options and tool bytes are in its key; placement and validation still run). Evidence is made without it unless this is given.")
     p.add_argument('--verbose',action='store_true',help='Print each native build log (placement addresses, no firmware bytes).')
     p.add_argument('--image-dir',type=pathlib.Path,help='Write each native image here for private diffing. Stock-derived: keep it outside the checkout and delete it afterwards.')
     p.add_argument('--select',action='append',help='Build only this profile: module ids joined by +, then :true or :false (repeatable)')
@@ -30,7 +31,7 @@ def main():
     original=(root/'out/raw/section_3_MAIN_OS.bin').read_bytes();sourceHash=json.loads((app/'src/engine/assets/stock-dsp-metadata.json').read_text())['sourceSha256']
     if sha(original)!=sourceHash:p.error('Original OS fingerprint mismatch.')
     sys.path[:0]=[str(root/'tools/build'),str(root/'tools')];os.chdir(root)
-    os.environ.update(REMIX='tapehead-spring' if a.vendored_sdk else 'miniverb',XBUS='1',SPEC='1',DEV='0',NOROUNDTRIP='0',OCTABAM_STATIC_STOCK='1' if a.static_stock else '0',OCTABAM_NO_CACHE='1',BUILD='79')
+    os.environ.update(REMIX='tapehead-spring' if a.vendored_sdk else 'miniverb',XBUS='1',SPEC='1',DEV='0',NOROUNDTRIP='0',OCTABAM_STATIC_STOCK='1' if a.static_stock else '0',OCTABAM_NO_CACHE='0' if a.cache else '1',BUILD='79')
     import toolpath,dsp_modmap as dm
     dm.IMG=root/'out/raw/section_3_MAIN_OS.bin'
     from remix import registry,stock
@@ -40,7 +41,10 @@ def main():
     if a.suite=='tapehead':order=['miniverb','tapeecho','euclid','repitch','tapehead','analog-bassdrum','usb-audio-out-tracks-main-cue','quantizer']
     if a.suite=='tapehead-utilities':order=['repitch','tapehead','usb-audio-out-tracks-main-cue','quantizer','previewvol','cc-map']
     if a.suite=='sidechain':order=['spectrum','modulation','character','miniverb','tapeecho','euclid','repitch','tapehead','sidechain-compressor']
-    if a.suite=='sidechain-companions':order=['sidechain-compressor','miniverb','analog-bassdrum','usb-audio-out-tracks-main-cue','quantizer','previewvol','cc-map']
+    # Analog BD is refused beside any custom DSP module, after native has done all of its heavy DSP work (minutes per selection), so it is covered by representative selections.
+    if a.suite=='sidechain-visible':order=['miniverb','tapeecho','euclid','repitch','tapehead','usb-audio-out-tracks-main-cue','quantizer','previewvol','cc-map','sidechain-compressor']
+    if a.suite=='visible':order=['miniverb','tapeecho','euclid','repitch','tapehead','usb-audio-out-tracks-main-cue','quantizer','previewvol','cc-map']
+    if a.suite=='sidechain-analog-bd':order=['analog-bassdrum','miniverb','tapeecho','euclid','repitch','tapehead','usb-audio-out-tracks-main-cue','quantizer','previewvol','cc-map','sidechain-compressor']
     if a.vendored_sdk:order=[row['id'] for row in json.loads((app/'sdk/catalog.json').read_text())['modules'] if row['id'] in order]
     byid={m.name:m for m in known.values()}
     stockKeys={m.menu.fx2_id:m.key for m in known.values() if m.is_stock and m.menu is not None}
@@ -75,7 +79,8 @@ def main():
     if a.suite=='tapehead':cases=[(ids,keep) for ids,keep in cases if 'tapehead' in ids and any(id in ids for id in ['analog-bassdrum','usb-audio-out-tracks-main-cue','quantizer'])]
     if a.suite=='tapehead-utilities':cases=[(ids,keep) for ids,keep in cases if 'tapehead' in ids and any(id in ids for id in ['previewvol','cc-map'])]
     if a.suite=='sidechain':cases=[(ids,keep) for ids,keep in cases if 'sidechain-compressor' in ids]
-    if a.suite=='sidechain-companions':cases=[(ids,keep) for ids,keep in cases if 'sidechain-compressor' in ids and any(id in ids for id in ['analog-bassdrum','usb-audio-out-tracks-main-cue','quantizer','previewvol','cc-map'])]
+    if a.suite=='sidechain-visible':cases=[(ids,keep) for ids,keep in cases if 'sidechain-compressor' in ids]
+    if a.suite=='sidechain-analog-bd':cases=[(ids,keep) for ids,keep in cases if 'sidechain-compressor' in ids and 'analog-bassdrum' in ids and len(ids) in (2,3,len(order))]
     if a.select:
         wanted={(tuple(sorted(row.rsplit(':',1)[0].split('+') if row.rsplit(':',1)[0] else [])),row.rsplit(':',1)[1]=='true') for row in a.select}
         cases=[(ids,keep) for ids,keep in cases if (tuple(sorted(ids)),keep) in wanted]
@@ -137,7 +142,7 @@ def main():
                     proofs.append(proof)
                     print(f"{ids or ['stock']} default={default}: {len(image)} bytes, full native identity captured.")
                 except (SystemExit,AssertionError) as error:
-                    if a.static_stock and any(word in str(error) for word in ('overruns the region','nowhere to place','does not fit','do not fit','chooser list of','currently composes with stock effects only',' not free','past the stock zero run')):
+                    if a.static_stock and any(word in str(error) for word in ('overruns the region','nowhere to place','does not fit','do not fit','chooser list of','currently composes with stock effects only',' not free','past the stock zero run','fits neither the clone window')):
                         proofs.append({'moduleIds':ids,'keepStockFx2':default,'menu':menu,'error':str(error)});print(f"{ids or ['stock']} keep={default}: refused: {str(error)[:90]}")
                     elif ids==order and default and ('does not fit' in str(error) or 'do not fit' in str(error)):
                         proofs.append({'moduleIds':ids,'default':default,'menu':menu,'error':str(error)});print('Crowded all-module / stock-chooser selection rejects placement, as expected.')

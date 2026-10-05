@@ -1,33 +1,33 @@
 import { describe, expect, it } from 'vitest'
 import composition from '../engine/assets/sidechain-composition-proofs.json'
-import companions from '../engine/assets/sidechain-companion-proofs.json'
+import visibleProofs from '../engine/assets/sidechain-visible-proofs.json'
+import analogProofs from '../engine/assets/sidechain-analog-bd-proofs.json'
 import { CATALOG_SOURCE } from './modules'
 import { checkSelection } from './compatibility'
 import { selectionConflicts } from './selection-conflicts'
 import { defaultChoosers } from '../engine/choosers'
 
 const key = (ids: readonly string[], keep: boolean) => [...ids].sort().join('+') + ':' + keep
-const originalScope = ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'sidechain-compressor']
-const companionScope = ['miniverb', 'analog-bassdrum', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map', 'sidechain-compressor']
-const companionIds = ['analog-bassdrum', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map']
+const visible = ['miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map']
 const suites = [
-  { name: 'original eight modules', proofs: composition.proofs, expected: 512, built: 216 },
-  { name: 'requested and utility modules', proofs: companions.proofs, expected: 124, built: 60 },
+  { name: 'original eight modules', proofs: composition, scope: ['spectrum', 'modulation', 'character', 'miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor'), expected: 512 },
+  { name: 'nine visible modules without Analog BD', proofs: visibleProofs, scope: [...visible, 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor'), expected: 1024 },
+  { name: 'Analog BD', proofs: analogProofs, scope: ['analog-bassdrum', ...visible, 'sidechain-compressor'], member: (ids: string[]) => ids.includes('sidechain-compressor') && ids.includes('analog-bassdrum') && [2, 3, 11].includes(ids.length), expected: 22 },
 ]
-const refusalClass = /overruns the region|label formatters do not fit|wide dial hook|chooser list of|not free|past the stock zero run|stock effects only/
+const refusalClass = /overruns the region|label formatters do not fit|wide dial hook|chooser list of|not free|past the stock zero run|fits neither the clone window|stock effects only/
 
 describe('Sidechain Compressor native evidence on the shared builder', () => {
-  it('covers every selection that contains the module, with and without stock FX2, and holds no firmware bytes', () => {
-    for (const [proofs, scope, companion, expected] of [[composition, originalScope, [] as string[], 512], [companions, companionScope, companionIds, 124]] as const) {
+  it('covers every selection of each suite, with and without stock FX2, and holds no firmware bytes', () => {
+    for (const { name, proofs, scope, member, expected } of suites) {
       expect(proofs.schema).toBe(1)
       expect(proofs.revision).toBe(CATALOG_SOURCE.revision)
       expect(proofs.staticStock).toBe(true)
       const actual = new Set(proofs.proofs.map(proof => key(proof.moduleIds, proof.keepStockFx2)))
-      expect(proofs.proofs).toHaveLength(expected)
-      expect(actual.size).toBe(expected)
+      expect(proofs.proofs, name).toHaveLength(expected)
+      expect(actual.size, name).toBe(expected)
       for (let mask = 0; mask < 2 ** scope.length; mask++) for (const keep of [true, false]) {
         const ids = scope.filter((_, bit) => mask >> bit & 1)
-        expect(actual.has(key(ids, keep))).toBe(ids.includes('sidechain-compressor') && (!companion.length || companion.some(id => ids.includes(id))))
+        expect(actual.has(key(ids, keep)), name + ' ' + key(ids, keep)).toBe(member(ids))
       }
       for (const proof of proofs.proofs) {
         expect(proof).not.toHaveProperty('code'); expect(proof).not.toHaveProperty('image')
@@ -61,8 +61,7 @@ describe('Sidechain Compressor native evidence on the shared builder', () => {
     expect(alone(false)).toMatchObject({ bytes: 1112560, sha256: 'a50b99cf373cca589f97e94d1ac8e6c9c777c5aa9a17777edbbba722d9dbcf4c' })
   })
   it('refuses Analog BD beside it, in the site and in native alike', () => {
-    for (const proof of companions.proofs) {
-      if (!proof.moduleIds.includes('analog-bassdrum')) continue
+    for (const proof of analogProofs.proofs) {
       expect(proof).toHaveProperty('error'); expect((proof as { error: string }).error).toMatch(/stock effects only/)
       expect(selectionConflicts(proof.moduleIds, proof.keepStockFx2).map(conflict => conflict.id)).toContain('analog-bd-custom-dsp')
     }
@@ -72,7 +71,7 @@ describe('Sidechain Compressor native evidence on the shared builder', () => {
   })
   it('keeps MIDI Scenes standalone and records a declaration check for every other selection', () => {
     expect(checkSelection(['sidechain-compressor', 'midi-scenes']).issues.join(' ')).toContain('standalone')
-    const others = ['miniverb', 'tapeecho', 'euclid', 'repitch', 'tapehead', 'analog-bassdrum', 'usb-audio-out-tracks-main-cue', 'quantizer', 'previewvol', 'cc-map']
+    const others = ['analog-bassdrum', ...visible]
     for (let mask = 0; mask < 2 ** others.length; mask++) {
       const result = checkSelection([...others.filter((_, bit) => mask >> bit & 1), 'sidechain-compressor'])
       expect(result.notes).toEqual([])
