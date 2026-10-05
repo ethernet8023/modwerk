@@ -20,6 +20,12 @@ Read from public DNS, GitHub and the deployed Worker; nothing was changed.
 
 On 4 October, Resend showed `modwerk.app` verified in Ireland with enforced TLS and tracking disabled. Its domain-restricted sending key and `Modwerk <accounts@modwerk.app>` sender are staged, followed by the six community SSO credentials; none of those staging versions is the release deployment. A temporary key sent one branded verification and one recovery email from an isolated local Worker. Both were delivered, their account links completed the local verification/recovery journey, and the owner confirmed inbox arrival and SPF/DKIM/DMARC PASS. The temporary key was revoked. GitHub's ownership TXT is present. The public site still uses the parking addresses until the approved cutover; the historical table above describes the earlier baseline.
 
+### SES preparation on 5 October 2026
+
+Amazon SES has verified `modwerk.app` in Ireland (`eu-west-1`), and its production-access application is submitted and under review. The saved pricing plan is à la carte. Live mail remains on Resend until AWS approves production access and the migration is tested and released with owner approval. The initial SES scope is requested verification/password-reset mail; activity digests and welcome mail remain on Resend.
+
+See [the SES migration handoff](SES_MIGRATION.md) for completed setup, exact public DKIM records, application commitments and the remaining implementation, feedback, quota and rollout work. The historical launch instructions below describe the Resend setup and do not constitute an SES cutover.
+
 ## What changes with the domain
 
 One value, `APP_URL`, decides all of this: the origin the API trusts (CORS and the origin check on every write), the base URL of the account service, and the origin in verification and recovery links. It is `https://modwerk.app/` in `wrangler.worker.jsonc` on this branch. `AUTH_BASE_URL` separately pins the community OAuth backend to `https://octamod-community.octamod.workers.dev/api/auth`; provider callbacks use that backend, while account verification/recovery links use `APP_URL`. Only the sender and the Resend key are separate secrets. `index.html` carries the origin for link previews, and every module page derives its canonical URL and preview image from it.
