@@ -48,7 +48,7 @@ jobs:
           # the compiler job itself still require its isolated reproducibility check.
           compiler_job() {
             git show "$1:.github/workflows/module-pr.yml" |
-              sed -n '/^  elemod-source:/,$p' | sed '/^    needs:/d; /^    if:/d'
+              sed -n '/^  elemod-source:/,/^  octatrack-source:/{ /^  octatrack-source:/d; p; }' | sed '/^    needs:/d; /^    if:/d'
           }
           if git diff --quiet "$OCTAMOD_PR_BASE" HEAD -- "${inputs[@]}" &&
              cmp -s <(compiler_job "$OCTAMOD_PR_BASE") <(compiler_job HEAD); then
@@ -170,5 +170,6 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
+      - run: npm ci
       - name: Require compiled packages to reproduce committed native-parity packages
         run: node scripts/import-module-build.mjs "$RUNNER_TEMP/octatrack-source/packages" --development --check-only --verify-existing

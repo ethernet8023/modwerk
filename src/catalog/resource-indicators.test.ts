@@ -23,8 +23,9 @@ describe('required relative module resource gauges', () => {
         expect(indicator.description.length).toBeGreaterThan(20)
         expect(indicator.value).not.toContain('%')
       }
-      if(document.id!=='tapehead') expect(document.tests.qualification).toBeUndefined()
-      else expect(document.tests.hardwareStatus).toBe('reported')
+      if(document.id==='sidechain-compressor') expect(document.tests.hardwareStatus).toBe('historical')
+      else if(document.id==='tapehead') expect(document.tests.hardwareStatus).toBe('reported')
+      else expect(document.tests.qualification).toBeUndefined()
     }
   })
 

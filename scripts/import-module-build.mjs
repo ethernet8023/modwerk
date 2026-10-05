@@ -1,5 +1,6 @@
 import { readFile, lstat, realpath, copyFile, writeFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
+import { isDeepStrictEqual } from 'node:util'
 import { execFileSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -87,8 +88,8 @@ for(const [name,code] of Object.entries(side.blobs)) if(!/^[a-f0-9]+$/.test(code
 // Release automation never sees firmware, so it cannot prove native parity. Publish only packages that
 // reproduce the committed, locally parity-verified ones; provenance is the only permitted difference.
 if (!development || verifyExisting) for (const [name, doc] of packages) {
-  const withoutProvenance = doc => JSON.stringify({ ...doc, sourceCommit: null })
-  if (withoutProvenance(doc) !== withoutProvenance(await json(resolve(root,'src/engine/assets',name)))) throw new Error('Compiled ' + name + ' does not reproduce the committed, parity-verified package. Rebuild locally, verify native parity and commit the result.')
+  const withoutProvenance = doc => ({ ...doc, sourceCommit: null })
+  if (!isDeepStrictEqual(withoutProvenance(doc), withoutProvenance(await json(resolve(root,'src/engine/assets',name))))) throw new Error('Compiled ' + name + ' does not reproduce the committed, parity-verified package. Rebuild locally, verify native parity and commit the result.')
 }
 if(checkOnly){console.log('All source-package artifacts, complete source inventory and version pins validated ('+(development?'development':'owner-approved')+').');process.exit(0)}
 // Validate the complete artifact before touching any frontend file.
