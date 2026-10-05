@@ -1,8 +1,9 @@
+import { startPush } from './push'
 import { handleApi } from './api'
 import type { Env } from './platform'
 import { appOrigin, HttpError, response } from './security'
 /** One trusted website origin, including failure responses and preflights. */
-export async function handleCommunity(request: Request, env: Env): Promise<Response> {
+export async function handleCommunity(request: Request, env: Env, context?: {waitUntil(promise: Promise<unknown>): void}): Promise<Response> {
   const started=performance.now()
   let allowed: string
   try { allowed = appOrigin(env) } catch (error) { return response({ error: error instanceof Error ? error.message : 'Service unavailable.' }, 503) }
@@ -21,6 +22,7 @@ export async function handleCommunity(request: Request, env: Env): Promise<Respo
     try { result = await handleApi(request, env) }
     catch (error) { result = response({ error: error instanceof HttpError ? error.message : 'The request could not be completed.' }, error instanceof HttpError ? error.status : 500) }
   }
+  if(context && !['GET','HEAD','OPTIONS'].includes(request.method) && result.ok)startPush(env,context)
   const headers = new Headers(result.headers)
   headers.set('Server-Timing','app;dur='+(performance.now()-started).toFixed(1))
   headers.set('Vary', 'Origin')
