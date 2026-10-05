@@ -53,7 +53,7 @@ export async function composeModuleMenus(original: Uint8Array, ids: readonly str
   }
   for (const descriptor of baseline.descriptors) {
     const recipe = descriptorRecipes.recipes.find(recipe => recipe.id === descriptor.id)!
-    if (!('rawPointers' in recipe)) continue
+    if (!recipe.rawPointers) continue
     const symbols = new Map<string, number>()
     for (const unit of [...new Set(recipe.rawPointers.map(pointer => pointer.unit))]) {
       let address = align(cursor, 128), linked = linkRomText(await readRomPackage(unit), address)

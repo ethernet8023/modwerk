@@ -98,7 +98,7 @@ export function stockFx2Donors(ids: readonly string[], profile: ChooserProfile, 
     .filter(set => required.every(key => set.includes(key))).sort(preferred)
   for (const set of sets) {
     const listed = new Set([...profile.fx1, ...profile.fx2].filter(key => !set.includes(key)))
-    for (const pkg of dspPackages.packages) if ('stockKey' in pkg && plan.some(module => module.key === pkg.key)) listed.add(pkg.stockKey)
+    for (const pkg of dspPackages.packages) if (pkg.stockKey !== undefined && plan.some(module => module.key === pkg.key)) listed.add(pkg.stockKey)
     const fits = stockMetadata.payloads.every(payload => {
       try { return !overwrittenHelper(payload.tag, listed, planStaticPlacement(payload.tag, payload.packages, listed, plan).runs) }
       catch { return false }
@@ -129,7 +129,7 @@ export async function composeStaticDsp(cores: readonly StockDspCore[], ids: read
   const packages = new Map<string, DspPackage>()
   for (const module of plan.filter(module => !dspPackages.packages.some(pkg => pkg.id === module.id && 'stockDsp' in pkg))) packages.set(module.id, module.id === 'character' ? await readResidentCharacter() : await readDspPackage(module.id))
   const listed = new Set([...profile.fx1, ...profile.fx2])
-  for (const pkg of dspPackages.packages) if ('stockKey' in pkg && plan.some(module => module.id === pkg.id)) listed.add(pkg.stockKey)
+  for (const pkg of dspPackages.packages) if (pkg.stockKey !== undefined && plan.some(module => module.id === pkg.id)) listed.add(pkg.stockKey)
   const writes: OsWrite[] = [], layouts: StaticDspLayout[] = []
   for (const core of [...cores].sort((a, b) => a.core - b.core)) {
     const stock = stockMetadata.payloads.find(payload => payload.core === core.core)!, stub = facts.payloads.find(payload => payload.core === core.core)!

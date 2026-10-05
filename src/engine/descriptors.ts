@@ -27,7 +27,7 @@ export async function composeDescriptors(original: Uint8Array, ids: readonly str
       if (field.width === 1) view.setUint8(field.offset, field.value)
       else view.setUint32(field.offset, field.value)
     }
-    if ('inheritedEnable' in recipe) {
+    if (recipe.inheritedEnable) {
       for (const slot of recipe.inheritedEnable) {
         if (!Number.isInteger(slot) || slot < 0 || slot > 11) throw new Error('Invalid inherited descriptor control.')
         const offset = slot < 8 ? 0x18e : 0x18a, shift = (slot % 8) * 4, mask = (0xf << shift) >>> 0
