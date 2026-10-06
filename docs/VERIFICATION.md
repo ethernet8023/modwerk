@@ -762,3 +762,7 @@ Four CLI regression cases use temporary repositories and the real vendored kit, 
 On Node 24, `npm run check` passed: 716 Vitest tests, licence, machine, module and vendor checks, SDK checks, lint, type checking and the production bundle. No kit, catalog pin, firmware-build output or hardware qualification changed.
 
 **Checks (Node 24, Windows 11).** `licenses:check`, `machines:check`, `modules:check`, `elekloader:check`, `sdk:check`, `lint` and the production build pass. Vitest, on main `5897804` with the pull request it builds on: 710 pass, and the same two fail as above.
+
+## 6 October 2026 — FM Synth dedicated-machine draft
+
+`sdk/drafts/synth` pins octabam `949f3be` and octatrick v2.9 `525f4b1`. Isolated native preview build, seven actual LCD pages, T1–T8 Part/shadow tags, sample-slot preservation, reselection, return to FLEX, and sample-free Octemu audio/double-STOP pass. No current hardware, worst-case cycles, full memory accounting or native/browser package/composition parity is claimed. The draft remains outside native discovery and the public catalog; see its TESTING.md and sanitized evidence.
