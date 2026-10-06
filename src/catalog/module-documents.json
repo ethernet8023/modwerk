@@ -3094,7 +3094,7 @@
         "report": "TESTING.md",
         "summary": "Native panel/storage checks and sample-free playback passed. Shared native/browser comparison passed 94 cases (37 builds, 57 refusals); update packaging and changed-base refusals passed. Hardware is untested; worst-case chip cycles and complete stack/lifetime memory bounds are unmeasured under this exact owner-approved experimental release exception.",
         "hardwareStatus": "untested",
-        "evidenceRevision": "525f4b19b04dc3ba3f3bae3b25abbf48df34a10a",
+        "evidenceRevision": "5f3e27336c7e6bddfee88b6405e17c8f1fb8a7fd",
         "gates": [
           "verify.py",
           "verify-audio.py"

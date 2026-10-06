@@ -2,7 +2,7 @@
   "id": "synth",
   "version": "0.1.1-experimental",
   "sourceSha256": "bfa77029219a2d5deaa9dd1394662e18dfee01ade72b631e36fe3fab48054560",
-  "runtimeSha256": "9aeacf60b2398fb549695f6f1fab8b95d544a123309815324b5c11d05b155402",
+  "runtimeSha256": "1e820906d02ed67efc870f57c67eaaff4eb34c990f0cf49b39bacf7997ce18bd",
   "imageSha256": "c1fbc0b2eaf284e72692b7048d1dfd3693f3e3e90c71229159a619d585b52c95",
   "approvedBy": "repeat98",
   "approvedOn": "2026-10-06",
