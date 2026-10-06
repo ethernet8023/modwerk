@@ -199,8 +199,9 @@ export async function accountRoutes(request: Request, env: Env, db: Database, pa
 }
 // Better Auth writes its date columns as ISO-8601 text on SQLite, and SQLite orders any text above any
 // integer, so a numeric comparison alone never matches. Compare text as text and keep the numeric form
-// for rows written as epoch milliseconds.
-const AUTH_EXPIRED="CASE typeof(expiresAt) WHEN 'text' THEN expiresAt<=? ELSE expiresAt<=? END"
+// for rows written as epoch milliseconds. Two indexable range terms, not a CASE, so an index on the
+// column serves the sweep.
+const AUTH_EXPIRED="(typeof(expiresAt)='text' AND expiresAt<=?) OR (typeof(expiresAt)<>'text' AND expiresAt<=?)"
 export async function cleanupAccounts(db:Database){
  const now=Math.floor(Date.now()/1000),iso=new Date(now*1000).toISOString()
  // Pending identities cannot publish or build, so no public contributions need retention.
