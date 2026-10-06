@@ -10,8 +10,8 @@
 //   library lists (sdk/<machine>/modules/<id>/modwerk.module.json) and the mods they require are taken, so elekloader's
 //   whole catalog can go in as it is; the rest are not downloaded.
 // Then the lock, the elekloader licence entry and the notices, and the vendor check. It prints what changed and what
-// is left to do by hand. Both new copies are staged in a temporary folder first, so a refusal or a failed download
-// leaves vendor/elekloader as it was.
+// is left to do by hand. Both new copies and their lock are checked in a temporary folder first. If installing them
+// or regenerating/checking notices fails, the original files are restored.
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, rmdirSync, writeFileSync } from 'node:fs'
@@ -173,6 +173,7 @@ async function main(root: string, argv: string[]) {
   const vendor = resolve(root, 'vendor/elekloader'), kitDir = join(vendor, 'kit'), catalogDir = join(vendor, 'catalog')
   const scratch = mkdtempSync(join(tmpdir(), 'modwerk-elekloader-')), notes: string[] = []
   const kitNext = join(scratch, 'kit'), catalogNext = join(scratch, 'catalog')
+  let keepScratch = false
   try {
     const before = JSON.parse(readFileSync(join(kitDir, 'kit.json'), 'utf8')) as KitJson
     let after = before, changedKit: string[] = [], kitCount = 0
@@ -207,8 +208,59 @@ async function main(root: string, argv: string[]) {
       const named = new Set([...newCatalog.cores, ...newCatalog.mods].map(p => p.file))
       for (const name of readdirSync(catalogNext)) if (name !== 'catalog.json' && !named.has(name)) rmSync(join(catalogNext, name))
     }
-    if (zip) mirror(kitNext, kitDir)
-    if (from) mirror(catalogNext, catalogDir)
+    // The incoming kit must read the catalog even for a kit-only update. Generate and verify its lock before
+    // replacing any installed file: the worker protocol and the catalog schema can change independently.
+    const nextKit = zip ? kitNext : kitDir, nextCatalog = from ? catalogNext : catalogDir
+    const tool = join(nextKit, 'tools/kit.ts'), lockPath = join(scratch, 'elekloader.lock.json')
+    const lock = run([tool, 'lock', '--kit', nextKit, '--catalog', nextCatalog], { capture: true, cwd: root })
+    writeFileSync(lockPath, lock)
+    run([tool, 'verify', nextCatalog, '--lock', lockPath, '--kit', nextKit], { cwd: root })
+
+    const manifestPath = resolve(root, 'vendor/licenses/manifest.json')
+    let manifest = readFileSync(manifestPath, 'utf8')
+    if (after.commit !== before.commit) {
+      if (manifest.includes(before.commit)) manifest = manifest.split(before.commit).join(after.commit)
+      else notes.push(`vendor/licenses/manifest.json does not name the previous kit commit ${before.commit}: point its elekloader entry at ${after.commit} by hand.`)
+    }
+    const notice = readFileSync(join(nextKit, 'NOTICE'), 'utf8').trimEnd() + '\n\n'
+      + readFileSync(join(nextKit, 'LICENSE'), 'utf8').trimEnd() + '\n'
+
+    // Keep every affected file, including the generated distribution notices. A later generation/verification
+    // error must not leave a new kit beside an old lock, or a partially regenerated set of licence notices.
+    const folders = [...(zip ? ['vendor/elekloader/kit'] : []), ...(from ? ['vendor/elekloader/catalog'] : [])]
+    const files = ['vendor/elekloader/elekloader.lock.json', 'vendor/licenses/manifest.json', 'vendor/licenses/elekloader.txt',
+      'sdk/octabam/licenses/THIRD_PARTY_NOTICES.txt', 'public/licenses/THIRD_PARTY_NOTICES.txt', 'public/licenses/THIRD_PARTY_NOTICES.html']
+    const originals = new Map(files.map(path => [path, existsSync(resolve(root, path)) ? readFileSync(resolve(root, path)) : undefined]))
+    for (const path of folders) cpSync(resolve(root, path), join(scratch, 'original', path), { recursive: true })
+    for (const [path, data] of originals) if (data !== undefined) {
+      mkdirSync(dirname(join(scratch, 'original', path)), { recursive: true })
+      writeFileSync(join(scratch, 'original', path), data)
+    }
+    try {
+      if (zip) mirror(kitNext, kitDir)
+      if (from) mirror(catalogNext, catalogDir)
+      writeFileSync(join(vendor, 'elekloader.lock.json'), lock)
+      writeFileSync(manifestPath, manifest)
+      writeFileSync(resolve(root, 'vendor/licenses/elekloader.txt'), notice)
+      run(['scripts/licenses.mjs', '--write'], { cwd: root })
+      run(['scripts/elekloader-vendor.ts'], { cwd: root })
+    } catch (error) {
+      const failures: unknown[] = []
+      for (const path of folders) {
+        try { mirror(join(scratch, 'original', path), resolve(root, path)) } catch (failure) { failures.push(failure) }
+      }
+      for (const [path, data] of originals) {
+        try {
+          if (data === undefined) rmSync(resolve(root, path), { force: true })
+          else writeFileSync(resolve(root, path), data)
+        } catch (failure) { failures.push(failure) }
+      }
+      if (failures.length) {
+        keepScratch = true
+        throw new AggregateError([error, ...failures], `The update failed and could not restore every file. Original files remain in ${join(scratch, 'original')}.`, { cause: error })
+      }
+      throw error
+    }
     if (zip) console.log(`Kit: ${before.version} (${before.commit.slice(0, 7)}) -> ${after.version} (${after.commit.slice(0, 7)}), ${changedKit.length} of ${kitCount} files changed${changedKit.length ? ': ' + changedKit.join(', ') : ''}.`)
     const changes = catalogChanges(oldCatalog, newCatalog)
     if (from) {
@@ -216,21 +268,12 @@ async function main(root: string, argv: string[]) {
       for (const c of changes) console.log('  ' + describeChange(c))
       if (newCatalog.revision !== oldCatalog.revision) notes.push('Configuration backups made before this name the old catalog revision. They still import, with their modules checked again against the library.')
     }
-    writeFileSync(join(vendor, 'elekloader.lock.json'), run([join(kitDir, 'tools/kit.ts'), 'lock', '--kit', kitDir, '--catalog', catalogDir], { capture: true, cwd: root }))
-    const manifestPath = resolve(root, 'vendor/licenses/manifest.json')
-    if (after.commit !== before.commit) {
-      const text = readFileSync(manifestPath, 'utf8')
-      if (text.includes(before.commit)) writeFileSync(manifestPath, text.split(before.commit).join(after.commit))
-      else notes.push(`vendor/licenses/manifest.json does not name the previous kit commit ${before.commit}: point its elekloader entry at ${after.commit} by hand.`)
-    }
-    run(['scripts/licenses.mjs', '--write'], { cwd: root })
-    run(['scripts/elekloader-vendor.ts'], { cwd: root })
     const todo = [...followUps(root, changes, JSON.parse(readFileSync(manifestPath, 'utf8')), required),
       'Run npm run check, then record the update in docs/VERIFICATION.md (vendor/elekloader/README.md, "Updating").']
     for (const note of notes) console.log('Note: ' + note)
     console.log('Left to do:\n' + todo.map(item => '  - ' + item).join('\n'))
   } finally {
-    rmSync(scratch, { recursive: true, force: true })
+    if (!keepScratch) rmSync(scratch, { recursive: true, force: true })
   }
 }
 

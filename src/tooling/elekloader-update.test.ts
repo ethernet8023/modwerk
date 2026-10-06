@@ -1,4 +1,8 @@
 import { createHash } from 'node:crypto'
+import { spawnSync } from 'node:child_process'
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { DEVICE } from '../engine/elekloader/digi-build'
@@ -106,5 +110,109 @@ describe('the elekloader update', () => {
       'Cores changed (core for digitakt-mk1 OS 1.53: added 1 (core-1.53-digitakt-mk1.elemod)): builds for those OS releases change. Build them and record the identities in docs/VERIFICATION.md.',
       'digitakt/digichain comes with the catalog because a library mod requires it: it needs no library entry.',
     ])
+  })
+})
+
+const ROOT = fileURLToPath(new URL('../..', import.meta.url))
+const noticePaths = ['vendor/elekloader', 'vendor/licenses', 'sdk/octabam/licenses', 'public/licenses']
+
+function fileBytes(folder: string, at = ''): Record<string, Uint8Array> {
+  return Object.fromEntries(readdirSync(join(folder, at), { withFileTypes: true }).flatMap(entry => {
+    const path = at + entry.name
+    return entry.isDirectory() ? Object.entries(fileBytes(folder, path + '/')) : [[path, new Uint8Array(readFileSync(join(folder, path)))]]
+  }))
+}
+
+/** The real CLI and its notice inputs, without firmware, module code or a network dependency. */
+function fixture() {
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'modwerk-elekloader-test-')))
+  const copy = (path: string) => {
+    mkdirSync(dirname(join(root, path)), { recursive: true })
+    cpSync(join(ROOT, path), join(root, path), { recursive: true })
+  }
+  for (const path of [...noticePaths, 'scripts/elekloader-update.ts', 'scripts/elekloader-vendor.ts', 'scripts/licenses.mjs', 'scripts/license-notices.mjs']) copy(path)
+  const manifest = JSON.parse(readFileSync(join(root, 'sdk/octabam/licenses/manifest.json'), 'utf8')) as { moduleComponents: Record<string, string[]> }
+  for (const id of Object.keys(manifest.moduleComponents)) {
+    const folder = `sdk/octabam/modules/${id}`
+    copy(folder + '/octamod.module.json')
+    const document = JSON.parse(readFileSync(join(root, folder, 'octamod.module.json'), 'utf8')) as { license: { file: string } }
+    copy(folder + '/' + document.license.file)
+  }
+  for (const name of ['react', 'react-dom', 'scheduler']) copy(`node_modules/${name}/LICENSE`)
+  return root
+}
+
+function fullKitZip(root: string, change: (files: Record<string, Uint8Array>) => void = () => {}) {
+  const files = fileBytes(join(root, 'vendor/elekloader/kit'))
+  delete files['kit.json']
+  change(files)
+  const kit: KitJson = { name: 'elekloader-kit', version: '0.5.0', protocol: 1, commit: 'a'.repeat(40), files: Object.fromEntries(Object.entries(files).map(([name, data]) => [name, sha(data)])) }
+  const raw = zip(Object.fromEntries(Object.entries({ ...files, 'kit.json': text(JSON.stringify(kit)) }).map(([name, data]) => ['elekloader-kit-0.5.0/' + name, data])))
+  const path = join(root, 'update.zip')
+  writeFileSync(path, raw)
+  return [path, '--sha256', sha(raw)]
+}
+
+function update(root: string, args: string[]) {
+  return spawnSync(process.execPath, [join(root, 'scripts/elekloader-update.ts'), ...args], { cwd: root, encoding: 'utf8', timeout: 20_000 })
+}
+
+function identities(root: string) {
+  return Object.fromEntries(noticePaths.flatMap(path => Object.entries(fileBytes(join(root, path))).map(([name, data]) => [path + '/' + name, sha(data)])))
+}
+
+describe('elekloader update CLI', () => {
+  it('ships changed upstream notices and full licence terms, and keeps an identical update unchanged', () => {
+    const root = fixture()
+    try {
+      const marker = 'Copyright (C) 2027 Fixture Contributor'
+      const args = fullKitZip(root, files => { files.NOTICE = text(new TextDecoder().decode(files.NOTICE) + '\n' + marker + '\n') })
+      const result = update(root, args)
+      expect(result.status, result.stderr).toBe(0)
+      for (const path of ['vendor/licenses/elekloader.txt', 'public/licenses/THIRD_PARTY_NOTICES.txt', 'public/licenses/THIRD_PARTY_NOTICES.html']) {
+        expect(readFileSync(join(root, path), 'utf8')).toContain(marker)
+      }
+      expect(readFileSync(join(root, 'vendor/licenses/elekloader.txt'), 'utf8')).toContain(readFileSync(join(root, 'vendor/elekloader/kit/LICENSE'), 'utf8').trimEnd())
+      expect(readFileSync(join(root, 'vendor/licenses/manifest.json'), 'utf8')).toContain('a'.repeat(40))
+      const before = identities(root)
+      const again = update(root, args)
+      expect(again.status, again.stderr).toBe(0)
+      expect(identities(root)).toEqual(before)
+    } finally { rmSync(root, { recursive: true, force: true }) }
+  })
+  it('refuses a same-protocol kit that cannot read the current catalog before changing any installed file', () => {
+    const root = fixture()
+    try {
+      const args = fullKitZip(root, files => {
+        files['src/kit/catalog.ts'] = text(new TextDecoder().decode(files['src/kit/catalog.ts']).replace('export const CATALOG_SCHEMA = 1', 'export const CATALOG_SCHEMA = 2'))
+      })
+      const before = identities(root)
+      const result = update(root, args)
+      expect(result.status).toBe(1)
+      expect(result.stderr).toContain('catalog schema 1: this kit reads schema 2')
+      expect(identities(root)).toEqual(before)
+    } finally { rmSync(root, { recursive: true, force: true }) }
+  })
+  it.each(['notice generation', 'vendor validation'])('restores the kit, catalog, lock, manifest and all notices when %s fails', failure => {
+    const root = fixture()
+    try {
+      const args = fullKitZip(root, files => { files.NOTICE = text(new TextDecoder().decode(files.NOTICE) + '\nCopyright (C) 2027 Fixture Contributor\n') })
+      const catalog = JSON.parse(readFileSync(join(root, 'vendor/elekloader/catalog/catalog.json'), 'utf8')) as { revision: string; mods: { id: string }[] }
+      catalog.revision = 'b'.repeat(40)
+      catalog.mods = catalog.mods.filter(mod => mod.id !== 'digisophie')
+      const catalogPath = join(root, 'update.json')
+      writeFileSync(catalogPath, JSON.stringify(catalog))
+      const script = join(root, 'scripts', failure === 'notice generation' ? 'licenses.mjs' : 'elekloader-vendor.ts')
+      // Fail after distribution files have changed, including a newly created file the rollback must remove.
+      const absent = join(root, 'public/licenses/THIRD_PARTY_NOTICES.html')
+      rmSync(absent)
+      if (failure === 'notice generation') writeFileSync(script, `import { writeFileSync } from 'node:fs'; writeFileSync(${JSON.stringify(absent)}, 'partial notices'); throw new Error('fixture generation failure')`)
+      else writeFileSync(script, "throw new Error('fixture validation failure')")
+      const before = identities(root)
+      const result = update(root, [...args, catalogPath])
+      expect(result.status).toBe(1)
+      expect(result.stderr).toContain(failure === 'notice generation' ? 'fixture generation failure' : 'fixture validation failure')
+      expect(identities(root)).toEqual(before)
+    } finally { rmSync(root, { recursive: true, force: true }) }
   })
 })
