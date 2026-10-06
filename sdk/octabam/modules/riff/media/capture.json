@@ -15,7 +15,7 @@
   "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
   "nativeSdkBaseRevision": "f6c02edbaa01c19122487604c6276dff370471cc",
   "isolation": "Docker native compile: no network, read-only root, all capabilities dropped, no-new-privileges, user 501:20, private work/tmp mounts. Emulator guest and card/NVRAM are task-private; only test-session GDB reads.",
-  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
+  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
   "panelWalk": "media/walk.jsonl",
   "panelWalkSha256": "d81347438e480485ef23088c3c5f54bbcd849f17bd56ef08eea09d97dcae6236",
   "executedPanelWalkSha256": "f647ebce8f334b4dc5f516c2948239d689958aeae4a0a2a6aa0d1d6dabbe5047",
@@ -52,7 +52,10 @@
     "native.c": "bee751a45c976e4f234406f9cbbc8b7f417703a5bbba64180cd6cdefbf8ccf40",
     "hooks.s": "21fbe456a3ce0b8d70a93054741a85246f5dcf50a3cae94c92bcc31edba40550",
     "prepare.py": "5ace50a2b724bae813371da2605ebaabc79436e2f4a0aad8faebd63cc86802bf",
-    "manifest.py": "a77d36fdb124d3976f82241bb9576145879df1dd313f761af7cff9ff6d0bfae6"
+    "manifest.py": "a77d36fdb124d3976f82241bb9576145879df1dd313f761af7cff9ff6d0bfae6",
+    "control.s": "a6d34c83a991c5aeec29e4095111b54e87878ef5491f3a60c50e6900edc82ccc",
+    "verify_native.py": "0f81db5c603f16e3ef51467c3fb90fb0ab3028275a187f92960010c66f7369d8",
+    "tools/cf-probe.cpp": "f42f8f40f807c8d6fb90679320120d76aa11942a5c80ca19cb984b9bebd5bc9f"
   },
   "screenshots": {
     "ot-location.png": "419996c9a96d0d8baf9a7716de11a30e165cdafb0439ac61339687cd3fee7e96",
@@ -69,5 +72,6 @@
   "poolPanelWalk": "media/pool-walk.jsonl",
   "poolPanelWalkSha256": "287e686e74ce8c1a5e5d913ca14c7969ed8a2772e6b15ae063b6d6f4a0158faa",
   "executedPoolPanelWalkSha256": "687ce312d5094079e03428afb15e87a7d434a3440fb303986c642c9bbf429958",
-  "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3"
+  "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3",
+  "sourceRevision": "37bb20004c0ed2074d7e91aabe563232c8e57569"
 }

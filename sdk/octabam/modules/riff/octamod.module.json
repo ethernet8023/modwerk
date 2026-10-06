@@ -28,8 +28,8 @@
     "usage": [
       "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
       "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
-      "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
-      "Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
+      "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+      "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
       "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
       "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
     ]
@@ -39,21 +39,21 @@
       "name": "TYPE",
       "default": 11,
       "count": 16,
-      "doc": "0–15. Low values favor varied scale notes; higher values prefer tonic/fifth and stronger beat positions. Original algorithm; not a byte-identical Sting port.",
+      "doc": "0\u201315. Low values favor varied scale notes; higher values prefer tonic/fifth and stronger beat positions. Original algorithm; not a byte-identical Sting port.",
       "labels": null
     },
     {
       "name": "DENS",
       "default": 11,
       "count": 17,
-      "doc": "0–16. Note count is round(motif length × DENS / 16). Zero is silence; 16 fills the motif. Changes commit immediately with the current seed.",
+      "doc": "0\u201316. Note count is round(motif length \u00d7 DENS / 16). Zero is silence; 16 fills the motif. Changes commit immediately with the current seed.",
       "labels": null
     },
     {
       "name": "ROOT",
       "default": 0,
       "count": 12,
-      "doc": "C–B. Sample reference is C at neutral PTCH. Tune the source sample accordingly. Pitch locks stay within −12 to +12 semitones.",
+      "doc": "C\u2013B. Sample reference is C at neutral PTCH. Tune the source sample accordingly. Pitch locks stay within \u221212 to +12 semitones.",
       "labels": [
         "C",
         "C#",
@@ -86,49 +86,49 @@
       "name": "GATE",
       "default": 32,
       "count": 127,
-      "doc": "0–126 in native AMP HOLD units, not percent or milliseconds. Generated HOLD locks range from half to all of this value. AMP REL still shapes the audible tail.",
+      "doc": "0\u2013126 in native AMP HOLD units, not percent or milliseconds. Generated HOLD locks range from half to all of this value. AMP REL still shapes the audible tail.",
       "labels": null
     },
     {
       "name": "ACNT",
       "default": 48,
       "count": 128,
-      "doc": "0–127. Strong notes keep the Part AMP VOL. Other notes are attenuated by up to half; zero gives equal volumes. This writes AMP VOL locks, not MIDI velocity.",
+      "doc": "0\u2013127. Strong notes keep the Part AMP VOL. Other notes are attenuated by up to half; zero gives equal volumes. This writes AMP VOL locks, not MIDI velocity.",
       "labels": null
     },
     {
       "name": "SEED",
       "default": 1,
       "count": 128,
-      "doc": "0–127. Select the deterministic variation; YES advances and wraps this value. Other parameter edits keep it fixed.",
+      "doc": "0\u2013127. Select the deterministic variation; YES advances and wraps this value. Other parameter edits keep it fixed.",
       "labels": null
     },
     {
       "name": "SPAN",
       "default": 12,
       "count": 13,
-      "doc": "0–12 semitones either side of OFST, clipped to the native ±12-semitone range. Pitches remain in the selected scale; an empty window uses its nearest scale note.",
+      "doc": "0\u201312 semitones either side of OFST, clipped to the native \u00b112-semitone range. Pitches remain in the selected scale; an empty window uses its nearest scale note.",
       "labels": null
     },
     {
       "name": "OFST",
       "default": 12,
       "count": 25,
-      "doc": "Displayed as −12 to +12 semitones; stored midpoint 12 means zero. Moves the center of the pitch window.",
+      "doc": "Displayed as \u221212 to +12 semitones; stored midpoint 12 means zero. Moves the center of the pitch window.",
       "labels": null
     },
     {
       "name": "ROT",
       "default": 0,
       "count": 64,
-      "doc": "0–63 steps. Rotate the generated phrase right within the native track length.",
+      "doc": "0\u201363 steps. Rotate the generated phrase right within the native track length.",
       "labels": null
     },
     {
       "name": "RPT",
       "default": 0,
       "count": 65,
-      "doc": "OFF (0) uses the full native track length. 1–64 chooses a repeating motif; larger values are clipped to the active length.",
+      "doc": "OFF (0) uses the full native track length. 1\u201364 chooses a repeating motif; larger values are clipped to the active length.",
       "labels": null
     },
     {
@@ -147,12 +147,13 @@
     "effectId": null,
     "location": "Track machine",
     "conflicts": [
-      "analog-bassdrum"
+      "analog-bassdrum",
+      "synth"
     ],
     "limitations": [
       "MKI/MKII hardware support is unverified; documentation captures use the MKII emulator panel.",
-      "Shares machine chooser hooks with Analog BD; the configurator and native builder reject that combination.",
-      "Sample must be tuned to the stated C reference. Generated pitch is limited to the native ±12-semitone range.",
+      "Shares machine chooser hooks with Analog BD and FM Synth; the configurator and native builder reject those combinations.",
+      "Sample must be tuned to the stated C reference. Generated pitch is limited to the native \u00b112-semitone range.",
       "Parameter edits and YES publish during playback. Custom Undo and bar-quantized replacement are not implemented.",
       "Uses native pattern/track length, speed and swing. RPT sets a motif length within that track; no independent clock, swing or MIDI output.",
       "SRC generation knobs are request parameters, not p-lock/LFO/scene destinations. The normal EDIT view retains native playback controls.",
@@ -183,7 +184,7 @@
       "source": "TESTING.md"
     },
     "impact": {
-      "conditions": "One 1–64-step phrase per parameter edit or YES, with first-PLAY empty-track filling. Runs on the UI task and publishes through native live track updates. Stock Flex/Static playback and DSP are retained; no utilization/headroom percentage is asserted.",
+      "conditions": "One 1\u201364-step phrase per parameter edit or YES, with first-PLAY empty-track filling. Runs on the UI task and publishes through native live track updates. Stock Flex/Static playback and DSP are retained; no utilization/headroom percentage is asserted.",
       "cpu": {
         "level": "moderate",
         "basis": "source-estimate",
@@ -216,7 +217,7 @@
       "Browser/native build parity and matching composition rejection",
       "Exact-version owner hardware waiver; physical unit unavailable"
     ],
-    "evidenceRevision": "3b285711d27305138b8657435f8ccbe39afe6316",
+    "evidenceRevision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
     "qualification": {
       "moduleVersion": "0.2.2-experimental",
       "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3",
@@ -331,8 +332,8 @@
           "steps": [
             "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
             "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
-            "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
-            "Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
+            "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+            "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
             "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
             "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
           ]
@@ -343,7 +344,7 @@
   "license": {
     "spdx": "MIT",
     "file": "LICENSE",
-    "declaration": "Original RIFF C generator, tests, documentation and vector illustration by Octamod contributors. Native registration/input-layer interoperability is adapted from MIT octabam; Sam Banks and existing component notices are retained. Iftah’s Sting 2 is musical inspiration; no Sting source, branding artwork or assets were copied and no exact algorithm or endorsement is claimed. Firmware and extracted routines are excluded; replay bytes are reconstructed only from verified local firmware into temporary build output. Actual LCD images require reviewer rights verification under media/LICENSE.md; review is not automatic legal clearance."
+    "declaration": "Original RIFF C generator, tests, documentation and vector illustration by Octamod contributors. Native registration/input-layer interoperability is adapted from MIT octabam; Sam Banks and existing component notices are retained. Iftah\u2019s Sting 2 is musical inspiration; no Sting source, branding artwork or assets were copied and no exact algorithm or endorsement is claimed. Firmware and extracted routines are excluded; replay bytes are reconstructed only from verified local firmware into temporary build output. Actual LCD images require reviewer rights verification under media/LICENSE.md; review is not automatic legal clearance."
   },
   "media": [
     {
@@ -360,7 +361,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -377,7 +378,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -394,7 +395,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -411,7 +412,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -428,7 +429,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -445,7 +446,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -462,7 +463,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
     {
@@ -479,7 +480,7 @@
         "firmware": "1.40C",
         "moduleVersion": "0.2.2-experimental",
         "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
-        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     }
   ],
@@ -488,8 +489,8 @@
     "steps": [
       "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
       "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
-      "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
-      "Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
+      "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+      "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
       "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
       "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
     ],
@@ -506,7 +507,7 @@
   },
   "source": {
     "repository": "https://github.com/repeat98/modwerk",
-    "revision": "3b285711d27305138b8657435f8ccbe39afe6316",
+    "revision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
     "path": "sdk/octabam/modules/riff"
   }
 }

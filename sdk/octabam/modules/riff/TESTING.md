@@ -1,6 +1,6 @@
 # RIFF testing
 
-Version: `0.2.2-experimental`, 6 October 2026. The current image, source-file hashes and test walks are in `media/capture.json`. The generator/editor lineage is source revision `3b285711d27305138b8657435f8ccbe39afe6316`; release source is bound separately by `tests.qualification.sourceSha256`. Firmware, sample cards and linked output stay private.
+Version: `0.2.2-experimental`, 6 October 2026. The current image, source-file hashes and test walks are in `media/capture.json`. The generator/editor lineage is source revision `3b285711d27305138b8657435f8ccbe39afe6316`; the tested release source is `37bb200` and is also bound by `tests.qualification.sourceSha256`. Firmware, sample cards and linked output stay private.
 
 ## Firmware-free core and source packaging
 
@@ -44,7 +44,7 @@ The stock list constructor uses one fixed 56-byte window slot, one 20-byte surfa
 
 ## Browser/native parity
 
-The standard source-only package build, importer and `module:verify` workflow are used. The recorded comparison belongs in `sdk/native-comparisons/riff.json`; it checks RIFF alone, paired/fuller selections and both stock-FX2 modes, and matches successful output and native rejections. Analog BD shares chooser hooks; both the ledger and configurator reject the combination. MIDI Scenes remains standalone. See `docs/VERIFICATION.md` for the final recorded counts. Software parity is required independently of the hardware waiver.
+The standard source-only package build, importer and `module:verify` workflow are used. The recorded comparison belongs in `sdk/native-comparisons/riff.json`; it checks RIFF alone, paired/fuller selections and both stock-FX2 modes, and matches successful output and native rejections. Analog BD and FM Synth share chooser hooks; both the ledger and configurator reject those combinations. MIDI Scenes remains standalone. See `docs/VERIFICATION.md` for the final recorded counts. Software parity is required independently of the hardware waiver.
 
 ## Hardware waiver and limits
 

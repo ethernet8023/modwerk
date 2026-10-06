@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
-  "baseCommit": "a1d8fa7d6bd4eb105d7851009a442d729369aadf",
+  "baseCommit": "7b47e84218a235e3b202edcb054fca7b81220a2f",
   "addedModuleIds": [
+    "synth",
     "riff"
   ],
   "moduleIds": [
@@ -36,16 +37,20 @@
       "after": "c593de7f68d5df584eefcbd75a120bb1d72258646d3444a5a8db7e81a290e4b4"
     },
     "src/engine/requested-modules.ts": {
-      "before": "ae4169f26eaf1a8aaeaba6b12bd69baa5bbf17fc5f154f533d32a21e767be1f5",
-      "after": "92830cf545e91c20f2176d9c719bf327db55c75180ca26f38d0c01f0ec197d77"
+      "before": "b841beca351e98ef235e8a2755a083c564c141a628a1edea986ba30473a04f60",
+      "after": "2f69ac7b39c2b0c79258edd9ca6d128018bfa2d3132c3f2aabf70d5feba0ce23"
     },
     "src/engine/stock-copy.ts": {
       "before": null,
       "after": "c2b1981a8fcbd00c9e31e8a7df27066937c42ff049ad552d1b88ad3aac17d8a5"
     },
+    "src/engine/compose-os.ts": {
+      "before": "a60c25c722bdb97d8048d457841e11d7835f5559e8e488de1f46f528fcd728db",
+      "after": "5850688639252fa275a537f831c54a68ae48acbb1c35e5d7a275100be147b935"
+    },
     "scripts/build-module-packages.py": {
-      "before": "a22ea1def8156630e30912c30a51bb8b357b86b87465485ffdfb5bb1f9e2622d",
-      "after": "04eaa3da0cd18fbb899b295d431737b8aebb0fdc0390b5a51fc3e3f198b6177f"
+      "before": "6bbe7fab1346b7db750e3ab70cbb8deb036e9e9c17585c5aea59ac5c1d2aa89d",
+      "after": "4985f734b0ff5d17461b5a728492321b462b8df170f078560f9349e2ba4c4021"
     }
   },
   "selections": [
