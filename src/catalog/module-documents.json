@@ -4255,7 +4255,7 @@
       "category": "machines",
       "source": {
         "repository": "https://github.com/repeat98/modwerk",
-        "revision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
+        "revision": "3b860408fdcbf362e31dd7233b24026b3d2b2312",
         "path": "sdk/octabam/modules/vector"
       },
       "access": {
@@ -4483,7 +4483,7 @@
         "report": "TESTING.md",
         "summary": "Firmware-free core: 244,800 deterministic/scale/density and 29,772 secondary-control cases passed ASan/UBSan. Current emulator walks pass all twelve immediate SRC commits, native transport, Static/Flex modal and stock sample loading, with other-track preservation. ColdFire instruction/stack probes and conditional static bounds are recorded. Physical hardware remains untested and owner-waived for this release; persistence and audio stress are not claimed.",
         "hardwareStatus": "untested",
-        "evidenceRevision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
+        "evidenceRevision": "3b860408fdcbf362e31dd7233b24026b3d2b2312",
         "gates": [
           "Firmware-free sanitizer generator, writer and packed-settings checks",
           "Authored C/hooks to assembly reproducibility without firmware",

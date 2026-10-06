@@ -217,7 +217,7 @@
       "Browser/native build parity and matching composition rejection",
       "Exact-version owner hardware waiver; physical unit unavailable"
     ],
-    "evidenceRevision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
+    "evidenceRevision": "3b860408fdcbf362e31dd7233b24026b3d2b2312",
     "qualification": {
       "moduleVersion": "0.2.3-experimental",
       "sourceSha256": "34151c0e360314dd50d25ae8447cfa175838d7eddfd80cba13bc26dc4513668e",
@@ -507,7 +507,7 @@
   },
   "source": {
     "repository": "https://github.com/repeat98/modwerk",
-    "revision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
+    "revision": "3b860408fdcbf362e31dd7233b24026b3d2b2312",
     "path": "sdk/octabam/modules/vector"
   }
 }

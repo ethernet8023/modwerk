@@ -15,7 +15,7 @@
   "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
   "nativeSdkBaseRevision": "f6c02edbaa01c19122487604c6276dff370471cc",
   "isolation": "Docker native compile: no network, read-only root, all capabilities dropped, no-new-privileges, user 501:20, private work/tmp mounts. Emulator guest and card/NVRAM are task-private; only test-session GDB reads.",
-  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
+  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
   "panelWalk": "media/walk.jsonl",
   "panelWalkSha256": "d81347438e480485ef23088c3c5f54bbcd849f17bd56ef08eea09d97dcae6236",
   "executedPanelWalkSha256": "d22b62ddac9a1153a45b6ce4e66861e7ca1682ddb7c10f8e3be0adc379a291c8",
@@ -72,5 +72,6 @@
   "poolPanelWalk": "media/pool-walk.jsonl",
   "poolPanelWalkSha256": "287e686e74ce8c1a5e5d913ca14c7969ed8a2772e6b15ae063b6d6f4a0158faa",
   "executedPoolPanelWalkSha256": "1edfb6ff45be0812589058a5f297139b41c3c8297ad24fbe4f482253627f1f6a",
-  "sourceSha256": "34151c0e360314dd50d25ae8447cfa175838d7eddfd80cba13bc26dc4513668e"
+  "sourceSha256": "34151c0e360314dd50d25ae8447cfa175838d7eddfd80cba13bc26dc4513668e",
+  "sourceRevision": "3b860408fdcbf362e31dd7233b24026b3d2b2312"
 }
