@@ -3,7 +3,7 @@
   "id": "riff",
   "key": "RIFF",
   "name": "RIFF",
-  "version": "0.2.0-experimental",
+  "version": "0.2.1-experimental",
   "category": "machines",
   "author": {
     "github": "repeat98",
@@ -26,7 +26,8 @@
       "Flex or Static sample playback"
     ],
     "usage": [
-      "Select an audio track. Choose FLEX or STATIC on SRC page 2 (double-tap SRC), load one tuned sample from that pool, then reopen SRC page 2, move DOWN to RIFF and press YES. RIFF keeps the selected pool and sample.",
+      "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
+      "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
       "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
       "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
       "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
@@ -204,13 +205,14 @@
   },
   "tests": {
     "report": "TESTING.md",
-    "summary": "Firmware-free core passed 244,800 deterministic/scale/density and 29,772 secondary-control cases with ASan/UBSan. The focused emulator walk verifies immediate commits for all twelve controls, empty-track first PLAY, advancing native steps after edits/restart, and other-track preservation. Hardware, complete bounds/timing, persistence and release-builder parity remain pending.",
+    "summary": "Firmware-free core passed 244,800 deterministic/scale/density and 29,772 secondary-control cases with ASan/UBSan. The focused emulator walk verifies immediate commits for all twelve controls, empty-track first PLAY, advancing native steps after edits/restart, and other-track preservation. Hardware, complete bounds/timing, persistence and release-builder parity remain pending. The emulator also checks Static/Flex modal navigation, cancellation and stock sample-browser workflows.",
     "hardwareStatus": "untested",
     "gates": [
       "Firmware-free generator, secondary controls, packed-settings and record-writer tests",
       "Actual native LCD chooser, both SRC pages and sample editor captures",
       "Emulator sequence changes while stopped and playing; secondary seed editing",
-      "Native persistence, both pools and swing equivalence verification (pending)",
+      "Static/Flex pool modal, horizontal menu navigation and native sample-browser verification",
+      "Native persistence and swing equivalence verification (pending)",
       "Worst-case cycle and complete memory qualification (pending)",
       "Real-hardware functional, load and recovery checks (pending)",
       "Owner review and browser/native parity and rejection checks (pending)"
@@ -235,8 +237,8 @@
         "page": "SRC SETUP machine chooser",
         "shows": "location",
         "firmware": "1.40C",
-        "moduleVersion": "0.2.0-experimental",
-        "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
         "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
@@ -252,8 +254,8 @@
         "page": "SRC generator",
         "shows": "controls",
         "firmware": "1.40C",
-        "moduleVersion": "0.2.0-experimental",
-        "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
         "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
@@ -269,8 +271,8 @@
         "page": "SRC after Generate",
         "shows": "controls",
         "firmware": "1.40C",
-        "moduleVersion": "0.2.0-experimental",
-        "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
         "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
@@ -286,8 +288,8 @@
         "page": "SRC sample editor",
         "shows": "controls",
         "firmware": "1.40C",
-        "moduleVersion": "0.2.0-experimental",
-        "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
         "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     },
@@ -303,16 +305,68 @@
         "page": "SRC SETUP",
         "shows": "controls",
         "firmware": "1.40C",
-        "moduleVersion": "0.2.0-experimental",
-        "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+      }
+    },
+    {
+      "path": "media/ot-pool-choice.png",
+      "captureType": "emulator",
+      "caption": "RIFF uses the stock list modal with visible left and right chevrons. RIGHT enters the highlighted pool.",
+      "alt": "Native RIFF backing-pool modal with Static and Flex entries and left/right menu arrows.",
+      "credit": "Octamod contributors",
+      "license": "LicenseRef-OT-UI-Documentation",
+      "source": "original",
+      "otUi": {
+        "page": "Backing-pool choice",
+        "shows": "controls",
+        "firmware": "1.40C",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+      }
+    },
+    {
+      "path": "media/ot-static-pool.png",
+      "captureType": "emulator",
+      "caption": "RIGHT on STATIC opens the existing Static sample-slot tools.",
+      "alt": "Native Static sample-slot list reached from RIFF pool choice.",
+      "credit": "Octamod contributors",
+      "license": "LicenseRef-OT-UI-Documentation",
+      "source": "original",
+      "otUi": {
+        "page": "Static sample pool",
+        "shows": "controls",
+        "firmware": "1.40C",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
+        "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
+      }
+    },
+    {
+      "path": "media/ot-flex-pool.png",
+      "captureType": "emulator",
+      "caption": "RIGHT on FLEX opens the existing Flex sample and recorder-slot tools.",
+      "alt": "Native Flex sample-slot list with recorder buffers and memory readout reached from RIFF pool choice.",
+      "credit": "Octamod contributors",
+      "license": "LicenseRef-OT-UI-Documentation",
+      "source": "original",
+      "otUi": {
+        "page": "Flex sample pool",
+        "shows": "controls",
+        "firmware": "1.40C",
+        "moduleVersion": "0.2.1-experimental",
+        "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
         "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
       }
     }
   ],
   "access": {
-    "location": "Audio track machine chooser: RIFF. SRC main holds live phrase controls; SRC SETUP holds secondary controls. Push LEVEL toggles ordinary sample editing.",
+    "location": "Audio track machine chooser: RIFF, then the native-sized Static/Flex backing-pool modal. SRC main holds live phrase controls; SRC SETUP holds secondary controls. Double-tap TRACK reopens pool choice; push LEVEL toggles ordinary sample editing.",
     "steps": [
-      "Select an audio track. Choose FLEX or STATIC on SRC page 2 (double-tap SRC), load one tuned sample from that pool, then reopen SRC page 2, move DOWN to RIFF and press YES. RIFF keeps the selected pool and sample.",
+      "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
+      "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
       "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
       "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
       "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
@@ -323,12 +377,15 @@
       "media/ot-generator.png",
       "media/ot-generated.png",
       "media/ot-edit.png",
-      "media/ot-setup.png"
+      "media/ot-setup.png",
+      "media/ot-pool-choice.png",
+      "media/ot-static-pool.png",
+      "media/ot-flex-pool.png"
     ]
   },
   "build": {
     "status": "pending",
-    "reason": "Source draft outside native discovery and the public catalog. Requires persistence and both-pool verification, cycle/memory reports, real-hardware evidence, browser/native integration and owner review."
+    "reason": "Source draft outside native discovery and the public catalog. Requires persistence verification, cycle/memory reports, real-hardware evidence, browser/native integration and owner review."
   },
   "source": {
     "repository": "https://github.com/repeat98/modwerk",

@@ -35,7 +35,16 @@ static RiffPhrase phrase = {{{0}}, 0};
  * validators, lock editing and the global kind table continue to use stock. */
 static uint8_t src_page[0x192] = {0};
 static uint32_t src_page_ready = 0;
+static uint32_t src_page_source = 0;
+static uint32_t pool_bank = 0, pool_part = 0, pool_track = 0;
+static uint32_t pool_pending = 0, pool_direct = 0;
+static uint32_t pool_browse = 0;
 unsigned st_selected(void);
+void st_pool_choice_open(void);
+static unsigned pool_context(void) {
+    return U32(BANK_PTR)==pool_bank && (U8(PART_IDX)&3u)==pool_part &&
+           U8(TRACK_IDX)==pool_track && st_selected();
+}
 static unsigned generator_view(void) {
     return st_selected() && !edit_view && U8(PAGE_KIND)==0 &&
            !U32(0x460d173au) && !U32(0x460d1694u);
@@ -71,6 +80,12 @@ unsigned st_type(unsigned type, const volatile uint8_t *ptr) {
     uintptr_t t=(uintptr_t)ptr-(uintptr_t)(p+0x22);
     return t<8 && type<2 && signed_track(p,(unsigned)t) ? 5 : type;
 }
+/* Only the stock sample-slot browser sees the backing machine id. All SRC
+ * drawers and the machine chooser continue to identify the track as RIFF. */
+unsigned st_chooser_type(unsigned type, const volatile uint8_t *ptr) {
+    return pool_direct && pool_context() && ptr==current_part()+0x22u+pool_track
+        ? pool_browse : st_type(type,ptr);
+}
 static void dirty_part(unsigned part) {
     U8(U32(BANK_PTR)+0x95048u)|=(uint8_t)(1u<<part);
     U8(0x100b145eu)|=(uint8_t)(1u<<part);
@@ -89,6 +104,8 @@ unsigned st_assign(volatile uint8_t *part, unsigned t, unsigned enabled) {
     volatile uint8_t *mirror=(volatile uint8_t *)(uintptr_t)(SRAM_PART+offset);
     unsigned pool=part[0x22u+t]<2 ? part[0x22u+t] : 1;
     unsigned sig=SIGNATURE+30u*t, setup=SETTINGS2+30u*t;
+    if(!enabled && pool_direct && pool_context() && part==current_part() && t==pool_track)
+        enabled=2; /* A stock sample confirmation retains RIFF and its settings. */
     if(enabled && !signed_track(part,t)) {
         uint8_t packed[9]; riff_pack(packed,&riff_defaults,t+1);
         part[sig]='S'; part[sig+1]='2'; part[sig+2]=2;
@@ -97,7 +114,97 @@ unsigned st_assign(volatile uint8_t *part, unsigned t, unsigned enabled) {
         part[sig]=part[sig+1]=part[sig+2]=0;
     }
     for(unsigned k=0;k<6;++k) { mirror[sig+k]=part[sig+k]; mirror[setup+k]=part[setup+k]; }
+    if(enabled==1) {
+        pool_bank=U32(BANK_PTR); pool_part=offset/PART_STRIDE; pool_track=t;
+        pool_pending=1;
+    }
     return pool;
+}
+/* The stock list controller owns UP/DOWN, LEVEL, YES and NO. Horizontal
+ * arrows only move between the machine, backing-pool and sample menus. */
+static const char *const pool_labels[]={"001 STATIC", "002 FLEX"};
+unsigned st_pool_choice_draw(void) {
+    uint32_t window=U32(0x460e5e30u);
+    if(!window || U32(0x460e5e2cu)!=(uint32_t)(uintptr_t)pool_labels) return 0;
+    void *surface=(void *)(uintptr_t)(window+0x24);
+    ((void (*)(void *))0x4003567cu)(surface);
+    int height=(int)U32(window+0x28);
+    for(unsigned row=0;row<2;++row) {
+        int y=height-23-7*(int)row;
+        ((void (*)(uint32_t,void *,int,int,int,const char *))0x40012bd8u)
+            (0x400ba876u,surface,5,y,-1,pool_labels[row]);
+        if(row==U32(0x460e5e40u))
+            ((void (*)(void *,int,int,int,int,int))0x40012254u)
+                (surface,3,y-1,(int)U32(window+0x24)-5,y+5,-1);
+    }
+    U32(SCREEN_DIRTY)=1;
+    return 1;
+}
+static void select_pool(unsigned pool) {
+    if(pool>1 || !pool_context()) return;
+    /* Navigation never changes the Part. The native sample-slot YES path
+     * commits the chosen backing machine and sample together. */
+    pool_browse=pool;
+    pool_direct=1;
+    st_stock_pool_open();
+    redraw();
+}
+static void pool_static(void) { select_pool(0); }
+static void pool_flex(void) { select_pool(1); }
+void st_pool_choice_open(void) {
+    static void (*const handlers[])(void)={pool_static,pool_flex};
+    if(!st_selected() || U32(0x460e5e30u) || U32(0x460e70e0u)) return;
+    pool_bank=U32(BANK_PTR); pool_part=U8(PART_IDX)&3u; pool_track=U8(TRACK_IDX);
+    pool_direct=0; pool_pending=0;
+    ((void (*)(uint32_t,unsigned,unsigned))0x4007ec60u)(0x460e5e38u,6,2);
+    ((void (*)(uint32_t,unsigned))0x4007edb0u)(0x460e5e38u,current_part()[0x22u+pool_track]);
+    U32(0x460e5e28u)=(uint32_t)(uintptr_t)handlers;
+    U32(0x460e5e2cu)=(uint32_t)(uintptr_t)pool_labels;
+    U32(0x460e5e34u)=0;
+    uint32_t window=((uint32_t (*)(int,int,int,int,int,uint32_t))0x4005829cu)
+        (110,64,-1,0,1,0x4006d754u);
+    U32(0x460e5e30u)=window;
+    if(!window) return;
+    ((void (*)(uint32_t,const char *,unsigned))0x400570b8u)(window,"\xab MACHINE:RIFF \xbb",0);
+    ((void (*)(uint32_t))0x40031494u)(0x400ce0c4u);
+    st_pool_choice_draw();
+}
+void st_pool_choice_left(void) {
+    if(!U32(0x460e5e30u) || U32(0x460e5e2cu)!=(uint32_t)(uintptr_t)pool_labels) return;
+    ((void (*)(void))0x4006d754u)();
+    pool_direct=0;
+    st_stock_pool_open();
+    ((void (*)(void))0x4007893cu)();
+}
+void st_pool_choice_right(void) {
+    if(!U32(0x460e5e30u) || U32(0x460e5e2cu)!=(uint32_t)(uintptr_t)pool_labels || !pool_context()) return;
+    unsigned pool=U32(0x460e5e40u);
+    if(pool>1) return;
+    ((void (*)(void))0x4006d754u)();
+    select_pool(pool);
+}
+void st_pool_left(unsigned key,unsigned edge) {
+    if(!U32(0x460e70e0u)) return; /* A held LEFT may repeat after the menu changed. */
+    if(pool_direct && pool_context() && U32(0x460e70e0u)) {
+        unsigned pool=pool_browse;
+        ((void (*)(void))0x400789e4u)();
+        pool_direct=0;
+        st_pool_choice_open();
+        if(U32(0x460e5e30u) && U32(0x460e5e2cu)==(uint32_t)(uintptr_t)pool_labels) {
+            ((void (*)(uint32_t,unsigned))0x4007edb0u)(0x460e5e38u,pool);
+            st_pool_choice_draw();
+        }
+        return;
+    }
+    ((void (*)(unsigned,unsigned))0x4007893cu)(key,edge);
+}
+void st_pool_right(unsigned key,unsigned edge) {
+    if(U32(0x460e70e0u) && !U32(0x460e739au) && U32(0x460e738eu)==5 && st_selected()) {
+        ((void (*)(void))0x400789e4u)();
+        st_pool_choice_open();
+        return;
+    }
+    ((void (*)(unsigned,unsigned))0x4007909cu)(key,edge);
 }
 static RiffParams settings(unsigned t) {
     const volatile uint8_t *p=current_part(); RiffParams result=riff_defaults;
@@ -214,7 +321,7 @@ static void secondary_widget(int x,int y,unsigned slot,int value,unsigned flags,
  * or generic parameter resolver. Holding a trig/scene uses the normal source
  * controls immediately, so PTCH and its generated locks remain editable. */
 static uint32_t generator_page(uint32_t stock) {
-    if(!src_page_ready) {
+    if(!src_page_ready || src_page_source!=stock) {
         static void (*const formats[12])(char *,int)={format_0,format_1,format_2,format_3,format_4,format_5,format_6,format_7,format_8,format_9,format_10,format_11};
         const volatile uint8_t *source=(const volatile uint8_t *)(uintptr_t)stock;
         for(unsigned i=0;i<sizeof src_page;++i) src_page[i]=source[i];
@@ -227,6 +334,7 @@ static uint32_t generator_page(uint32_t stock) {
         put32(src_page+0x18a,0x00005555u);
         put32(src_page+0x18e,0x55555555u);
         src_page_ready=1;
+        src_page_source=stock;
     }
     return (uint32_t)(uintptr_t)src_page;
 }
@@ -280,6 +388,11 @@ void st_key(unsigned code,unsigned edge) {
     forward(which,code,edge);
 }
 void st_ui_tick(void) {
+    if(pool_direct && (!U32(0x460e70e0u) || !pool_context())) pool_direct=0;
+    if(pool_pending) {
+        if(!pool_context()) pool_pending=0;
+        else if(!U32(0x460e5e30u) && !U32(0x460e70e0u)) st_pool_choice_open();
+    }
     /* PLAY stays entirely in the native input layer. Observe its completed
      * transport transition here, then fill only empty RIFF lanes. Forwarding
      * PLAY through our key layer can change native start-key ownership. */

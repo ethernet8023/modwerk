@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "moduleVersion": "0.2.0-experimental",
+  "moduleVersion": "0.2.1-experimental",
   "testedOn": "2026-10-06",
-  "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+  "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
   "result": "passed",
   "observations": [
     {
@@ -89,8 +89,8 @@
       },
       "noteCount": 11,
       "playing": true,
-      "nativeNextStep": 15,
-      "nativePreviousStep": 14,
+      "nativeNextStep": 12,
+      "nativePreviousStep": 11,
       "trackRecordSha256": "543943654650d98b39ae3171689497e712ecb9e1acbad98b0b2e77e2ce88d0a2"
     },
     {
@@ -111,8 +111,8 @@
       },
       "noteCount": 11,
       "playing": true,
-      "nativeNextStep": 6,
-      "nativePreviousStep": 5,
+      "nativeNextStep": 3,
+      "nativePreviousStep": 2,
       "trackRecordSha256": "543943654650d98b39ae3171689497e712ecb9e1acbad98b0b2e77e2ce88d0a2"
     },
     {
@@ -133,8 +133,8 @@
       },
       "noteCount": 11,
       "playing": true,
-      "nativeNextStep": 13,
-      "nativePreviousStep": 12,
+      "nativeNextStep": 9,
+      "nativePreviousStep": 8,
       "trackRecordSha256": "fe586d1054e161aca2418d875ace3f6943fa94296962b8bf995dae650ab31a2a"
     },
     {
@@ -155,8 +155,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 3,
-      "nativePreviousStep": 2,
+      "nativeNextStep": 0,
+      "nativePreviousStep": 15,
       "trackRecordSha256": "1b4caf8cd7683e689563b6524c122017d054aa9b4d6ccdd22bfda17c0b157b70"
     },
     {
@@ -177,8 +177,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 10,
-      "nativePreviousStep": 9,
+      "nativeNextStep": 7,
+      "nativePreviousStep": 6,
       "trackRecordSha256": "b23967e65d3d55f6c3437c74e3c186daab7e6624a5e73a960e0f11f5e641776f"
     },
     {
@@ -199,8 +199,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 0,
-      "nativePreviousStep": 15,
+      "nativeNextStep": 13,
+      "nativePreviousStep": 12,
       "trackRecordSha256": "310288f4c9b6d3665d975cd7129dbdafe51a7e8f613ee497bf982b2fde26766a"
     },
     {
@@ -221,8 +221,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 7,
-      "nativePreviousStep": 6,
+      "nativeNextStep": 4,
+      "nativePreviousStep": 3,
       "trackRecordSha256": "813e28194e9eb7a6114ce427a9d1bcb986e1b2afa1734b5e930d5099fc8e517b"
     },
     {
@@ -243,8 +243,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 13,
-      "nativePreviousStep": 12,
+      "nativeNextStep": 10,
+      "nativePreviousStep": 9,
       "trackRecordSha256": "e8766a12eea4af9c21c5a86d7807d5d071aac9227f4dadc5bcd3db88671e2a16"
     },
     {
@@ -265,8 +265,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 4,
-      "nativePreviousStep": 3,
+      "nativeNextStep": 1,
+      "nativePreviousStep": 0,
       "trackRecordSha256": "e8766a12eea4af9c21c5a86d7807d5d071aac9227f4dadc5bcd3db88671e2a16"
     },
     {
@@ -287,8 +287,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 12,
-      "nativePreviousStep": 11,
+      "nativeNextStep": 8,
+      "nativePreviousStep": 7,
       "trackRecordSha256": "e8766a12eea4af9c21c5a86d7807d5d071aac9227f4dadc5bcd3db88671e2a16"
     },
     {
@@ -309,8 +309,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 13,
-      "nativePreviousStep": 12,
+      "nativeNextStep": 9,
+      "nativePreviousStep": 8,
       "trackRecordSha256": "e8766a12eea4af9c21c5a86d7807d5d071aac9227f4dadc5bcd3db88671e2a16"
     },
     {
@@ -331,8 +331,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 7,
-      "nativePreviousStep": 6,
+      "nativeNextStep": 3,
+      "nativePreviousStep": 2,
       "trackRecordSha256": "0dfceb0dac915e0ab718f6bbbb7514bb02658113a83a91a64ce9c19f4477124e"
     },
     {
@@ -353,8 +353,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 13,
-      "nativePreviousStep": 12,
+      "nativeNextStep": 10,
+      "nativePreviousStep": 9,
       "trackRecordSha256": "87fc718c3e6e74539edbec5e4705f2557e8ac8eca4c214360a15584d9725e644"
     },
     {
@@ -375,8 +375,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 4,
-      "nativePreviousStep": 3,
+      "nativeNextStep": 0,
+      "nativePreviousStep": 15,
       "trackRecordSha256": "75f2108b34f01aa9d16ea46abe9deb0d507564766ee532c520a373512f31be5e"
     },
     {
@@ -397,8 +397,8 @@
       },
       "noteCount": 14,
       "playing": true,
-      "nativeNextStep": 10,
-      "nativePreviousStep": 9,
+      "nativeNextStep": 7,
+      "nativePreviousStep": 6,
       "trackRecordSha256": "05cabe644f9cf8af03bfa46685f1b731d5bf3f70c35965858bac584b8e0ebf67"
     },
     {
@@ -419,8 +419,8 @@
       },
       "noteCount": 16,
       "playing": true,
-      "nativeNextStep": 1,
-      "nativePreviousStep": 0,
+      "nativeNextStep": 13,
+      "nativePreviousStep": 12,
       "trackRecordSha256": "97e9e60d0de947b3d6313081ba1a596c3e37c04fd8765a15aee5c2e866822ddd"
     },
     {
@@ -441,8 +441,8 @@
       },
       "noteCount": 16,
       "playing": true,
-      "nativeNextStep": 7,
-      "nativePreviousStep": 6,
+      "nativeNextStep": 4,
+      "nativePreviousStep": 3,
       "trackRecordSha256": "04aeae5b515bf70c7aba808915b35372ddece6db62a4f3dcfbd0116a5d1bbfb8"
     },
     {
@@ -463,8 +463,8 @@
       },
       "noteCount": 16,
       "playing": true,
-      "nativeNextStep": 14,
-      "nativePreviousStep": 13,
+      "nativeNextStep": 11,
+      "nativePreviousStep": 10,
       "trackRecordSha256": "04aeae5b515bf70c7aba808915b35372ddece6db62a4f3dcfbd0116a5d1bbfb8"
     },
     {
@@ -485,8 +485,8 @@
       },
       "noteCount": 16,
       "playing": true,
-      "nativeNextStep": 6,
-      "nativePreviousStep": 5,
+      "nativeNextStep": 2,
+      "nativePreviousStep": 1,
       "trackRecordSha256": "04aeae5b515bf70c7aba808915b35372ddece6db62a4f3dcfbd0116a5d1bbfb8"
     },
     {
@@ -507,8 +507,8 @@
       },
       "noteCount": 16,
       "playing": true,
-      "nativeNextStep": 12,
-      "nativePreviousStep": 11,
+      "nativeNextStep": 7,
+      "nativePreviousStep": 6,
       "trackRecordSha256": "d28af038e540d7978fb30efe5085bc1f180ceca5ff6803a9c4d2471ad6aebe4f"
     },
     {
@@ -529,8 +529,8 @@
       },
       "noteCount": 16,
       "playing": true,
-      "nativeNextStep": 11,
-      "nativePreviousStep": 10,
+      "nativeNextStep": 5,
+      "nativePreviousStep": 4,
       "trackRecordSha256": "d28af038e540d7978fb30efe5085bc1f180ceca5ff6803a9c4d2471ad6aebe4f"
     },
     {
@@ -639,8 +639,8 @@
       },
       "noteCount": 8,
       "playing": true,
-      "nativeNextStep": 6,
-      "nativePreviousStep": 5,
+      "nativeNextStep": 5,
+      "nativePreviousStep": 4,
       "trackRecordSha256": "7540572e1adadbcb1d7f29c083e55f7e31c22c10d598e707cf484601f957d9ea"
     }
   ],
@@ -666,6 +666,5 @@
   },
   "otherTracksSha256": "6680e2d25c0ada4c612d058ecee3bfecf1bac77c9f3eb722baa79038ed82dcfe",
   "limitations": "One 16-step Static fixture. The user reported a PLAY freeze; the prior UI/record checks had not sampled step progression. This candidate removes PLAY from RIFF key interception and verifies native progression on empty/populated tracks and after edits. The exact original interactive freeze has not been reproduced. Read-only GDB pauses invalidate audio continuity/timing conclusions. Hardware, Flex, persistence and maximum load remain pending.",
-  "sourceSha256": "53ddf7d62134b539aaf87dc18c0daacf5a2569d3124bbe5f13da5eef688a95c1",
-  "sourceRevision": "a829bed93a933a13e3be460a9fb03ed0a45af23c"
+  "sourceSha256": "8a6f5b6414600e16301fca59f072c072b8df6b71c1615a9e41cf708251efe966"
 }

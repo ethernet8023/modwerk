@@ -2,7 +2,7 @@
 Generated runtime.s contains stock replay bytes; never publish that file.
 """
 from remix.stock_guard import stock_guard
-from remix.schema import Category, Detour, Gate, Kind, Linked, Module, Poke, Proof
+from remix.schema import Category, Detour, Gate, Kind, Linked, Module, Poke, Proof, SymbolRef
 H=bytes.fromhex
 MODULE=Module(
     name="riff", key="RIFF", kind=Kind.CF_PATCH,
@@ -10,7 +10,17 @@ MODULE=Module(
     doc="Editable generative sample patterns; SRC generator and stock edit view.",
     proof=Proof.UNTESTED, proof_note="Source draft; native behavior and hardware qualification pending.",
     linked=(Linked("riff", "modules/riff/runtime.s", cpu="5475", dram=True),),
+    symbol_refs=(
+        SymbolRef(0x400ce128, 0, "riff", "st_pool_choice_right", note="RIGHT browses the highlighted backing pool without committing it"),
+        SymbolRef(0x400ce10e, 0, "riff", "st_pool_choice_left", note="LEFT returns from RIFF pool choice to machines"),
+        SymbolRef(0x400cf6fa, 0x4007893c, "riff", "st_pool_left", note="LEFT returns from RIFF samples to pool choice"),
+        SymbolRef(0x400cf702, 0x4007893c, "riff", "st_pool_left", note="Repeated LEFT uses the same menu navigation"),
+        SymbolRef(0x400cf714, 0x4007909c, "riff", "st_pool_right", note="RIGHT on RIFF opens its pool-choice modal"),
+    ),
     detours=(
+        Detour(0x40077b5c, stock_guard(0x40077b5c, 6, "fc4b77b1c83703e8c61dda0b64b9ec139541c633433304b843f270cd461c6370"), "riff", "st_pool_title", "RIFF machine title offers native menu navigation"),
+        Detour(0x4006d784, stock_guard(0x4006d784, 8, "74c9188127d3241e9b2f750392fda1550a0be1780b7e06291e415aaa6d20de19"), "riff", "st_list_draw", "RIFF backing pools in the stock list window", pad_to=8),
+        Detour(0x400791e4, stock_guard(0x400791e4, 8, "fa7132fac15d6e498fd0e73744e1f94218824f3f54d5b3bad6083b60363e9f14"), "riff", "st_pool_open", "Double-tap TRACK opens RIFF pool choice", pad_to=8),
         Detour(0x4004e4c6, stock_guard(0x4004e4c6, 10, '0abf1b84f787a5a7643e7fe6f15ad7c61f1a8a1c72b9280a675610ee8eb5c3fd'), "riff", "st_src_draw", "RIFF controls in the native SRC drawer", pad_to=10),
         Detour(0x400334d8, stock_guard(0x400334d8, 6, 'd6c9f1f60272197a17511f496fc19dd21ddd7df5f1f1ec0cab7a16cad60b0609'), 'riff', 'st_machine_name', 'RIFF native selection/editor access'),
         Detour(0x4003c928, stock_guard(0x4003c928, 6, '237cd1acd4da7acb61dc7fda7c88e648a5186b36732f433b4dd91966c5a669af'), 'riff', 'st_src_names', 'RIFF native selection/editor access', kind='lea'),

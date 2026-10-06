@@ -87,7 +87,7 @@ st_setup_open:
         jmp 0x400585e6
 st_chooser_open:
         mvs.b (%a0),%d0
-        bsr st_row_type
+        bsr st_chooser_row_type
         move.l %d0,-(%sp)
         pea 0x460e7386
         jmp 0x40078890
@@ -109,11 +109,20 @@ st_setup_row:
         jmp 0x4003c986
 st_chooser_row:
         mvs.b (%a0),%d0
-        bsr st_row_type
+        bsr st_chooser_row_type
         cmp.l %d0,%d2
         bne.s 1f
         jmp 0x400786ce
 1:      jmp 0x400786fc
+st_chooser_row_type:
+        lea -20(%sp),%sp
+        movem.l %d1/%a0-%a1,8(%sp)
+        move.l %d0,(%sp)
+        move.l %a0,4(%sp)
+        jsr st_chooser_type
+        movem.l 8(%sp),%d1/%a0-%a1
+        lea 20(%sp),%sp
+        rts
 /* SRC SETUP on row five edits the real underlying pool's settings. */
 st_pool_kind:
         move.l %a0,-(%sp)
@@ -201,3 +210,59 @@ st_src_draw:
         pea -1.w
         jsr st_draw_page
         jmp 0x4004e4d0
+
+/* Stock double-tap TRACK enters the RIFF backing-pool modal. */
+        .global st_pool_open, st_stock_pool_open, st_list_draw, st_pool_title
+st_pool_open:
+        lea -16(%sp),%sp
+        movem.l %d0-%d1/%a0-%a1,(%sp)
+        jsr st_selected
+        tst.l %d0
+        beq.s .pool_stock
+        movem.l (%sp),%d0-%d1/%a0-%a1
+        lea 16(%sp),%sp
+        jmp st_pool_choice_open
+.pool_stock:
+        movem.l (%sp),%d0-%d1/%a0-%a1
+        lea 16(%sp),%sp
+st_stock_pool_open:
+        move.l %a2,-(%sp)
+        tst.l 0x460e70e0
+        jmp 0x400791ec
+st_list_draw:
+        lea -16(%sp),%sp
+        movem.l %d0-%d1/%a0-%a1,(%sp)
+        jsr st_pool_choice_draw
+        tst.l %d0
+        beq.s .list_stock
+        movem.l (%sp),%d0-%d1/%a0-%a1
+        lea 16(%sp),%sp
+        rts
+.list_stock:
+        movem.l (%sp),%d0-%d1/%a0-%a1
+        lea 16(%sp),%sp
+        lea -24(%sp),%sp
+        movem.l %d2-%d3/%a2-%a5,(%sp)
+        jmp 0x4006d78c
+st_pool_title:
+        moveq #1,%d6
+        cmpi.l #5,%d0
+        bne.s .title_stock
+        lea -16(%sp),%sp
+        movem.l %d0-%d1/%a0-%a1,(%sp)
+        jsr st_selected
+        tst.l %d0
+        beq.s .title_unsigned
+        movem.l (%sp),%d0-%d1/%a0-%a1
+        lea 16(%sp),%sp
+        bra.s .title_pool
+.title_unsigned:
+        movem.l (%sp),%d0-%d1/%a0-%a1
+        lea 16(%sp),%sp
+.title_stock:
+        cmp.l %d0,%d6
+        bcs.s .title_plain
+.title_pool:
+        jmp 0x40077b62
+.title_plain:
+        jmp 0x40077b70

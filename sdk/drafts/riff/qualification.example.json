@@ -1,5 +1,5 @@
 {
-  "moduleVersion": "0.2.0-experimental",
+  "moduleVersion": "0.2.1-experimental",
   "sourceSha256": "REPLACE_WITH_NATIVE_SOURCE_SHA256",
   "imageSha256": "REPLACE_WITH_LOCAL_TESTED_IMAGE_SHA256",
   "cycles": [
@@ -76,12 +76,16 @@
       "media/ot-generator.png",
       "media/ot-generated.png",
       "media/ot-edit.png",
-      "media/ot-setup.png"
+      "media/ot-setup.png",
+      "media/ot-pool-choice.png",
+      "media/ot-static-pool.png",
+      "media/ot-flex-pool.png"
     ],
     "tutorial": {
       "title": "Generate a phrase, then edit a note",
       "steps": [
-        "Select an audio track. Choose FLEX or STATIC on SRC page 2 (double-tap SRC), load one tuned sample from that pool, then reopen SRC page 2, move DOWN to RIFF and press YES. RIFF keeps the selected pool and sample.",
+        "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
+        "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
         "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
         "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
         "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",

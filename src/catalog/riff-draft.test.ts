@@ -7,6 +7,7 @@ import template from '../../sdk/drafts/riff/qualification.example.json'
 import capture from '../../sdk/drafts/riff/media/capture.json'
 import coreTests from '../../sdk/drafts/riff/media/core-tests.json'
 import behavior from '../../sdk/drafts/riff/media/behavior.json'
+import pools from '../../sdk/drafts/riff/media/pool-behavior.json'
 import baseline from '../../sdk/module-qualification-baseline.json'
 import { parseModuleDocument, requireModuleUiForPublication, requireModuleQualificationForPublication } from './module-contract'
 import { moduleNativeSourceSha256, parseQualificationBaseline, requireFolderQualification } from '../../scripts/module-qualification.mjs'
@@ -46,6 +47,7 @@ describe('RIFF source draft', () => {
       expect(sha(await readFile(resolve(folder, path)))).toBe(hash)
     }
     expect(sha(await readFile(resolve(folder, capture.panelWalk)))).toBe(capture.panelWalkSha256)
+    expect(sha(await readFile(resolve(folder, capture.poolPanelWalk)))).toBe(capture.poolPanelWalkSha256)
   })
 
   it('records sequence commits and advancing playback separately from UI captures', () => {
@@ -57,6 +59,15 @@ describe('RIFF source draft', () => {
     expect(behavior.checks.stepsAdvanceAfterPlay).toBe(true)
     expect(behavior.checks.stepsAdvanceAfterLiveEdit).toBe(true)
     expect(behavior.checks.otherSevenTracksUnchanged).toBe(true)
+    expect(pools.moduleVersion).toBe(draft.version)
+    expect(pools.imageSha256).toBe(capture.imageSha256)
+    expect(pools.sourceSha256).toBe(capture.sourceSha256)
+    expect(pools.result).toBe('passed')
+    expect(pools.checks.arrowsPreserveAssignedPool).toBe(true)
+    expect(pools.checks.rightOpensHighlightedPool).toBe(true)
+    expect(pools.checks.sampleConfirmationKeepsRiff).toBe(true)
+    expect(pools.checks.stepsAdvanceWithFlex).toBe(true)
+    expect(pools.checks.stepsAdvanceWithStatic).toBe(true)
   })
 
   it('binds the recorded firmware-free tests without running native code in application checks', async () => {

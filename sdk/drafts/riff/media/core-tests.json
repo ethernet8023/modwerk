@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "moduleVersion": "0.2.0-experimental",
+  "moduleVersion": "0.2.1-experimental",
   "testedOn": "2026-10-06",
   "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
   "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
@@ -32,6 +32,5 @@
     "engine.h": "70c92a089ca08d5557e79365d8e514b2e3948fde1ee035772d874afbc024976d",
     "test_engine.c": "3c24f2ba225ea8c529df7b99b95915d4b4d46531142a96e7f1c0b80d8aeb286b"
   },
-  "limitations": "Synthetic host buffers; not hardware or native timing, audio or persistence qualification.",
-  "sourceRevision": "a829bed93a933a13e3be460a9fb03ed0a45af23c"
+  "limitations": "Synthetic host buffers; not hardware or native timing, audio or persistence qualification."
 }

@@ -1,6 +1,6 @@
 # RIFF
 
-Version: `0.2.0-experimental` · author: @repeat98 / Octamod contributors.
+Version: `0.2.1-experimental` · author: @repeat98 / Octamod contributors.
 
 Source draft in `sdk/drafts/riff/`; unavailable in the configurator until qualification and owner review.
 
@@ -35,7 +35,7 @@ ROOT assumes the source sample sounds C at neutral PTCH. GATE is the native AMP 
 
 ## Usage
 
-Start with a disposable local project. Select Flex or Static and load a tuned one-shot sample before choosing RIFF. Turn DENS to generate a phrase, press PLAY, then shape it while listening. Use page 2 for the seed, pitch window and phrase structure. Turn a control only when you intend to replace the generated notes on that track.
+Start with a disposable local project. Choose RIFF, then select its Static or Flex backing pool and load a tuned one-shot through the stock sample browser. Turn DENS to generate a phrase, press PLAY, then shape it while listening. Use page 2 for the seed, pitch window and phrase structure. Turn a control only when you intend to replace the generated notes on that track.
 
 The generator owns note masks and PTCH/HOLD/VOL locks across the 64-step lane. Generation also resets the note timing, conditions, one-shot and slide state for old/new notes. Recorder events, swing and unrelated sample/FX/LFO locks stay intact. A preserved lock on a new rest becomes a trigless lock. There is no custom Undo: duplicate a pattern before replacing edits you want to keep.
 
@@ -43,15 +43,19 @@ The Part’s unused PICKUP slots store the marker and nine packed settings bytes
 
 ## Generate a phrase, then edit a note
 
-1. Select an audio track. Choose FLEX or STATIC on SRC page 2 (double-tap SRC), load one tuned sample from that pool, then reopen SRC page 2, move DOWN to RIFF and press YES. RIFF keeps the selected pool and sample.
+1. Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.
 
-2. Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.
+2. Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.
 
-3. Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.
+3. Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.
 
-4. Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.
+4. Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.
 
-5. Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern.
+5. Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.
+
+6. Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern.
+
+The modal uses the stock list controller and window chrome, as Analog BD does for 808/909. Confirming a stock sample slot preserves RIFF, its generator parameters and the current phrase. NO cancels a pool choice without changing the backing pool.
 
 ## Compatibility and limitations
 
@@ -63,7 +67,7 @@ The shared DRAM loader reserves 1,707 audio pages / 10,487,808 bytes. RIFF adds 
 
 ## Tests and measurements
 
-See [TESTING.md](TESTING.md). Sanitizer tests cover the firmware-free C engine, secondary controls, packed settings and native-record writer. Emulator evidence separately covers real panel navigation and sequence-record changes during playback. Native persistence, both backing pools, maximum load, hardware and release-builder parity remain pending.
+See [TESTING.md](TESTING.md). Sanitizer tests cover the firmware-free C engine, secondary controls, packed settings and native-record writer. Emulator evidence separately covers real panel navigation and sequence-record changes during playback. Both backing-pool browsers, file loading, sample confirmation, menu navigation and cancellation are checked in the emulator. Native persistence, maximum load, hardware and release-builder parity remain pending.
 
 Run `prepare.py` only in an isolated private build tree. It compiles original C and reconstructs four displaced spans from the verified local stock image. Keep `runtime.s`, ELF, firmware images, card images and dumps private. `verify_native.py` continues to reject publication while qualification is incomplete.
 
@@ -96,3 +100,15 @@ Push LEVEL to access native PTCH, STRT, LEN, RATE, RTRG and RTIM.
 ![Native SRC SETUP with RIFF selected and six secondary generator controls.](media/ot-setup.png)
 
 SRC page 2 holds SEED, SPAN, OFST, ROT, RPT and DIR in the native SRC SETUP layout.
+
+![Native RIFF backing-pool modal with Static and Flex entries and left/right menu arrows.](media/ot-pool-choice.png)
+
+RIFF uses the stock list modal with visible left and right chevrons. RIGHT enters the highlighted pool.
+
+![Native Static sample-slot list reached from RIFF pool choice.](media/ot-static-pool.png)
+
+RIGHT on STATIC opens the existing Static sample-slot tools.
+
+![Native Flex sample-slot list with recorder buffers and memory readout reached from RIFF pool choice.](media/ot-flex-pool.png)
+
+RIGHT on FLEX opens the existing Flex sample and recorder-slot tools.

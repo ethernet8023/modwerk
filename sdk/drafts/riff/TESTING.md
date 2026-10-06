@@ -1,6 +1,6 @@
 # RIFF testing
 
-Version: `0.2.0-experimental`, 6 October 2026. Source and image identities are recorded in `media/core-tests.json` and `media/capture.json`. Those records bind the authored files by SHA-256; no firmware is committed.
+Version: `0.2.1-experimental`, 6 October 2026. Source and image identities are recorded in `media/core-tests.json` and `media/capture.json`. Those records bind the authored files by SHA-256; no firmware is committed.
 
 ## Firmware-free core
 
@@ -30,13 +30,15 @@ The disposable project contains one Static test tone (`~SINE440`) on T1, Part ON
 
 Read-only GDB observations in this separate test session compare the selected track record before and after stopped/playing changes on all twelve parameters. Other tracks are fingerprinted to detect accidental writes. An empty track is filled after native PLAY. Native step counters advance after first PLAY, main-page edits, secondary-page edits and a populated-track restart; other track records and native track timing stay unchanged. PLAY is handled entirely by the stock input layer. The exact original interactive freeze was not reproduced. The recorded checks and limits are in `media/behavior.json`. GDB briefly pauses the guest to read; that session is not an audio-continuity measurement.
 
+The pool walk checks the automatic choice modal after RIFF selection, RIGHT/LEFT menu navigation, NO cancellation, UP/DOWN selection, both native sample-slot lists and their file browsers. It loads the test tone through each pool, confirms native sample slots and checks that RIFF parameters and the generated track record stay intact. Playback step counters are sampled on both backing kinds. RIGHT/LEFT navigation keeps the Part kind unchanged. Only native sample confirmation updates its backing kind through stock commit/dirty/source-change handling; descriptors are recloned when the underlying sample source changes. See `media/pool-behavior.json` for the recorded checks and limits.
+
 The interactive session is launched independently without a script or timeout. Its separate private card/NVRAM are disposable. Because the loaded battery state overrides the on-card setup during this boot, the preview is bootstrapped with the RIFF settings marker in the current Part and its SRAM mirror; the initial test trig is cleared. Native first PLAY generates the phrase through the tested adapter. The interactive window has no script or timeout. Emulator automation checks use another session. This bootstrap is not a persistence test.
 
 ## Remaining qualification
 
 - Real-unit functional, live parameter, playback, load and recovery checks. Current policy imposes no fixed duration or eight-track minimum.
 - Save/reload, Part copy/reload, bank and pattern changes, and power-cycle persistence, including migration from the old draft.
-- Both Flex and Static playback, custom sample locks, swing and track-scale equivalence, and first-PLAY protection with populated tracks.
+- Hardware Flex/Static playback, custom sample locks, swing and track-scale equivalence. The focused emulator fixtures do not qualify these general cases.
 - Worst-case ColdFire event cost and complete code/data/stack/allocator accounting for the maximum supported load. No hardware headroom percentage is asserted.
 - Browser/native parity, composition rejection (including Analog BD), source packaging and owner review before adding to native discovery or the public catalog.
 

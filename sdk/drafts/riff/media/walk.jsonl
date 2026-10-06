@@ -9,6 +9,7 @@
 {"tap": "DOWN", "wait_guest_ms": 350}
 {"tap": "DOWN", "wait_guest_ms": 350}
 {"tap": "YES", "wait_guest_ms": 1000}
+{"tap": "NO", "wait_guest_ms": 500}
 {"tap": "SRC", "until": "DENS", "timeout_ms": 10000}
 {"mark": "baseline"}
 {"wait_ms": 500}
