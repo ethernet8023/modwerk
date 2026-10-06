@@ -46,5 +46,18 @@
       "capacityCeiling": 1216
     },
     "hardwareCanaries": null
+  },
+  "commonWorker": {
+    "result": "passed",
+    "moduleVersion": "0.2.3-experimental",
+    "mainSha256": "9ecf5b58e489a0bd59bb4e6f6ab88c2487ecd874bfa0a7af3f795c2189d75e61",
+    "updateSha256": "051818edea53faefd732f46acbd50eda1dd33dea50d46405f5794885f43d947a",
+    "mainBytes": 1125350,
+    "updateBytes": 459780,
+    "containerRoundTrip": true,
+    "stockSeedAndTailPreserved": true,
+    "conflictsRefused": true,
+    "changedBaseRefused": true,
+    "staleSessionRefused": true
   }
 }
