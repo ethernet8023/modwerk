@@ -1,6 +1,6 @@
-# FM Synth native preview testing
+# FM Synth testing
 
-This report covers version 0.1.0-experimental. It does not qualify publication. Current hardware: **untested**. Historical author MKI reports predate the dedicated chooser and sample-free transport and are not current evidence.
+This report covers version 0.1.1-experimental. Publication uses the exact owner exception recorded in evidence/owner-hardware.md and sdk/synth-build-approval.json. Current hardware: **untested**. Historical author MKI reports predate the dedicated chooser and sample-free transport and are not current evidence.
 
 ## Exact sources and build
 
@@ -50,22 +50,16 @@ Native arena reservation: 10,487,808 bytes; current runtime extent and staging e
 
 The engine uses stock note/trig starts, releases and stops. Its oscillators run at sample rate for live playing; envelopes/glide follow stock clock data. At the guide checklist level: SRC SETUP selection, highlight/reselection, main name, SRC edit/page drawing, full stock guards, Part/shadow writes, sample-slot preservation, one-voice pattern PLAY and double-STOP are observed. Main chooser commit variants, neighbouring FLEX/STATIC audio, each p-lock, each LFO destination, scene sweeps, MIDI, chord/voice switching, save/reload, Part/pattern switching, non-1x speed/length, swing, tempo changes, loop transitions and restart behavior are **not tested**. The single engine has no model list.
 
-## Publication gates — pending
+## Release software integration — 6 October 2026
 
-Do not add this draft to sdk/catalog.json or freeze a qualification exemption. Required before publication: full worst-case cycles/memory; current attributed hardware report (or exact owner waiver where policy allows); lock/modulation/stock-path/persistence coverage; stock-free packages; shared native/browser composition and matching refusal matrix; module doctor. The hardware policy has no minimum duration or track count, but requires truthful recorded coverage. `qualification.example.json` contains pending fields and is not attached as tests.qualification.
+Version 0.1.1-experimental lives in sdk/octabam/modules/synth. Private quantizer object labels are prefixed to avoid collisions in the shared source packages. This packaging change reproduces the existing native image exactly: 6b6d0ef7b076e0096a9a930c4ec65992d5eda3b9bb18865b925ed1b49e29548a. The executable bytes behind the seven kept native LCD captures and native audio test are unchanged.
 
-Stock-free draft integrity and documentation tests are run by `npm run check` and `npm run sdk:check`. `npm run modules:generate`, `npm run modules:check -- --base origin/main`, and licence generation/checks validate the existing published catalog without adding this draft. `npm run module:doctor -- synth` reports it unavailable because it is deliberately outside native/public discovery; publication integration is pending.
+The ordinary source compiler assembles FM Synth with the public modules. The shared browser/native coverage comparison passed all 94 profiles: 37 matching built images outside the existing platform/logger writes, 57 matching refusals, zero mismatches. Native declaration checks found 512 clean sets containing FM Synth and 1,536 overlapping sets refused by the ledger. All overlapping Analog BD/public Scale Quantizer selections are refused before browser linking. The comparison includes Repitch; the earlier draft's guessed Repitch exclusion is removed. Accepted mixed builds have composition evidence only, not maximum-load audio qualification.
 
-## Repository review checks — passed on current main
+The shared firmware worker builds FM Synth, round-trips the complete upgrade, preserves the stock header prefix, tail and seed, rejects Analog BD, public Scale Quantizer and MIDI Scenes companions, and rejects changed stock firmware while clearing its previous inspected session. The generated MAIN/update remain private. Browser-image playback is recorded separately.
 
-Rebased onto `ea147a8f42f166437e56e1087c8cfba12808dbe4`. The native preview reproduces the captured/audio-tested image exactly; shared native tools/DSP inputs did not change across this rebase.
+The common worker’s MAIN SHA-256 is c1fbc0b2eaf284e72692b7048d1dfd3693f3e3e90c71229159a619d585b52c95, and its update is 831e7cd878398ee8d1e268e9fc2bcfd902f48e785965e8e510bff58abc1405a6. That exact MAIN passed the same sample-free Octemu panel walk: peak 3715, carrier period 169 frames (260.9467 Hz), final half-second peak zero. See evidence/browser-audio.json and evidence/software.json. The runtime extent is 90,268 bytes including the existing logger, with a 10,586,112-byte total reservation (native arena plus 98,304-byte logger reservation). Section extents and authored ROM writes are inventoried; stack, lifetimes and temporary peaks remain unknown. These extents are not complete memory qualification.
 
-- `npm run modules:generate`: passed; draft remains excluded.
-- `npm run check`: passed — lint, SDK checks, TypeScript, production build and 761 tests in 115 files.
-- `npm run sdk:check`: passed — 39 read-only SDK tests, including three new draft integrity/hygiene/evidence tests.
-- `npm run modules:check -- --base origin/main`: passed.
-- `npm run licenses:generate` and `npm run licenses:check`: passed.
-- `npm run module:doctor -- synth`: expected unavailable-draft result; there is no module under native/public discovery. This is a pending publication gate, not a green doctor claim.
-- Isolated stock-free package rebuild and `npm run modules:import -- <private-output>/packages --development`: passed. Image `modwerk-source-tools:continuation` provides GCC 16.2.0, GNU binutils 2.47 and Node 24.21.0. The full immutable image ID was supplied to `scripts/build-modules-isolated.sh`; no firmware/network/credentials were mounted. All ten existing package documents compare identical to main after removing only sourceCommit provenance. The release source-tree fingerprint changes because the licence inventory/notices now identify this draft. No existing executable payload, module version or recipe changed.
+The owner explicitly approved missing current hardware, worst-case chip timing and complete stack/memory bounds for this exact experimental release on 6 October 2026. See evidence/owner-hardware.md. Hardware remains untested and those quantities remain null. The frozen baseline and earlier module exceptions are unchanged. The incomplete qualification.example.json remains a worksheet; it is not attached as tests.qualification.
 
-The final check result supersedes early runs against incomplete shared dependencies and the pre-rebuild release fingerprint. All source and evidence changes remain in the isolated worktree.
+The seven native LCD captures are retained because the ordinary native standalone builder reproduced their exact image byte for byte after object-label namespacing. Their original image and capture plan remain recorded; they are not captures of the logger-enabled browser image. Eight-track Part storage and native audio reports retain that native image identity. No generated firmware, WAV, card or battery state is committed.

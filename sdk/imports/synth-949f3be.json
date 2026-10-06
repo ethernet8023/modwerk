@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "root": "sdk/drafts/synth",
-  "moduleVersion": "0.1.0-experimental",
-  "status": "documented native draft; software smoke passed; publication qualification pending",
+  "root": "sdk/octabam/modules/synth",
+  "moduleVersion": "0.1.1-experimental",
+  "status": "owner-approved-experimental-release",
   "repository": "https://github.com/sambanks/octabam",
   "revision": "949f3be15eae5d3d16a7682b9e3218d42f6c1284",
   "sourcePath": "modules/synth",
@@ -36,7 +36,7 @@
       "sourceBytes": 4182,
       "sourceSha256": "11cb5133f7f20357e23cc1fa43f602d08a491fcd944ed4d56d31abffc139b631",
       "sourceGitBlob": "eb4613241957b8edeb9cfeb55f6dfaaf0de7264a",
-      "vendoredSha256": "beac9f1e56cd1d60b6a6a7644ee7d9eb52ddd4af226c948552292f591ff0be7f",
+      "vendoredSha256": "780dbb5617d20167a5e3e67d49af7f9525021b89657a559ca678b95c5ae88f79",
       "changes": [
         "Replace upstream wrapper with dedicated FM chooser and Part-tag integration; bundle matching quantizer privately; retain untested publication status."
       ]

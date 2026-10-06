@@ -221,12 +221,12 @@
           "path": "sdk/octabam/modules/quantizer/upstream/LICENSE"
         },
         {
-          "path": "sdk/drafts/synth/upstream/LICENSE"
+          "path": "sdk/octabam/modules/synth/upstream/LICENSE"
         }
       ],
       "usedIn": [
         "modules/quantizer/upstream",
-        "drafts/synth/upstream"
+        "modules/synth/upstream"
       ]
     },
     {
@@ -297,6 +297,9 @@
     ],
     "sidechain-compressor": [
       "kyoti-sidechain"
+    ],
+    "synth": [
+      "octa-panel"
     ]
   }
 }

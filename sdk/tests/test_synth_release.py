@@ -11,7 +11,7 @@ FOLDER = APP/RECORD['root']
 sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-class SynthDraft(unittest.TestCase):
+class SynthRelease(unittest.TestCase):
     def test_source_identities_and_complete_notices(self):
         files = RECORD['files'] + RECORD['localFiles']
         self.assertEqual(len(files), len({item['path'] for item in files}))
@@ -43,15 +43,21 @@ class SynthDraft(unittest.TestCase):
             self.assertEqual(set(guard), {'path', 'address', 'length', 'sha256'})
             self.assertRegex(guard['sha256'], r'^[a-f0-9]{64}$')
 
-    def test_draft_is_excluded_and_software_evidence_does_not_claim_hardware(self):
+    def test_experimental_release_does_not_claim_hardware_or_timing(self):
         doc = json.loads((FOLDER/'octamod.module.json').read_text())
         self.assertEqual(doc['version'], RECORD['moduleVersion'])
-        self.assertEqual(doc['build']['status'], 'pending')
+        self.assertNotIn('build', doc)
         self.assertEqual(doc['tests']['hardwareStatus'], 'untested')
         self.assertNotIn('qualification', doc['tests'])
-        self.assertFalse((APP/'sdk/octabam/modules/synth').exists())
-        for name in ['sdk/catalog.json','src/catalog/module-documents.json','sdk/module-qualification-baseline.json']:
-            self.assertNotIn('synth', {item['id'] for item in json.loads((APP/name).read_text())['modules']})
+        self.assertTrue((APP/'sdk/octabam/modules/synth').exists())
+        for name in ['sdk/catalog.json','src/catalog/module-documents.json']:
+            self.assertIn('synth', {item['id'] for item in json.loads((APP/name).read_text())['modules']})
+        self.assertNotIn('synth', {item['id'] for item in json.loads((APP/'sdk/module-qualification-baseline.json').read_text())['modules']})
+        software = json.loads((FOLDER/'evidence/software.json').read_text())
+        self.assertIsNone(software['chipWorstCaseCycles'])
+        self.assertIsNone(software['completeMemoryBounds'])
+        self.assertEqual(software['hardwareStatus'], 'untested')
+        self.assertEqual(software['audio']['checks'], {'generatedCarrier':'passed', 'doubleStopSilence':'passed'})
         capture = json.loads((FOLDER/'media/capture.json').read_text())
         image = capture['imageSha256']
         self.assertEqual(len(doc['media']), 7)

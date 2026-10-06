@@ -189,7 +189,7 @@
   },
   "schemaVersion": 1,
   "moduleId": "synth",
-  "moduleVersion": "0.1.0-experimental",
+  "moduleVersion": "0.1.1-experimental",
   "captured": "2026-10-06",
   "imageProfile": {
     "modules": [
@@ -223,5 +223,6 @@
     ],
     "staticStock": true
   },
-  "sourceSha256": "4ec426639c94697f827853af687bbdb8e0524335bf9148622980612c907dfb6b"
+  "sourceSha256": "bfa77029219a2d5deaa9dd1394662e18dfee01ade72b631e36fe3fab48054560",
+  "releaseProvenance": "Original native captures retained: the 0.1.1 standalone native build reproduces the exact captured image after object-label namespacing. The common browser image is separately playback-tested."
 }
