@@ -164,3 +164,26 @@ The owner decided:
 - **Automated hardware tests later.** Hardware testing is to be automated over USB, using a customised test firmware that runs the checks on the unit and reports the results. Until then, a person's functional hardware report is the evidence. The 60-minute, eight-track stress run has not been required since 2 October 2026.
 
 Separate pull requests implement these. Until each lands, the current checks apply.
+
+## 5 October 2026 — The Digitakt/Digitone builder runs elekloader's TypeScript engine
+
+The Modwerk and elekloader developers agreed to port elekloader's mod manager to TypeScript, so the builder no longer needs Pyodide. elekloader merged the engine as `js/` (GPL-3.0-or-later). It is checked against elekloader's Python, which stays its reference, for the same bytes and the same refusals.
+
+- **Vendored engine.** [`vendor/elekloader/engine`](../vendor/elekloader/README.md) is elekloader's `js/src` at a pinned commit, unchanged. The builder worker imports it, and Vite bundles it into an 82 KB worker; Pyodide's runtime files were about 13 MB. The Python package, the web bridge and the `pyodide` dependency are gone, and the CSP no longer allows `'wasm-unsafe-eval'`.
+- **Same builds.** The cores and mods are unchanged. Run old against new on the owner's stock files, every build is byte-identical and every refusal is the same ([verification record](VERIFICATION.md)).
+- **Faster.** The engine loads in about 30 ms, where Pyodide took seconds, and a build takes about 0.4 s, where it took 11 to 13 s.
+- **Backups keep working.** A configuration backup names the catalog (`catalogRevision` in `UPSTREAM.json`, still `e4d8ba8`), no longer the engine's commit, so engine updates do not invalidate backups.
+- **Licences.** The engine is GPL-3.0-or-later. elekloader's cores, DIGISLICER, NEIGHBOR and digihealth stay GPL-2.0-or-later, and SOPHIE stays MIT. The Pyodide and CPython notices are removed with Pyodide.
+
+The same day the engine moved into elekloader's kit, below: Modwerk vendors the kit instead of the engine alone, and its own builder worker and client are gone.
+
+## 5 October 2026 — The builder is elekloader's kit
+
+elekloader packaged its builder as a kit that any website can use, with nothing in it naming a site. Several sites want the integration, so the shared parts live in elekloader and Modwerk keeps only its own pages.
+
+- **Vendored kit.** [`vendor/elekloader/kit`](../vendor/elekloader/README.md) is the kit's release zip, unchanged: the engine, the builder worker, the page's client and the catalog format.
+- **The catalog.** [`vendor/elekloader/catalog`](../vendor/elekloader/README.md) holds the same cores and mods, in the kit's catalog format, with revision `e4d8ba8`, so backups keep importing.
+- **The lock.** `vendor/elekloader/elekloader.lock.json` pins every kit file and the catalog. `npm run elekloader:check` checks against it.
+- **What Modwerk keeps.** `src/engine/elekloader/digi-build.ts` maps machine ids to the kit's device keys and starts the kit's worker. Modwerk's own worker and client are gone.
+- **Same builds.** It is the same engine, so the same bytes: the browser check gave the parity record's identities ([verification record](VERIFICATION.md)).
+

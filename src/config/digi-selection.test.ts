@@ -7,6 +7,10 @@ describe('Digi configuration backups', () => {
     const configuration = { name: 'My configuration', moduleIds: ['digihealth'], moduleVersions: pinModuleVersions(['digihealth'], device) }
     expect(parseDigiSelection(JSON.stringify(createDigiSelection(configuration, device)), device)).toEqual(configuration)
   })
+  it('imports backups made with the Pyodide builder, whose catalog is unchanged', () => {
+    const backup = { app: 'modwerk', schemaVersion: 1, device: 'digitakt', name: 'Before the engine update', catalog: { revision: 'e4d8ba84841900db78144030a991e1d69816b6a4' }, modules: [{ id: 'digihealth', version: '1.0.0' }] }
+    expect(parseDigiSelection(JSON.stringify(backup), 'digitakt')).toMatchObject({ name: 'Before the engine update', moduleIds: ['digihealth'] })
+  })
   it('exports only public selection metadata even when the input has private fields', () => {
     const configuration = { name: 'Test', moduleIds: ['digihealth'], moduleVersions: { digihealth: '1.0.0' }, firmware: new Uint8Array([1,2,3]), filename: 'private.syx', email: 'private@example.test' }
     const serialized = JSON.stringify(createDigiSelection(configuration, 'digitakt'))

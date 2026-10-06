@@ -44,7 +44,6 @@
     "@tiptap/react": "3.31.4",
     "@tiptap/starter-kit": "3.31.4",
     "better-auth": "1.7.7",
-    "pyodide": "314.0.7",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-markdown": "10.1.0",
