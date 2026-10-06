@@ -2,6 +2,8 @@
 
 Version: `0.2.1-experimental`, 6 October 2026. Source and image identities are recorded in `media/core-tests.json` and `media/capture.json`. Those records bind the authored files by SHA-256; no firmware is committed.
 
+Native-tested authored source revision: `3b285711d27305138b8657435f8ccbe39afe6316`. The private SDK/toolchain base and exact compiled input hashes remain recorded separately in `media/capture.json`.
+
 ## Firmware-free core
 
 Run inside the network-disabled, read-only toolchain container, with task-private output:

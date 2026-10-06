@@ -268,5 +268,6 @@
     "stepsAdvanceWithStatic": true
   },
   "limitations": "Focused emulator checks on one 16-step track using a test tone loaded through both native pools. Read-only GDB pauses invalidate audio-continuity and exact timing conclusions. Hardware, persistence and maximum load remain pending.",
-  "sourceSha256": "8a6f5b6414600e16301fca59f072c072b8df6b71c1615a9e41cf708251efe966"
+  "sourceSha256": "8a6f5b6414600e16301fca59f072c072b8df6b71c1615a9e41cf708251efe966",
+  "sourceRevision": "3b285711d27305138b8657435f8ccbe39afe6316"
 }

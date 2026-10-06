@@ -217,7 +217,7 @@
       "Real-hardware functional, load and recovery checks (pending)",
       "Owner review and browser/native parity and rejection checks (pending)"
     ],
-    "evidenceRevision": "a829bed93a933a13e3be460a9fb03ed0a45af23c"
+    "evidenceRevision": "3b285711d27305138b8657435f8ccbe39afe6316"
   },
   "license": {
     "spdx": "MIT",
@@ -389,7 +389,7 @@
   },
   "source": {
     "repository": "https://github.com/repeat98/modwerk",
-    "revision": "a829bed93a933a13e3be460a9fb03ed0a45af23c",
+    "revision": "3b285711d27305138b8657435f8ccbe39afe6316",
     "path": "sdk/drafts/riff"
   }
 }
