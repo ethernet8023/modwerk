@@ -1,5 +1,75 @@
 # Verification record
 
+**Owner-approved logger release (3 October 2026):** the owner explicitly lifted the logger addition’s qualification restrictions, authorized local firmware/DSP checks, approved the current module versions and logger for release, and waived hardware testing. Downloads are enabled with the logger included. This exception does not claim measured chip timing, complete stress qualification or new hardware evidence. Existing firmware isolation, original-source provenance, compatibility checks, stock fingerprint guards and packaging integrity remain in force. MIDI Scenes keeps its pinned standalone code and 12-page reservation; the logger occupies the top 16 pages of the arena, and a one-page guard separates it from the sample arena; guarded arena updates reserve all 29 pages. Mixed MIDI Scenes configurations remain incompatible. The earlier full-image proofs below predate logger integration; local verification of this change is recorded separately. See [logger evidence and limitations](../sdk/runtime/logging/TESTING.md).
+
+## One command for the native comparison — 5 October 2026
+
+`npm run module:verify -- <id> --os <your 1.40C update>` replaces the per-module suites and verifier scripts for new modules (owner decision in [DECISIONS.md](DECISIONS.md#5-october-2026--a-faster-module-workflow)).
+
+**What it runs.**
+- Native octabam runs in the pinned toolchain image: no network, the checkout mounted read-only, the extracted MAIN OS kept in a private work directory outside the repository.
+- It builds the module's coverage set from `scripts/module-coverage.mjs`, in parallel. The set is the module alone, beside each other offered module, every module together, every module together but one, and a fixed sample of 24 selections in between. Each runs with and without the stock FX2 effects.
+- Each native result is cached by the SDK sources, the exporter, the image, the original OS and the menus.
+- The browser side is the same comparison as before, now in `scripts/native-comparison.mjs`.
+- The record, `sdk/native-comparisons/<id>.json`, holds fingerprints and refusal messages only.
+
+**Checked on Sidechain Compressor 0.1.1-experimental** with the owner's original 1.40C (MAIN OS `164f3122…`):
+
+| Check | Result |
+| --- | --- |
+| Coverage set | 90 selections: 62 built, all matching native (20 identical outright, 42 identical outside the platform writes); 28 matching refusals; 0 mismatches |
+| Same native builder as before | All 90 native results, run in the image, are identical to the host-built results in the three Sidechain suites above: image sizes, full and masked SHA-256 and refusals |
+| Speed | First run 60 s with eight jobs; a rerun from the cache 13 s, writing a byte-identical record; `--all --check` 12 s |
+| It catches a real difference | With today's stale-FX1-row fix in `src/engine/choosers.ts` undone, `--check` reports 62 mismatches and exits nonzero |
+| No new declaration records or chooser entry needed | All 1,024 declaration checks for the module were already recorded, and the native chooser metadata matched the committed file |
+
+`src/catalog/native-comparisons.test.ts` requires a record that matches the current code of every offered module. The modules compared by the earlier exhaustive suites are exempt only while their code fingerprint is unchanged.
+
+## Sidechain Compressor on the shared builder — 5 October 2026
+
+Sidechain Compressor 0.1.1-experimental takes stock COMPRESSOR's row on both effect menus, keeps its dispatch and carries its code in three guarded hooks per core. It is built by the same composer as every other module. The owner waived fresh hardware evidence only; software, composition and documentation gates are unchanged. [Its testing report](../sdk/octabam/modules/sidechain-compressor/TESTING.md) and [evidence record](../sdk/octabam/modules/sidechain-compressor/evidence/common-builder.json) carry the details.
+
+**Composition against native octabam.** Native octabam (the pinned SDK) and the browser composer built every selection containing the module: the eight original modules (512 selections), the nine visible modules other than Analog BD (1,024) and Analog BD alone, beside each other module and beside all of them (22), each with and without the stock FX2 effects. Native built 1,014 and refused 544. The composer refused all 544 for the same class of reason, and for all 1,014 its module-owned writes (chooser, descriptors, ROM units, DSP payloads) equal native's image byte for byte outside the platform writes, 124 of them identical outright. The platform writes (arena sizes, the boot call and Tape Echo/Euclid detours) differ because the browser always links the core logger, which native cannot, so they are compared with their spans reset to the original bytes; none overlaps a byte a module owns. `node scripts/verify-sidechain-native.mjs` repeats this against the owner's own 1.40C file, and the committed fingerprints hold hashes only.
+
+Among the nine visible modules other than Analog BD, the module builds beside every other module and every pair; 798 of the 882 selections that build without it still build with it. The 84 it newly refuses hold Euclid or Scale Quantizer with at least two more modules and run out of effect-menu cave space. No selection refused without it builds with it. Among the eight original modules it newly refuses 48 selections, all containing Spectrum, Modulation or Character, which the site does not offer. Analog BD is refused beside every custom DSP module, as in native.
+
+**What the comparison fixed.** The first full comparison found four differences, all in the composer and all fixed: native also takes over the replaced effect's row in the stock FX1 list; while stock FX2 stays, native places the replacing module's descriptor and ROM units first, and the composer now follows; and the composer built Analog BD beside it where native refuses.
+
+**Existing modules.** The native output for all 512 selections of the original eight modules is identical with and without the shared-builder SDK changes. The committed `static-composition-proofs.json` does not reproduce under the unmodified SDK for 144 of its TapeHead selections (every selection without TapeHead reproduces), so those fingerprints already predated the current TapeHead; that is not caused by this change.
+
+**Against the author's image.** The module's own bytes in the shared-builder image equal those in the image octabam f80ecfe builds from its sidechain profile (MAIN SHA-256 `b5aa8cee7787a3dc0ea53007fe31358ba14d155421ebec9c7f98948de740675f`). The two images differ in 56 bytes: the FX1 chooser list the shared builder relocates, its three references, and six stock DSP words that newer octabam applies to every build (stock's cross-core mailbox moves from Y:0x38000 to 0x37F00 and payload B's boot zero loop widens to cover it). None lies on a word the module claims. The cycle and memory measurements, taken on the author's image, therefore describe the module's own contribution in both.
+
+**Resource ledger.** `tools/remix/ledger.py` now checks declared DSP data ranges (`Claims.dsp_ranges`), every module's absolute x:/y: literals against those ranges (with a bus client's `$9xx` reads taken where XBUS relocates them) and stock's own shared-window tenants. Sidechain is clean beside every module and all of them together; without XBUS, Character's `$990/$991` reads fall inside its keybus and are refused. The 1,024 declaration checks for visible-module selections that contain it are recorded by `scripts/export-native-checks.py`, which first re-checked all 4,719 existing ledger-composed records.
+
+**Emulator.** The headless emulator boots the native image and the complete composed image, with its runtime and the core logger, on an empty card; KEY, KFLT, KGN and MON draw correctly and the three captured frames are pixel-identical between them. These frames show the UI only. No audio, ducking, cross-core timing or mixed-image stress run was made, and no cycle bound is summed with another module's.
+
+## MIDI Scenes logger boundary fix — 3 October 2026
+
+The logger-enabled image from the download restoration below passed byte parity but failed project loading in the emulator: its first four logger code bytes at `0x4600dde0` became zero, and execution stopped at `0x4600dde4`. The author image loaded the same project successfully. This failure reproduced with both the pinned prebuilt emulator and a CLI freshly linked from the reviewed native inputs.
+
+Reserve one extra 6,144-byte guard page below the logger, keeping the author’s bottom 12 pages, its base operands and the logger’s top 16 pages intact. The sample arena now ends at `0x4600c5e0`; its trailing free-list word lands in the guard instead of logger code. Total reserved sample/recorder memory is 178,176 bytes (29 pages), an additional 6 KB. The build rejects a plan without this protected gap. All original FX1 and FX2 effects remain available for standalone MIDI Scenes; mixed selections still refuse.
+
+Independent native reconstruction of the complete MAIN image matched the browser composer. GNU logger bytes and symbols, populated configuration/replay, the complete native bootstrap append, native ELEK/ELUP packaging and round-trip checks passed. The actual browser worker passed both stock-menu settings, all thirteen companion refusals, altered/truncated input rejection, stale-base clearing and input preservation. The updated private worker check is `scripts/verify-midi-scenes-worker.html`.
+
+| Fixed MIDI Scenes identity | Value |
+| --- | --- |
+| Module version | `0.2.4-experimental` |
+| MAIN SHA-256 | `a5af848dfcb3d4b9e060e8385666330cb2f1e5b0dcbb0531e555b6417b7e7805` |
+| ELEK SHA-256 | `7e2a6d15fcbd821d21fb6213b1d496bd5ecdafe2bf5de7ad577dc75a7656dcc7` |
+| ELUP SHA-256 | `62da520eb0a22f8b3bf8edcdf97cc99c0647566d59df0dc53dc44fbeee17e002` |
+| Update bytes | 454,808 |
+| Logger runtime bytes | 60,572 |
+
+The exact fixed MAIN image passed the reviewed `scripts/midi-scenes-emulator/panel.py` eight-track scenario with a fresh fixture: 795 commands, project load, eight active FLEX tracks, 24 audio LFOs, four dense/lock patterns, crossfader and MIDI input, 401,316 captured frames, nonzero stems on all eight tracks, zero dropped capture frames and 103 MIDI UART output bytes. The sample/card fixture and native inputs match the existing reviewed runner pins. Both audio FX slots were NONE; this is not maximum stock FX load. `npm run check` passed 347 application/domain tests, 31 SDK tests, lint, types and the production build; module checks against main passed. Hardware tests were waived by the owner. Firmware, cards, raw captures and stock-derived intermediates remained private and temporary; only identities and aggregate observations are recorded here.
+
+## Logger download restoration — 3 October 2026
+
+The production browser worker was exercised locally with the owner's verified 1.40C file. Each of the eleven visible modules passed validation, composition, full-file packaging and an independent SHA-256 check as a standalone selection: MiniVerb, Tape Echo, Euclid, Repitch, Tapehead, Analog BD, MIDI Scenes, USB Audio, Scale Quantizer, Preview Volume and CC Map. Incompatible MIDI Scenes/Repitch and Analog BD/Tapehead selections were refused. An altered original was refused, invalid inspection cleared the prior usable base, and the original input remained unchanged.
+
+The actual configurator built MIDI Scenes with its logger, offered `Download .bin`, and saved a 454,808-byte file. The downloaded file's SHA-256 matched the worker result: `bef108339c186dbb7b8298a523a1ae40598383cc0ad8310d4199be22e8879c0e`. Its total arena reservation is 172,032 bytes (12 author pages plus 16 logger pages).
+
+Native GNU linking matched the browser linker for twelve logger runtime inventories; this checks linking and symbols, not every public composition. The relocated MIDI Scenes logger separately matched GNU bytes/symbols, and its complete packed loader append matched independent native packing and GNU assembly. Existing logger host tests passed. `npm run check` passed 347 application/domain tests, 31 SDK tests, lint, types, licence/module integrity and the production build. No physical-hardware test or new timing measurement was performed, as explicitly waived by the owner. All stock-derived outputs stayed local and outside the repository.
+
 ## Browser firmware flow — 1 October 2026
 
 Verified in the actual local frontend using the browser worker and a locally saved original OS 1.40C file. Stock and output bytes stayed local; this record contains identities only.
@@ -52,7 +122,7 @@ The full lightweight application check passed 116 tests in 28 files, lint, TypeS
 
 Website GitHub sign-in was removed: no OAuth routes, grants, callback cookies, GitHub identity in the session contract, or frontend sign-in code remain. Former `/api/auth/github`, `/callback` and `/complete` return 410 without redirects or cookies. Account-bound cloud configuration copies are retired (410); configurations stay on the device and move by export. Migration 0007 drops the one-use grant table and adds administrator sessions.
 
-Administration is separate from guest identity. The backend owner configures `ADMIN_KEY_SHA256`; the administrator exchanges the key for an eight-hour, tab-scoped session sent in `X-Octamod-Admin`. Every `/api/admin/` route checks it on the server. Without a valid configured digest, access fails closed. Key attempts are throttled, sign-out revokes the session and rotating the key revokes all sessions. Issue reports, comment moderation and history are only under `/api/admin/`; reporters see their own reports through `/api/issues/mine`.
+Administration is separate from guest identity. The backend owner configures `ADMIN_KEY_SHA256`; the administrator exchanges the key for an eight-hour, tab-scoped session sent in `X-Octamod-Admin`. Every `/api/admin/` route checks it on the server. Without a valid configured digest, access fails closed. Key attempts are throttled, sign-out revokes the session and rotating the key revokes all sessions. Comment moderation, history and the issue inbox (log downloads, GitHub retries) are only under `/api/admin/`; reporters see their own reports through `/api/issues/mine`. Public issue reports become GitHub issues carrying only their public details when `GITHUB_TOKEN` is configured; private reports and logs are never published. The status and comment webhook accepts only HMAC-signed deliveries for the configured repository and ignores redeliveries and bot comments (`src/community/service.test.ts`).
 
 `npm run check` passed 125 tests in 30 files (including the four owner-merge approval tests and new administrator/guest isolation tests), the four synthetic SDK tests, lint, app/server TypeScript and the static build. Against the actual local Worker runtime (workerd) the retired routes returned 410, admin routes 403 and an unconfigured key 503. A disposable second Worker with its own D1 state and a temporary key accepted the correct key, refused a wrong one, kept a guest out of the admin inbox, showed the reporter only their own report and refused the revoked session. The temporary key and state were deleted. The new pages were not yet exercised in a browser.
 
@@ -314,6 +384,10 @@ A clean-commit source-only container build reproduces all ten parity-verified
 authored package artifacts; only source-commit provenance differs.
 
 
+## TapeHead 0.1.2 release integration — 5 October 2026
+
+TapeHead 0.1.2-experimental, the input-level update merged as a draft in PR #53, moves into `sdk/octabam/modules/tapehead/`. Only `tapehead.asm` changes at runtime (`JSFX(4x)/4`, 422 words, 295 cycles/sample); the manifest, descriptor, ID and chooser rows are unchanged. The source-only compiler rebuilt the TapeHead DSP package (`c54070fc…`, matching native fresh assembly at four origins); every other package recompiled byte for byte or was carried over unchanged with new version pins. With the owner's local 1.40C fingerprint, the browser composer's TapeHead selection matched the native `tapehead-spring` build's complete DSP payloads on both cores word for word, and the 16 native TapeHead profiles buildable without the m68k-elf toolchain built or refused as with 0.1.1. The committed full-image proof files remain the 0.1.1, pre-logger record; see `sdk/octabam/modules/tapehead/evidence/parity.md`. Hardware: the author's MKII, about three minutes on seven tracks with parameter locks and scene changes, reported working; not a stress run.
+
 ## TapeHead release integration — 2 October 2026
 
 TapeHead 0.1.1-experimental moves from PR #42's draft into native discovery,
@@ -373,3 +447,318 @@ checks, lint, app/server type checks and the production build. Exact-base
 module validation and `git diff origin/main --check` pass. The source-only
 compiler's `--verify-existing` pass reproduces every authored package and
 receiver against the locally parity-verified baseline. No firmware is involved.
+
+## Digitakt and Digitone container engine — 4 October 2026
+
+Modwerk's TypeScript engine (`src/engine/elektron/`) reads and writes the Digitakt and Digitone mk1 OS file: the ELE3 container, its SysEx transport and the packed main OS. Checked locally with the owner's own stock files, kept outside the repository (`scripts/verify-elektron-container.mjs`):
+
+| Stock file | SHA-256 | Writer identity | Repacked main OS (version MW01) |
+| --- | --- | --- | --- |
+| Digitakt OS 1.53 | `9bdd44bb…29bcc92` | byte for byte | passes every container check; in-place gap 531,097 |
+| Digitakt OS 1.54 | `f78ba80f…53e3cf6` | byte for byte | passes; in-place gap 527,627 |
+| Digitone / Keys OS 1.44 | `d4f200d0…3c9659` | byte for byte | passes; in-place gap 337,594 |
+
+**Writer identity:** rebuilding each file from its own main OS reproduces it byte for byte, which also confirms the message and content checksums.
+
+**The repacked Digitakt 1.53 build in digiemu:** it was checked against stock with digiemu's `emu.fwcheck` (irpina's mk1 emulator, run locally with its patched Unicorn).
+
+- The device's own updater accepted the build, it booted to a live user interface and it ran.
+- Nine screens and 7.9 seconds of audio are identical to stock (`--no-boot-strict`; stock against itself reports the same emulator bus-error quirk in strict mode).
+
+This proves the container layer only. No mods or core were linked, and no hardware was involved. Packing the main OS currently takes about 45 seconds in Node.
+
+## Source-only elemod compilation — 4 October 2026
+
+The pinned GCC 16.2.0 / m68k-elf / binutils 2.47 / Node 24.21.0 container compiled all eight currently declared module/release recipes without any firmware mounted. Two runs from the same tracked source produced byte-identical recipes and inventory. ELF rejection tests and synthetic local-materialization tests run in the ordinary application checks; the real-stock comparisons below run only through the separate local evidence tool.
+
+`node scripts/verify-elemod-source-parity.mjs --packages DIR --oracle DIR --out LOCAL_DIR --firmware machine:stock.syx ...` materializes each recipe from the owner's verified main image and compares the linked image with the corresponding author release, using the same reference core. It writes only identities, hashes, section sizes and status, never image bytes.
+
+| Module | OS | Source-built `.run` | Author `.run` | Linked image comparison |
+| --- | --- | ---: | ---: | --- |
+| digihealth (Digitakt) | 1.53, 1.54 | 2,988 B | 2,988 B | byte exact on both releases |
+| SOPHIE | 1.53 | 7,998 B | 7,998 B | byte exact |
+| NEIGHBOR | 1.53, 1.54 | 3,744 B | 3,772 B | differs; not accepted as native parity |
+| DIGISLICER | 1.53, 1.54 | 16,346 B | 16,414 B | differs; not accepted as native parity |
+| digihealth (Digitone) | 1.43 | 1,952 B | 1,952 B | byte exact |
+
+The owner supplied Digitone 1.43 during this continuation. Its complete SysEx SHA-256 matches the machine profile (`c5a54cc0…95bf9aa`). The reference `core-dn1-2.0a.elemod` was obtained from elekloader v0.4.0 and checked against GitHub's asset digest (`c6d9dbed…6b54f`); it is used only as a local oracle. The source-built and author-built digihealth images both hash to `460e86b85ed7a7d638ec4a0c5606aa484c4108a286cd33bb2f54ec715746f031`. The new stock and oracle files remain outside the repository.
+
+The native-parity tool exits unsuccessfully when a case differs or lacks its stock/oracle input. The initial FAST AUDIO stubs were shortened by assembler relaxation; explicitly requiring absolute address operands restored both Digitakt digihealth comparisons. The remaining C objects use the exact pinned author source (every recorded input hash matches), but their compiled code differs. An independent GNU/Linux GCC 13.3 / binutils 2.42 comparison also differs; it is not a replacement production toolchain. Recovering the original C compiler/settings or qualifying the newly compiled implementations remains required. No timing, emulator behaviour or hardware evidence is inferred from these comparisons.
+
+The source PR provides reproducible compilation, stock-free review artifacts and local recipe materialization. It does not finish source-release parity, provide Modwerk's pending cores, publish a package to the app or enable Digitakt/Digitone downloads. The existing approved Octatrack implementation and frozen qualification records are unchanged.
+
+## Original core boot foundation — 4 October 2026
+
+Modwerk's `sdk/elemod/core/` implements its own boot copier and event-table dispatcher from the public ABI documentation. It does not copy elekloader's core assembly. The emitted recipes explicitly declare `stage: boot-probe` and `providesInterface: false`: only the boot call is installed; the event adapters and complete per-machine facilities remain pending.
+
+Two isolated source builds reproduced all eight module recipes, four core probes and both inventories. Firmware-free host tests exercise ordered dispatch, empty tables, argument delivery and nonzero input/hold consumption on both machine variants. Cross-compilation asserts every public descriptor's 32-bit layout. Compiled-code CPU checks cover normal, no-BSS, no-run and entirely empty sections with three different status-register patterns on each machine (24 cases): copying, clearing, bounds, all general registers, status, stack, return address and original-call handoff pass.
+
+The separate local verifier checked stock identities, guarded original-call bindings, linkage and the complete packed container for each release. Boot probes built from `581ae078d417cf72e9d7196361404fcf87f0a8a7` were checked in digiemu `c1b5735835923e328f8b4950d6ba927875e5b669` using `emu.fwcheck --baseline STOCK --no-timing --no-boot-strict`:
+
+| Machine / OS | Probe stages | Captured screens | Audio comparison | Probe DDR + BSS |
+| --- | --- | --- | --- | ---: |
+| Digitakt 1.53 | all pass | 9, identical | 7.882 s, identical | 420 B |
+| Digitakt 1.54 | all pass | 9, identical | 7.883 s, identical | 420 B |
+| Digitone 1.43 | all pass | 10, identical | 8.284 s, identical | 576 B |
+| Digitone 1.44 | all pass | 10, identical | 8.283 s, identical | 576 B |
+
+Both Digitone **stock baselines**, unlike the probes, report a runtime read at `0x0000012a` in unconfigured FlexBus space. Captured screen/audio comparisons are identical; that emulator baseline limitation is retained, not suppressed or treated as hardware proof. digiemu also reports that it did not check container checksums: Modwerk's separate `verifyEle3Build` checked the SysEx/content checksums and in-place unpacking before these runs.
+
+The complete local build hashes are `b2871db6664ee9f367ea6b7b35823ecc9136469cd04b51ab3167cbc222a039c4` (DT 1.53), `313ecf70991c6d3a529762547e4eb056a65e6c2a054538a58811edb4a4e4f455` (DT 1.54), `c11660e9e6d024af782b5aa3888c736f649d1ae01315ec02570f231fee503e31` (DN 1.43) and `76a13c0fae2b77ce8f7e54a43a9a3a8a076bfbe9bc8a5b0aaa94d13e57d7bab0` (DN 1.44). Final recipes from `1e49baf` have the same compiled ELF hashes for every release; subsequent changes added documentation and the synthetic CPU verifier, not runtime code.
+
+These checks qualify the boot development probe only. The event dispatcher has not been exercised through actual firmware hooks; no imported module was attached to these probes. Timer setup, SETTINGS integration, Digitakt SRC machines and Digitone voice/hold hooks, parameters, pages, project storage and Mod Menu must still be implemented and checked. Timing and real-hardware stress evidence were not collected. Downloads remain disabled.
+
+### 4 October 2026 — local Digitakt / Digitone import
+
+The local reader accepted the owner's original Digitakt 1.53 / 1.54 and Digitone 1.43 / 1.44 downloads, checking complete-file SHA-256, ELE3 parsing, unpacked main image length and SHA-256. The newly supplied Digitone 1.43 download matches `c5a54cc05b921f2e4bd814834c5365c2a5aa01d7772a9a2961fac1c3095bf9aa`. Only metadata returns from the worker. This inspection does not build or qualify a modded image.
+
+Synthetic tests cover full file and main image identity refusals, wrong-machine files, size bounds, worker transfer/disposal, per-machine persistence with the legacy Octatrack slot, restore revalidation, corrupt-file removal, storage failure, out-of-order checks and deletion after a pending save or navigation. Firmware storage uses the existing IndexedDB database and separate machine keys; no upload endpoint is involved. The Browser checks rejected a three-byte synthetic `.syx` and a synthetic ZIP through the actual file picker. Switching machines cleared the previous reader's state. Valid owner files were checked locally outside the browser automation; no stock bytes were served or uploaded. Downloads remain disabled while the complete cores are pending.
+
+## Original core UI adapters — 4 October 2026
+
+`ui-hooks.s` implements the documented tick, draw, key and encoder event contracts, from public ABI documentation and inspection of the owner's local call sites. No elekloader core assembly was read or copied. The source-only job emits a separate `core-ui-build.json` and four `ui-cores/` recipes, each declaring `stage: ui-hook-probe` and `providesInterface: false`. The boot and four UI calls are installed with full six-byte stock guards and verified original destinations. Their event tables remain empty; imported modules are not installed.
+
+Two isolated builds from `2ac1e332e69a53b380fff53bace668c79803c163` reproduced all eight module recipes, four boot probes, four UI probes and three inventories byte for byte. `verify-elemod-ui-cpu.mjs` executed the compiled adapters and C dispatcher in synthetic ColdFire memory: 144 cases pass across all four OS profiles. They cover empty and observing tables, input consumed by the first or second handler, callback arguments and order, redraw signalling, original outputs, all general registers, status, caller arguments, stack bounds and return address. These callbacks are synthetic substitutes; this is ABI evidence, not module or hardware behaviour evidence.
+
+The local container verifier checked complete stock identity, original-call bindings, linkage, SysEx/content checksums and in-place unpacking before digiemu `c1b5735835923e328f8b4950d6ba927875e5b669` checked each packed probe against stock (`--no-timing --no-boot-strict`). The results are:
+
+| Machine / OS | Probe stages | Named screen captures | Exact audio comparison | First frame-stream difference |
+| --- | --- | --- | --- | --- |
+| Digitakt 1.53 | all pass | 9, identical | differs: one final 100 ms window, reported RMS zero; 7.882 / 7.883 s | 1,238.402 ms |
+| Digitakt 1.54 | all pass | 9, identical | differs: one final 100 ms window, reported RMS zero; both rounded to 7.883 s | 1,138 ms |
+| Digitone 1.43 | all pass | 10, identical | differs: 34 windows, starting at 4,500 ms; both rounded to 8.284 s | 1,005.024 ms |
+| Digitone 1.44 | all pass | 10, identical | differs: 34 windows, starting at 4,600 ms; 8.283 / 8.281 s | 1,537.333 ms |
+
+The full build hashes are `8c858cb5dcb352e316072138d6f906e8975697dfb21a9652447122939b307e72` (DT 1.53), `ec27a8c9b68acac333402bd1de758365c4db750d0367336d45302f78f1d6e432` (DT 1.54), `70aa09ca5393ccb0c4a5e6bc68db082bd852c62ecd49c6ae0c44476a25e0cc52` (DN 1.43) and `69a8c2b736f58d53e6b9e4939ad93af23b60b514a342aa064a4ac41a8d2c483b` (DN 1.44).
+
+**These probes do not establish stock equivalence.** digiemu's passing build verdict is separate from its comparison result: all four complete comparisons report differences. A repeated DN 1.43 run reproduced its audio mismatch. Local PCM/event-time inspection found slightly different delivered input times (up to one 0.667 ms audio block), but shifting selected audio windows did not make them byte-identical. The audio difference remains unresolved; it is not dismissed as a harmless phase offset. Both Digitone stock baselines fail on the previously recorded unconfigured FlexBus read at `0x0000012a`; the UI probes also report that inherited violation, marked `in_stock: true` and excluded by digiemu from their build verdict. No cycle timing or hardware evidence was collected.
+
+The boot-only probe evidence above remains separate. SETTINGS/render/timer facilities, Digitakt machine integration and Digitone voice/hold/parameter/page/project/menu facilities are still pending. UI ABI tests and matching named screen captures cannot qualify a complete core, imported modules or public firmware downloads. Ordinary Node 24 `npm run check` passes all 464 domain tests, lint, type checking and the production build; it does not run any of these emulator/CPU checks.
+
+## Original SETTINGS/render adapters — frozen, 4 October 2026
+
+**Status: frozen by the owner.** On 4 October the owner paused Modwerk's own Digitakt/Digitone builder at this stage and chose to vendor elekloader's builder for the launch. Work on the original core resumes later; its completion criterion is a builder that matches elekloader's online builder. This section records the state at the freeze.
+
+Original `event-hooks.s` and `settings-api.c` add SETTINGS dispatch, render entry/exit dispatch and `core_additem`. The render adapters preserve all four EMAC accumulators, extensions, mask and arithmetic mode; render-out runs before stock EMAC restoration. State access follows NXP's [MCF54418 reference manual](https://www.nxp.com/docs/en/reference-manual/MCF54418RM.pdf), section 5.3.1.2. No reference core assembly was read or copied. Source-only artifacts declare `stage: event-hook-probe` and `providesInterface: false`; three inline resumes contain zero placeholders filled only from verified local stock. Four stock menu helper bindings carry address, length and SHA-256 guards. No imported module patches within 64 bytes of any core site.
+
+**Reproducibility.** Two isolated builds of `17ef30ed83c581b4a8fc2660596abb56573ccd35` (image `sha256:6711f0abb3c30dcfda4e9a8a812555f8bbceb37a0fc988918b5d624b603d4a6a`) produced 25 byte-identical files: eight module recipes, twelve development probes and their inventories. All twelve probe ELF hashes equal those of runtime commit `0ca62324e823cd810279f7992a90ddbd0aa52ab5`; only the test script and README source fingerprints differ. `verify-elemod-events-cpu.mjs` passes **276 synthetic cases** on the final build. They cover ordered dispatch, arguments, inline instruction effects, register/status/stack preservation, EMAC preservation across four arithmetic modes, callback record layout and construction order, allocation failure and null inputs. They do not prove the actual stock helpers or imported module behaviour.
+
+**Emulator checks.** The final recipes materialize, link and pack into the same four builds as the runtime commit. digiemu `c1b5735835923e328f8b4950d6ba927875e5b669` checked each against stock (`--no-timing --no-boot-strict`):
+
+| Profile | Build SHA-256 | Stages | Named screens | Audio against stock | Frame streams first differ |
+| --- | --- | --- | --- | --- | --- |
+| Digitakt 1.53 | `4ce9edb075f2092e246e5fe48b9750cc3a8b07de1596aaace26d7e519d3b6181` | all pass, no violations | 9, identical | identical, 7.882 s | 1,238.402 ms |
+| Digitakt 1.54 | `8e442663d1579acac591989a4a6f199f72fbe735738c6b7e144e6d1ed8bf9594` | all pass, no violations | 9, identical | one final 100 ms window, RMS zero in both; 7.883 / 7.884 s | 1,138 ms |
+| Digitone 1.43 | `a1f01bc4f5ed7e3da33dc3165f681beff65e959f0775e71097d590d8e494fb91` | all pass | 10, identical | 35 windows from 4,500 ms | 1,005.024 ms |
+| Digitone 1.44 | `c3c99f5a0249e71c77e7e7f49aa4f497d1bbc7f37e46ab9a4d58691414172aeb` | all pass | 10, identical | 33 windows from 4,600 ms | 1,005.067 ms |
+
+Both Digitone runs report only the stock baseline's own FlexBus read at `0x0000012a` (`in_stock: true`). Default tours on the Digitakt play silence (no samples on the emulated card), so its audio comparison says nothing about sounding playback. The Digitone audio windows are numerically identical to those of the UI-only probes, so the SETTINGS/render adapters added no audio difference of their own.
+
+**The Digitone audio difference is shared with elekloader's core.** elekloader's Digitone 1.43 core alone (reference object `core-dn1-2.0a.elemod`, SHA-256 `c6d9dbed28965bce4a827c292f499c8f5309187bf136ffb52e237bd01186b54f`, linked by Modwerk's linker into build `5f84fa66e7ff68286b67b5c0246158ee1c0b38bd3125bfe86a30f7bfe77bd9fe`) differs from stock in the same 35 windows from 4,500 ms, with the same RMS values. Compared directly with that reference build, the Modwerk 1.43 probe matches all 10 named screens; its audio differs in 34 windows with a maximum RMS difference of 3.8 (16-bit scale). elekloader's own documentation attributes its core's difference to the core's extra cycles moving where scripted key presses land. A local stock-only control did not reproduce the difference by shifting every key press 0.3 ms or 0.667 ms from one snapshot (identical audio apart from one silent final window). Separately booted builds start from different settled snapshots, and their DSP voice-parameter streams already differ in the first render. The exact mechanism therefore remains open; parity with the reference core is the relevant result. The Digitone 1.44 reference comparison was stopped at the freeze.
+
+**Attached module.** Source-built Digitone 1.43 digihealth linked with the probe (with a local-only `core_zero` alias for its two weak imports, because the probe does not export `core_zero`; build `8d6f9948ca39add6a4298242e3fb867a4c719020a0ddb3e7acec9ef0da705d44`) and with the reference core (build `472031cf58e782f8d5515bf82b60bb2c8f3cfbafac9593df59cb432159572343`). A key tour opened SETTINGS and navigated it identically on both: 18 of 18 named screens match, and audio differs only after PLAY. The tour stopped on CONTROL, before the SYSTEM INFO row, so **the row's insertion, select, change and draw callbacks were not exercised**. Resume by extending the tour further down the list. DTIM0 setup and `core_zero` remain unimplemented.
+
+Node 24 `npm run check` passes the application tests, lint, type checking and the production build at this commit; it runs none of these firmware, CPU or emulator checks. Digitakt SRC machines, Digitone extended facilities, DTIM0, `core_zero` and real module evidence remain outstanding for the original core. Downloads from the original core remain disabled; nothing has been merged or deployed. Firmware, builds, PCM, LCD captures and reports stayed local and temporary.
+
+## Vendored elekloader builder — 4 October 2026
+
+Digitakt/Digitone builds now run elekloader's builder (commit `e4d8ba84841900db78144030a991e1d69816b6a4`, release v0.4.0 cores, the five shop mods' author release files) under Pyodide 314.0.7 in a browser worker. `npm run elekloader:check` verifies every vendored file against `vendor/elekloader/UPSTREAM.json`. The npm Pyodide runtime files are byte-identical to the `pyodide-core-314.0.7.tar.bz2` that elekloader pins (SHA-256 `2abdcc2e35208af406e07724cffa85bc582ced97e9028383ecf5462541393f95`).
+
+Every vendored file matches the SHA-256 in elekloader's catalog and release checksums. No `.elemod` file contains Elektron code. Compared with each owner stock image, the only matching runs of 8 bytes or more are zero or `0xFF` filler, plus the text "\0Source " in NEIGHBOR's own strings. Stock instructions are referenced by address and copied from the owner's file during the build.
+
+**Parity with elekloader.** The vendored files were loaded into Pyodide under Node exactly as the worker loads them. They built every module subset for each of the owner's four stock files (Digitakt 1.53: 16, 1.54: 8, Digitone 1.43: 2, 1.44: core alone), all with OS version `2.0a`. Each result was compared with elekloader's own command line (`python3 -m elekloader.patch`) run natively from the same commit:
+
+- **27 of 27 cases match.** Every successful build is byte-identical. Every set elekloader refuses is refused, for example any set with both NEIGHBOR and SOPHIE, whose patch sites overlap.
+- Sample identities: Digitakt 1.53 core alone `7286aed303da0538a582e23473d246941f8d0f443f5621fb8724af4b4d10a521`, Digitakt 1.53 DIGISLICER `01be49ea937b40822097005ed13a17e7df360b15d50b8d399d0a6314c6bc7711`, Digitone 1.43 digihealth `09f43f1b1dd179789f2198c5f2b8d190046e229bd4a8821c6d17871a3a92117a`, Digitone 1.44 core alone `c9bcd105b5e5f3cdfd6cb7b8ea99a582fc98f0f4393af80b85256fcbf6fa4cf2`.
+
+**Browser.** In headless Chromium against the development server, the real configuration page went through the whole flow:
+- It verified the owner's Digitakt 1.53 file through the file picker, then checked DIGISLICER (2.9 s) and built it (10.9 s).
+- The page showed SHA-256 `01be49ea…6c7711`, identical to native elekloader.
+- NEIGHBOR + SOPHIE was refused with elekloader's overlap report.
+- At 390 px there was no horizontal overflow, and no request left the site.
+- The same flow passed against the production build (`vite preview`, CSP meta tag with `'wasm-unsafe-eval'`).
+- After a reload, the saved Digitone 1.44 file was restored and verified again, and the core alone built as `c9bcd105…6881`, identical to native elekloader.
+
+Downloads stay off (`DIGI_DOWNLOADS_ENABLED = false`) pending the owner's approval. No emulator or hardware check of these outputs was repeated here; elekloader documents its own checks. Stock files and builds stayed local and temporary.
+
+
+## Combined release account follow-up — 4 October 2026
+
+PR #91 consolidates #64 and #68–#90 and is the only branch for further Modwerk release fixes. All 24 recorded source heads are in its ancestry; the superseded PRs are closed and their branches retained. The approved Octatrack folders, eleven-module qualification baseline and pinned Digi builder are unchanged.
+
+Owner-authorized live local Google/GitHub/Discord signup and returning login passed with real provider apps, callback URLs and credentials. Separate local databases avoided linking the owner’s same-email identities; each created only its chosen public username, private verified email and unchecked news preference. Google’s external app remains in Testing. Six private credentials are staged in an undeployed Worker version; production code/schema/registration are unchanged. [SINGLE_SIGN_ON.md](SINGLE_SIGN_ON.md) records the version and production gates.
+
+The existing server OAuth flow now uses locally served official provider artwork in native buttons. Signup consent labels stay beside their checkboxes with normal wrapping. Desktop/375-pixel visual review and a fresh Node 24 `npm run check` passed: 569 application tests, 31 firmware-free SDK/source checks, lint, types, licence/catalog/vendor verification and the production build. No firmware/DSP/hardware tests were rerun and no stock file entered these login tests.
+
+
+## Release builder and live mail follow-up — 4 October 2026
+
+The owner approved Digitakt/Digitone downloads on the condition that the builder matches elekloader. The exact vendored engine, cores, modules and Pyodide pins remain unchanged from #85; `npm run elekloader:check` verified the pinned files again. The recorded 27/27 native byte-parity and refusal cases above remain the qualification evidence. `DIGI_DOWNLOADS_ENABLED` is now true; the earlier paused-download record is historical. No firmware/DSP/hardware test was repeated for these application changes, and Modwerk's separate original core remains frozen.
+
+The Digi configuration page now follows the OT page's order: compatibility status, verified base firmware, selected modules, resources and risk acknowledgement/build/export. It adds a firmware-free, machine/catalog/version-validated JSON backup/import. Build/download acknowledgement is tied to the current device, verified base identity, selection and OS version; cancelling disposes the active browser worker. Stock and outputs remain local.
+
+Account messages now include a table-based Modwerk HTML layout and the existing plain-text fallback, with a direct action button, fallback link, expiry and support contact. There are no remote images, fonts, tracking pixels or scripts. A sending-only temporary key restricted to `modwerk.app` sent exactly one verification and one recovery message to the owner-approved inbox from an isolated local Worker/database. Resend recorded both as delivered; the owner confirmed inbox arrival and SPF, DKIM and DMARC PASS. Verification, verified login, reset, one-use replay rejection, old-password rejection and new-password login passed. Recovery revoked the previous session (local session count 1 to 0). The real journey exposed and fixed signed-in recovery/resend routes incorrectly showing the profile; two regression cases cover these forms. A consumed verification URL appeared in tool output during browser inspection; replay was rejected and no password or API key was printed.
+
+The temporary sending key was revoked. Production account links and origin remain pending the approved domain/backend rollout. Node 24 `npm run check` passed 579 application tests in 93 files, 31 synthetic SDK/source checks, lint, TypeScript, licence/schema checks and the static production build. The Worker dry-run passed (417.86 KiB gzip).
+
+
+### Production rollout preparation
+
+With explicit owner approval, a temporary database-free, mail-free Worker ran two synthetic Better Auth hash/verify requests using the pinned password implementation. Both returned success; private tail aggregates recorded 164/241 ms CPU and 165/243 ms wall time. `Date.now()` inside a Worker did not advance during CPU-only work, so the endpoint's zero-ms fields are not the measurement. Those costs exceed the Free plan's stated 10 ms budget despite the runtime's occasional allowance. The owner purchased Workers Paid and the dashboard confirmed Paid as the current plan; hashing parameters are unchanged. The temporary Worker was deleted. This proves the tested operations complete, not arbitrary concurrent load.
+
+Before any production migration, the production D1 export was encrypted with a separate private key and restored only into a fresh local database. All 23 application/internal SQLite tables and complete row-value identities match the encrypted source, integrity is `ok`, and there are no foreign-key violations. A private Time Travel bookmark and existing deployment record are kept with the rollout evidence. No firmware, provider credential or database rows enter this evidence file.
+
+## Digi library parity follow-up — 4 October 2026
+
+Digitakt and Digitone now use the Octatrack library toolbar, with working type filtering, sorting, comparison checkboxes and their own Build firmware links. The shared comparison dialog accepts machine-qualified Digi IDs, preserves the three-module limit and updates the correct machine configuration. Missing Digi popularity, addition dates and processing measurements remain explicit. Local browser checks exercised Sampling/Name sorting, comparison and adding a module, plus JSON configuration import/export without firmware. Node 24 `npm run check` passed 582 application tests and 31 SDK/source checks, lint, TypeScript and the production build. No firmware/DSP/hardware tests ran and builder/vendor code was unchanged.
+
+## Toolchain image caching — 5 October 2026
+
+Adding GCC 16.2.0 to `sdk/build/Dockerfile` made `source-packages` take about 16 minutes, of which 12.5 were the `make -j2 all-gcc` layer and 4 seconds the module compilation. Both `pages.yml` and `module-pr.yml` now build the image with `docker/setup-buildx-action` 4.4.1 and `docker/build-push-action` 7.4.0, pinned to their release commit SHAs (Node 24; `context`, `file`, `tags`, `load`, `provenance`, `sbom`, `cache-from` and `cache-to` verified at those commits), and share layers through the GitHub Actions cache under scope `source-tools`. Every layer input is pinned by digest or archive checksum, so a cached layer is the layer a fresh build would produce. GitHub scopes caches by ref: pull-request runs can read main's cache but write only their own, so the release workflow restores only layers built on main. GCC, binutils and dsp56300 now build with all runner cores; the parallelism does not change the compiler's configuration. The isolated compilation step, its image-ID check and the reproduction gate are unchanged. Not run locally: no Docker daemon was available, so the first CI run after merge is the first real image build with these settings.
+
+## elekloader's TypeScript engine — 5 October 2026
+
+Digitakt/Digitone builds now run elekloader's TypeScript engine: `js/src` at commit `28c5469676c9c4807a500bd4b317c15a8af50cfb`, GPL-3.0-or-later, vendored unchanged in `vendor/elekloader/engine` and bundled into the builder worker. It replaces the Python package and web bridge from commit `e4d8ba8`, which ran in Pyodide 314.0.7. The cores and mods are unchanged. `npm run elekloader:check` verifies every vendored file, the engine's included, against `UPSTREAM.json` (schema 2).
+
+**Old against new.** Both builders were driven through the calls the worker makes, in the order `prepareBuild` and the build make them:
+- **the old one:** the vendored Python package and `bridge.py`, unchanged, natively under CPython 3.14;
+- **the new one:** the vendored engine under Node 24.
+
+There were 35 cases on the owner's four stock files:
+- **27 module subsets**, the cases of the 4 October record: Digitakt 1.53: 16, 1.54: 8, Digitone 1.43: 2, 1.44: the core alone.
+- **8 more:**
+  - the Digitakt 1.53 zip as downloaded;
+  - an Octatrack OS, for which the site has no core;
+  - a core in place of a stock file;
+  - a 1.53 mod on 1.54;
+  - a mod whose SHA-256 is not the pinned one;
+  - three version fields: too long, non-ASCII, and empty.
+
+Every reply was compared:
+- the stock result, each added mod and tick, the mod list;
+- the check and the version field;
+- the build result: each output file's SHA-256 and size, the facts, and the log without its times.
+
+Results:
+- **34 of 35 cases are identical.** All 22 builds are byte-identical. The 13 other cases end the same way, word for word: 12 refusals, and the Octatrack OS, which no core on the site fits. Two of the builds, as recorded on 4 October: Digitakt 1.53 DIGISLICER `01be49ea…6c7711` and Digitone 1.43 digihealth `09f43f1b…92117a`.
+- **The one difference:** a file that is not a stock OS is refused with a "Supported:" list that now also names Digitakt II 1.17, which the newer engine knows. Modwerk does not offer Digitakt II.
+- **Median build:** 3.9 s for the Python natively, 0.42 s for the engine.
+
+elekloader checks the engine against its Python with its own tools (`js/tools`), on the owner's files.
+
+**Browser.** In Chromium, against the production build (`vite preview`, CSP meta tag without `'wasm-unsafe-eval'`), the built builder worker was driven with the client's messages:
+- the engine loaded with the four cores in 30 ms;
+- each build took about 0.4 s and matched the runs above, and every file matched its reported SHA-256:
+  - Digitakt 1.53 NEIGHBOR + DIGISLICER: `624481b9…`;
+  - Digitakt 1.54 DIGISLICER: `10e61410…`;
+  - Digitone 1.43 digihealth: `09f43f1b…`;
+- NEIGHBOR + SOPHIE was refused with elekloader's conflict report, and so was an off-site base URL;
+- no request left the site.
+
+The configuration page itself was not exercised: it needs a signed-in member and the local Worker. Its calls and their replies are unchanged.
+
+**The build page's log.** While it builds, the Digitakt/Digitone panel now shows the Octatrack page's three steps, driven by the engine's log: the "linked" line ends Build modules, and "packed" ends Prepare file. The status line follows each log line. The whole log, with each line's time, stays under the result, or under the error if a build fails, with a Download build log button. The text file gives:
+- the device and OS;
+- the builder's commit and catalog revision;
+- the mods and the OS version shown;
+- each output's size and SHA-256;
+- every log line.
+
+It holds no stock file name and no firmware. This was checked in the development server, with a local stand-in for the community API that answers as a signed-in member:
+- DIGISLICER on Digitakt 1.53 went through the three steps live and built `01be49ea…`;
+- the log and its downloaded file read as above;
+- at 375 px there was no horizontal overflow.
+
+**Checks (Node 24, Windows 11).**
+- **Pass:** `elekloader:check`, `licenses:check`, `typecheck`, `lint` and the production build.
+- **Vitest:** 646 tests pass (on main at `217ee59`, with the build log's three).
+  - Two fail as they do without this change on this machine: `scaffold.test.ts` needs `python3`, and `module-publication.test.ts`.
+  - `src/tooling/check.test.ts` was left out because on Windows it starts itself again and again.
+- **Not run:** no firmware, DSP or hardware test.
+
+Stock files and builds stayed local and temporary.
+
+## elekloader's kit — 5 October 2026
+
+The Digitakt/Digitone builder now runs elekloader's kit:
+- **The kit:** `elekloader-kit-0.4.0.zip`, from elekloader commit `aca353742b2eb05a67e102d81098e77204c8248f`, protocol 1. It is vendored unchanged in `vendor/elekloader/kit`.
+- **The catalog:** the same 4 cores and 8 mods as before, in the kit's format, with revision `e4d8ba8`. It was made by the kit's own `feed` from the previous pins: each file read by the engine, and each sha256 checked against its pin.
+- **The lock:** `vendor/elekloader/elekloader.lock.json`, written by the kit's `lock`. Both the kit's `verify --lock` and `npm run elekloader:check` pass against it.
+
+**Tests:**
+- `engine.test.ts` drives the kit's worker logic with the vendored catalog, served as the site serves it:
+  - the 4 cores load;
+  - every mod adds for its release;
+  - a core or mod that is not the pinned file is refused;
+  - a file that is not a stock OS is refused.
+- `digi-build.test.ts` covers the adapter: plan, prepare, the build steps and the build log.
+
+**Browser.** The development server ran with a local stand-in for the community API, answering as a signed-in member. On the real configuration page with Digitakt 1.53, digihealth + DIGISLICER:
+- the kit's worker was the one started (`vendor/elekloader/kit/src/kit/worker.ts`);
+- the check passed, and the three steps ran live;
+- the build verified in 0.39 s as `3c9fe6fc…729633`, the same identity as in the parity record above;
+- the downloaded build log named kit 0.4.0, its commit and the catalog revision.
+
+**Checks (Node 24, Windows 11).**
+- **Pass:** `elekloader:check`, `licenses:check`, `typecheck`, `lint` and the production build. The worker is 84 KB, and `elekloader/catalog.json` is emitted with its files.
+- **Vitest:** 643 tests pass. Two fail as they do without this change on this machine: `scaffold.test.ts` needs `python3`, and `module-publication.test.ts`.
+- **Not run:** no firmware, DSP or hardware test. Stock files and builds stayed local and temporary.
+
+## The update command and backups across catalogs — 5 October 2026
+
+**Tests.**
+- `src/tooling/elekloader-update.test.ts`:
+  - `KIT_PROTOCOL` is the vendored kit's, and `DEVICES` matches `digi-build.ts`;
+  - a kit zip yields exactly the files Modwerk vendors;
+  - a changed, missing or extra file, protocol 2, a mismatched folder, two folders and a path outside the folder are refused;
+  - catalog changes and the follow-ups: a module file to update, one to remove, a mod not in the library, a licence path that is gone.
+- `digi-selection.test.ts`: an older-catalog backup imports, with notes for a module left out and a version changed; one whose modules are all gone is refused; a current-catalog backup has no notes; an empty or missing revision is refused.
+
+**Runs** (each reverted after):
+- The kit zip built by `packaging/build_kit.py` from elekloader main `a1be3ce` (sha256 `576b7d44…bf70ad`), with the dev server running:
+  - 2 of 31 vendored files changed (`README.md`, `kit.json`), since the engine is the same as `aca3537`'s;
+  - the lock, the licence entry and both notices moved to `a1be3ce`, and the vendor check passed.
+- The current catalog fed back in: nothing downloaded, no file changed.
+- The catalog without SOPHIE, under a new revision:
+  - `digisophie-1.1.13.elemod` removed and the lock rewritten;
+  - it listed `sdk/digitakt/modules/digisophie/modwerk.module.json` and the `digisophie` licence entry as left to do.
+
+**Browser.** A Digitakt backup naming another revision, with digihealth 0.9.0, DIGISLICER 2.1.0 and a module that no longer exists, imported with digihealth and DIGISLICER. The page said the retired module was left out and that digihealth is 1.0.1 now.
+
+**Checks (Node 24, Windows 11).** `typecheck`, `lint`, `elekloader:check`, `licenses:check` and the production build pass. Vitest, on main `5897804`: 709 pass, and the same two fail as above.
+- **Note:** run Vitest without npm's environment, for example `node node_modules/vitest/vitest.mjs run`. Under `npx vitest` on Windows, `check.test.ts` starts the real `npm run test`, which runs the suite again and again.
+
+## elekloader kit at a1be3ce — 5 October 2026
+
+The vendored kit moved from `aca3537` (the kit branch) to `a1be3ce`, elekloader main after the kit was merged (#48), with `npm run elekloader:update`:
+- **The zip:** `elekloader-kit-0.4.0.zip`, built by `packaging/build_kit.py` from a clean checkout of `a1be3ce`, sha256 `576b7d44639d4abeb1351a7771b4e3a1ef91f0b7cbcc69f64db9bb5255bf70ad`. elekloader's [kit-v0.4.0](https://github.com/irpina/elekloader/releases/tag/kit-v0.4.0) pre-release attaches the same zip, by that sha256, and `npm run elekloader:update` on the release's download changes no file.
+- **What changed:** 2 of 31 vendored files, `README.md` (the merged integration guide) and `kit.json` (the commit). Every engine and kit source is byte for byte the same, so builds are too. The lock, the elekloader licence entry and both notices name `a1be3ce`. The catalog is unchanged (`e4d8ba8`).
+- **Browser:** Digitakt 1.53, digihealth + NEIGHBOR + DIGISLICER built `5031993c…eebe6b`, the identity from before the move, and again after the rebase onto main `5897804`, with digihealth + DIGISLICER at the parity record's `3c9fe6fc…729633`. The file identity names elekloader `a1be3ce`. digihealth + NEIGHBOR + DIGISLICER + SOPHIE is still refused for its conflicts.
+- **Checks (Node 24, Windows 11):**
+  - `elekloader:check`, `licenses:check`, `typecheck`, `lint` and the production build pass;
+  - Vitest, on main `5897804`: 709 pass, and the same two fail as above;
+  - not run: no firmware, DSP or hardware test. Stock files and builds stayed local and temporary.
+
+## The update command takes elekloader's whole catalog — 5 October 2026
+
+`npm run elekloader:update -- elekloader-catalog.json --library` keeps only the mods Modwerk's library lists, with the mods they require on the same device and OS, so elekloader's published catalog goes in as it is. The change list now goes file by file: a catalog can hold two cores for one OS, and a core added beside another was reported as replacing it. A changed core is listed as left to do, because the builds of its OS change.
+
+**Tests.** `elekloader-update.test.ts` adds:
+- a catalog cut to the library keeps a required mod for its OS only, drops other devices, and keeps the catalog's other fields;
+- the change list for a replaced, an added and a removed file, and a second core added for one OS;
+- the follow-ups for a changed core and for a mod kept only as a requirement.
+
+**Run** (reverted after). elekloader's [kit-v0.4.0](https://github.com/irpina/elekloader/releases/tag/kit-v0.4.0) `elekloader-catalog.json` with `--library`:
+- it left out the 7 Digitakt and Digitone mods the library does not list: digichain, digieq, digimatrix, digimono, digipoly, digiutils and digitables;
+- it downloaded only `core-dn1-2.2.elemod`, kept the same 8 mod files, and the lock and vendor check passed;
+- it listed the Digitone 1.43 core 2.2 as left to do, since Digitone 1.43 builds would use it.
+
+## elekloader update review fixes — 6 October 2026
+
+The updater now rebuilds `vendor/licenses/elekloader.txt` from the incoming kit's complete `NOTICE` and `LICENSE` before regenerating the distributed notices. Its staged kit generates and verifies the catalog lock before installation, including kit-only updates. Installation, notice-generation or final vendor-check failures restore the original kit, catalog, lock, licence manifest and all generated notices; original files remain in the reported temporary folder if a filesystem error prevents restoration.
+
+Four CLI regression cases use temporary repositories and the real vendored kit, without firmware or network downloads: changed copyright notices reach the text and HTML distributions and an identical update changes no bytes; a protocol-1 kit with an unsupported catalog schema changes no installed file; notice-generation and final vendor-validation failures restore a combined kit/catalog update, including removed catalog files and notices that did not exist before the update. All four cases fail against the original updater and pass with these fixes.
+
+On Node 24, `npm run check` passed: 716 Vitest tests, licence, machine, module and vendor checks, SDK checks, lint, type checking and the production bundle. No kit, catalog pin, firmware-build output or hardware qualification changed.
+
+**Checks (Node 24, Windows 11).** `licenses:check`, `machines:check`, `modules:check`, `elekloader:check`, `sdk:check`, `lint` and the production build pass. Vitest, on main `5897804` with the pull request it builds on: 710 pass, and the same two fail as above.

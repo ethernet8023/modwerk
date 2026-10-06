@@ -38,8 +38,11 @@ jobs:
         run: |
           # Compare with the last successful release, not the previous commit, so a failed module build is never skipped.
           last=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow pages.yml --branch main --status success --limit 1 --json headSha --jq '.[0].headSha // ""')
-          paths='sdk scripts/build-module-packages.py scripts/build-utility-packages.py scripts/build-modules-isolated.sh scripts/import-module-build.mjs scripts/stamp-module-build.mjs scripts/module-source.mjs scripts/license-notices.mjs scripts/licenses.mjs src/engine/assets src/release'
-          if [ -n "$last" ] && git cat-file -e "$last^{commit}" 2>/dev/null && git diff --quiet "$last" HEAD -- $paths; then
+          # Documentation and media of a module are not compiled (scripts/module-source.mjs), so they never need a rebuild.
+          paths=(sdk ':(exclude,glob)sdk/**/*.md' ':(exclude,glob)sdk/octabam/modules/*/media/**' ':(exclude,glob)sdk/octabam/modules/*/presentation/**'
+            ':(exclude,glob)sdk/octabam/modules/*/evidence/**' scripts/build-module-packages.py scripts/build-utility-packages.py scripts/build-modules-isolated.sh
+            scripts/import-module-build.mjs scripts/stamp-module-build.mjs scripts/module-source.mjs scripts/license-notices.mjs scripts/licenses.mjs src/engine/assets src/release)
+          if [ -n "$last" ] && git cat-file -e "$last^{commit}" 2>/dev/null && git diff --quiet "$last" HEAD -- "${paths[@]}"; then
             echo "modules=false" >> "$GITHUB_OUTPUT"
             echo "No module change since the last successful release ($last): publishing the verified committed packages."
           else
@@ -65,8 +68,20 @@ jobs:
       - run: npm ci
       - run: npm run modules:check
       - run: npm run licenses:check
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      # Every toolchain input is pinned by digest or checksum, so cached layers equal a fresh build.
+      # Main-branch caches cannot be written by pull requests.
       - name: Prepare the pinned patched assembler toolchain
-        run: docker build --file sdk/build/Dockerfile --tag octamod-source-tools .
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: sdk/build/Dockerfile
+          tags: octamod-source-tools
+          load: true
+          provenance: false
+          sbom: false
+          cache-from: type=gha,scope=source-tools
+          cache-to: type=gha,scope=source-tools,mode=max
       - name: Compile reviewed source without network, credentials or firmware
         run: |
           tool_image=$(docker image inspect octamod-source-tools --format '{{.Id}}')
@@ -112,7 +127,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           OCTAMOD_APPROVER_ID: ${{ vars.MODULE_APPROVER_GITHUB_ID }}
-      - run: npm run check
+      # The pull request already ran lint and every test (module-pr.yml). A release re-verifies what must hold at release
+      # time (generated files, licences, machine and module records, source integrity), then type-checks and bundles.
+      - run: npm run licenses:check && npm run machines:check && npm run modules:check && npm run elekloader:check && npm run sdk:check
+      - run: npm run build
         env:
           VITE_COMMUNITY_API_URL: ${{ vars.COMMUNITY_API_URL }}
           VITE_REPOSITORY_URL: ${{ github.server_url }}/${{ github.repository }}

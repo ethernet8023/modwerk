@@ -68,7 +68,7 @@ describe('module qualification hard gates',()=>{
     const reported=()=>parseModuleDocument({...example,media:[qualificationMedia],tests:{...example.tests,hardwareStatus:'reported',qualification:q}})
     expect(()=>requireModuleQualificationForPublication(reported())).not.toThrow()
     const hardware=q.hardware
-    if(!('kind' in hardware)) throw new Error('Expected functional fixture')
+    if(!('kind' in hardware)||hardware.kind!=='functional') throw new Error('Expected functional fixture')
     hardware.imageSha256='f'.repeat(64)
     expect(()=>requireModuleQualificationForPublication(reported())).toThrow('tested source and image')
     hardware.imageSha256=q.imageSha256;hardware.sourceRevision='e'.repeat(40)
@@ -82,7 +82,7 @@ describe('module qualification hard gates',()=>{
     for(const module of catalog.modules.filter(m=>!['cc-map','previewvol'].includes(m.id))) {
       const folder=resolve('sdk/octabam/modules',module.id),record=frozen.get(module.id)
       const unchanged=record?.version===module.version&&record.folderSha256===await moduleFolderSha256(folder)
-      expect(await requireFolderQualification(folder,parseModuleDocument(module),frozen)).toBe(unchanged?'retained':'qualified')
+      expect(await requireFolderQualification(folder,parseModuleDocument(module),frozen)).toBe(unchanged?'retained':module.id==='midi-scenes'?'owner-approved-standalone':'qualified')
     }
   })
   it('binds exemptions to complete folder contents and qualification to the native source',async()=>{

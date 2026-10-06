@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'node_modules/**', '.wrangler/**'] },
+  { ignores: ['dist/**', 'node_modules/**', '.wrangler/**', 'vendor/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -19,6 +19,10 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
+  },
+  {
+    files: ['redirect/**/*.js', 'public/push-sw.js'],
+    languageOptions: { globals: { ...globals.browser, ...globals.serviceworker } },
   },
   {
     files: ['*.{js,ts}', 'scripts/**/*.mjs'],

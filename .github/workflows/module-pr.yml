@@ -1,21 +1,81 @@
 name: Module PR checks
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 'modwerk/**', 'codex/modwerk-*']
 permissions:
   contents: read
 concurrency:
   group: module-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
-  module-contract:
+  # Every PR gets the quick check below (lint, tests, types, build). Only a PR that changes module source, the module
+  # build or the committed packages also gets the Docker compile, and only one that touches module folders or their
+  # path handling gets the Windows runner, which is the slowest and the most often queued. Skipped jobs count as passing.
+  scope:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 5
+    outputs:
+      modules: ${{ steps.scope.outputs.modules }}
+      windows: ${{ steps.scope.outputs.windows }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
+      - id: scope
+        env:
+          OCTAMOD_PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git cat-file -e "$OCTAMOD_PR_BASE^{commit}"
+          # The same module inputs the release uses to decide whether to rebuild (pages.yml), plus this workflow.
+          # Module documentation and media (README and other Markdown, media/, presentation/, evidence/) are not compiled and are
+          # excluded, as in scripts/module-source.mjs. A manifest edit still counts here: its prose is not compiled either, but
+          # its build fields are, and the fingerprint check then passes without a rebuild when only prose changed.
+          modules=(sdk ':(exclude,glob)sdk/**/*.md' ':(exclude,glob)sdk/octabam/modules/*/media/**' ':(exclude,glob)sdk/octabam/modules/*/presentation/**'
+            ':(exclude,glob)sdk/octabam/modules/*/evidence/**' scripts/build-module-packages.py scripts/build-utility-packages.py scripts/build-modules-isolated.sh
+            scripts/import-module-build.mjs scripts/stamp-module-build.mjs scripts/module-source.mjs scripts/license-notices.mjs
+            scripts/licenses.mjs src/engine/assets src/release .github/workflows/module-pr.yml)
+          windows=("${modules[@]}" src/catalog/module-folder.ts src/catalog/module-folder.test.ts scripts/modules.mjs scripts/module-qualification.mjs)
+          changed() { if git diff --quiet "$OCTAMOD_PR_BASE" HEAD -- "$@"; then echo false; else echo true; fi; }
+          echo "modules=$(changed "${modules[@]}")" >> "$GITHUB_OUTPUT"
+          echo "windows=$(changed "${windows[@]}")" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+  module-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      elemod: ${{ steps.source-inputs.outputs.elemod }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Detect changes to Elemod source and compiler inputs
+        id: source-inputs
+        env:
+          OCTAMOD_PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Compare the actual checked-out PR merge with its exact base, including removals.
+          git cat-file -e "$OCTAMOD_PR_BASE^{commit}"
+          inputs=(sdk/elemod sdk/digitakt sdk/digitone sdk/machines sdk/build
+            sdk/octabam/scripts/vendor.sh sdk/octabam/tools/patches sdk/octabam/tools/harness/dsp_host
+            'scripts/build-elemod*' scripts/elemod-elf.mjs
+            src/catalog/module-contract-v3.ts src/catalog/module-folder.ts src/catalog/versions.ts
+            src/devices/machine-contract.ts src/engine/elektron src/engine/assets/elemod
+            package.json package-lock.json)
+          # Scheduling-only workflow edits do not change the compilation. Changes to
+          # the compiler job itself still require its isolated reproducibility check.
+          compiler_job() {
+            git show "$1:.github/workflows/module-pr.yml" |
+              sed -n '/^  elemod-source:/,/^  octatrack-source:/{ /^  octatrack-source:/d; p; }' | sed '/^    needs:/d; /^    if:/d'
+          }
+          if git diff --quiet "$OCTAMOD_PR_BASE" HEAD -- "${inputs[@]}" &&
+             cmp -s <(compiler_job "$OCTAMOD_PR_BASE") <(compiler_job HEAD); then
+            echo 'elemod=false' >> "$GITHUB_OUTPUT"
+            echo 'Elemod source and compiler inputs are unchanged; skipping compilation.'
+          else
+            echo 'elemod=true' >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
@@ -30,6 +90,8 @@ jobs:
       # The owner verifies actual measurement/hardware evidence before merge.
       # Metadata checks never execute submitted Python or run firmware gates.
   module-paths-windows:
+    needs: scope
+    if: needs.scope.outputs.windows == 'true'
     runs-on: windows-2025
     timeout-minutes: 10
     steps:
@@ -50,3 +112,87 @@ jobs:
         run: npm run sdk:check
       - name: Exercise paths and directory junctions on Windows
         run: npm run test -- src/catalog/module-folder.test.ts
+  core-logger-host:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check bounded logger ring, controller and card adapter without firmware
+        run: sh sdk/runtime/logging/tests/run_host.sh
+  elemod-source:
+    needs: module-contract
+    if: needs.module-contract.outputs.elemod == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      # Reuses the release workflow's cached toolchain layers; every input is pinned.
+      - name: Prepare the pinned source compiler
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: sdk/build/Dockerfile
+          tags: modwerk-source-tools
+          load: true
+          provenance: false
+          sbom: false
+          cache-from: type=gha,scope=source-tools
+          cache-to: type=gha,scope=source-tools,mode=max
+      - name: Compile twice without network, credentials or firmware
+        run: |
+          image=$(docker image inspect modwerk-source-tools --format '{{.Id}}')
+          bash scripts/build-elemod-isolated.sh "$GITHUB_WORKSPACE" "$RUNNER_TEMP/elemod-first" "$image"
+          bash scripts/build-elemod-isolated.sh "$GITHUB_WORKSPACE" "$RUNNER_TEMP/elemod-second" "$image"
+          diff --recursive "$RUNNER_TEMP/elemod-first" "$RUNNER_TEMP/elemod-second"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: elemod-source-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/elemod-first
+          retention-days: 14
+          if-no-files-found: error
+  octatrack-source:
+    needs: scope
+    if: needs.scope.outputs.modules == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Prepare pinned release toolchain
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: sdk/build/Dockerfile
+          tags: modwerk-source-tools
+          load: true
+          provenance: false
+          sbom: false
+          cache-from: type=gha,scope=source-tools
+          cache-to: type=gha,scope=source-tools,mode=max
+      - name: Compile authored Octatrack packages without firmware or network
+        run: |
+          image=$(docker image inspect modwerk-source-tools --format '{{.Id}}')
+          bash scripts/build-modules-isolated.sh "$GITHUB_WORKSPACE" "$RUNNER_TEMP/octatrack-source" "$image"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: octatrack-source-${{ github.sha }}
+          path: ${{ runner.temp }}/octatrack-source/packages
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - run: npm ci
+      - name: Require compiled packages to reproduce the committed, native-verified packages
+        run: node scripts/import-module-build.mjs "$RUNNER_TEMP/octatrack-source/packages" --development --check-only --verify-existing

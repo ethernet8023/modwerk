@@ -2,6 +2,8 @@
 import { readFile, readdir } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { requireRetainedEvidence } from './retained-evidence.mjs'
 import { requireModuleQualificationForPublication } from '../src/catalog/module-contract.ts'
 import { compareModuleVersions } from '../src/catalog/versions.ts'
 import { requireModuleDocumentation } from './module-documentation.mjs'
@@ -57,10 +59,24 @@ export function parseReleaseWaivers(value) {
   }
   return records
 }
-export async function requireFolderQualification(folder, document, baseline, waivers=new Map()) {
+export async function requireFolderQualification(folder, document, baseline, waivers=new Map(), options={}) {
+  if(document.tests.retainedEvidence) {
+    const root=options.root??fileURLToPath(new URL('../',import.meta.url))
+    return requireRetainedEvidence(root,folder,document,baseline,waivers,requireFolderQualification,options)
+  }
   const existing=baseline.get(document.id)
   if(existing?.version===document.version&&existing.folderSha256===await moduleFolderSha256(folder)) return 'retained'
-  const waiver=waivers.get(document.id), declaration=document.tests.releaseWaiver
+  const declaration=document.tests.releaseWaiver
+  if(document.id==='midi-scenes'&&document.version==='0.2.4-experimental'&&declaration?.approvedOn==='2026-10-03') {
+    const approval=JSON.parse(await readFile(new URL('../sdk/midi-scenes-build-approval.json',import.meta.url),'utf8'))
+    if(approval.id!=='midi-scenes'||approval.version!==document.version||approval.approvedBy!=='repeat98'||approval.approvedOn!=='2026-10-03'||JSON.stringify(approval.waived)!==JSON.stringify(['hardware-timing','complete-memory-bounds'])||approval.imageSha256!=='debb24090cada4be00bc70880136f14e813b0d3a9018b516f922d33671bd9b87'||approval.sourceSha256!==declaration.sourceSha256||approval.imageSha256!==declaration.imageSha256||await moduleNativeSourceSha256(folder,document)!==approval.sourceSha256||await moduleFolderSha256(folder)!==approval.folderSha256) throw new Error('MIDI Scenes: owner build approval does not cover this exact source, image and folder')
+    if(document.build||document.tests.qualification||document.tests.hardwareStatus!=='reported'||document.compatibility.conflicts.length!==13) throw new Error('MIDI Scenes: standalone approval requires honest reported status and all companion exclusions')
+    const report=JSON.parse(await readFile(resolve(folder,declaration.report),'utf8'))
+    if(report.moduleVersion!==document.version||report.sourceSha256!==approval.sourceSha256||report.imageSha256!==approval.imageSha256||report.hardwareTiming!==null||report.completeMemoryBounds!==null||report.standaloneOnly!==true||report.sharedWorkerParity?.status!=='passed'||report.sharedWorkerParity.mixedSelectionsRefused!==13||report.sharedWorkerParity.mainSha256!==approval.imageSha256||report.sharedWorkerParity.updateSha256!=='d7c792e0ec9b28e1b674e92526b2fa9a8a8279655dbd66a7b59495e5d5c54007'||report.sharedWorkerParity.changedBaseRefused!==true) throw new Error('MIDI Scenes: incomplete or stale shared-worker verification')
+    await requireModuleDocumentation(folder,document)
+    return 'owner-approved-standalone'
+  }
+  const waiver=waivers.get(document.id)
   if(waiver?.version===document.version&&declaration) {
     if(declaration.moduleVersion!==document.version||declaration.sourceSha256!==waiver.sourceSha256||await moduleNativeSourceSha256(folder,document)!==waiver.sourceSha256||await moduleFolderSha256(folder)!==waiver.folderSha256) throw new Error(document.id+': owner waiver does not cover this exact source and complete module folder')
     if(document.tests.hardwareStatus!=='untested'||document.tests.qualification||document.build||document.resources.processing.value!==null||document.resources.processing.method!=='unmeasured') throw new Error(document.id+': owner-waived hardware and chip timing must remain explicitly untested/unmeasured')
@@ -71,6 +87,16 @@ export async function requireFolderQualification(folder, document, baseline, wai
   }
   requireModuleQualificationForPublication(document)
   if(document.tests.qualification.sourceSha256!==await moduleNativeSourceSha256(folder,document)) throw new Error(document.id+': qualification source SHA-256 differs from current native source; remeasure and retest this source')
+  if(document.tests.qualification.hardware.kind==='owner-waived') {
+    // The owner waived only fresh hardware evidence, for this exact version, source and image. Documentation and media are not part of that binding. The approval is a
+    // separate record, so the module folder cannot grant it to itself; every software record must still describe the same build.
+    const q=document.tests.qualification
+    const approval=JSON.parse(await readFile(new URL('../sdk/sidechain-compressor-build-approval.json',import.meta.url),'utf8'))
+    if(approval.id!==document.id||approval.version!==document.version||approval.approvedBy!=='repeat98'||approval.approvedOn!=='2026-10-05'||JSON.stringify(approval.waived)!==JSON.stringify(['current-build-hardware'])||approval.sourceSha256!==q.sourceSha256||approval.imageSha256!==q.imageSha256) throw new Error(document.id+': hardware-only approval does not cover this exact version, source and image')
+    const software=JSON.parse(await readFile(resolve(folder,'evidence/software.json'),'utf8')),builder=JSON.parse(await readFile(resolve(folder,'evidence/common-builder.json'),'utf8'))
+    if(software.sourceSha256!==q.sourceSha256||software.imageSha256!==q.imageSha256||software.moduleVersion!==document.version||software.hardwareStatus!=='historical'||software.currentBuildHardware!=='owner-waived'||software.chipWallClockCycles!==null||software.cycles?.staticPerCore!==q.cycles[0].maxConfiguration||software.memory?.totalBytes!==q.memory.totalBytes||software.memory?.hardwareCanaries!==null) throw new Error(document.id+': software evidence does not match the qualification record')
+    if(builder.moduleVersion!==document.version||builder.images?.sharedBuilderNative?.sha256!==q.imageSha256||builder.differenceFromStandalone?.sidechainOwnedBytesDiffering!==0||builder.composition?.platformOrLoggerWritesOverlappingModuleOwnedWrites!==0||builder.composition?.browserRefusalsMatchNative!==builder.composition?.nativeRefused||builder.composition?.browserModuleOwnedWritesMatchNativeOutsidePlatformWrites!==builder.composition?.nativeBuilt) throw new Error(document.id+': shared-builder evidence does not show matching composition')
+  }
   for(const path of qualificationReports(document)) {
     const report=await readFile(resolve(folder,path),'utf8')
     if(!report.trim()) throw new Error(document.id+': qualification report is empty: '+path)

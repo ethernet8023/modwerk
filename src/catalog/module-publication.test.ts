@@ -13,7 +13,7 @@ it('checks real PR publication changes without executing module source', async (
   const root=mkdtempSync(resolve(tmpdir(),'octamod-publication-test.'))
   const folder=resolve(root,'sdk/octabam/modules',example.id)
   const document={...structuredClone(example),access:{...example.access,screenshots:[] as string[]}}
-  const catalog={schemaVersion:1,sourceRevision:'a'.repeat(40),modules:[{id:document.id,version:document.version}]}
+  const catalog={schemaVersion:1,sourceRevision:'a'.repeat(40),modules:[{id:document.id,version:document.version,addedAt:'2026-10-05T12:00:00Z'}]}
   const put=(path:string,value:string)=>{mkdirSync(dirname(path),{recursive:true});writeFileSync(path,value)}
   const save=()=>{
     put(resolve(folder,'octamod.module.json'),JSON.stringify(document))
@@ -23,7 +23,7 @@ it('checks real PR publication changes without executing module source', async (
   const failure=()=>{const result=run('--base','HEAD','--write');expect(result.status).not.toBe(0);return result.stderr}
   const git=(...args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8'})
   try {
-    for(const path of ['scripts/modules.mjs','scripts/module-qualification.mjs','scripts/module-documentation.mjs','src/catalog/module-contract.ts','src/catalog/versions.ts','src/catalog/module-folder.ts','src/catalog/resource-impact.ts','sdk/module-release-waivers.json']){
+    for(const path of ['scripts/modules.mjs','scripts/module-source.mjs','scripts/module-qualification.mjs','scripts/retained-evidence.mjs','scripts/module-documentation.mjs','src/catalog/module-contract.ts','src/catalog/module-contract-v3.ts','src/devices/machine-contract.ts','src/catalog/versions.ts','src/catalog/module-folder.ts','src/catalog/resource-impact.ts','sdk/module-release-waivers.json']){
       mkdirSync(dirname(resolve(root,path)),{recursive:true})
       copyFileSync(resolve(path),resolve(root,path))
     }
@@ -39,6 +39,10 @@ it('checks real PR publication changes without executing module source', async (
     put(impactsPath,JSON.stringify({schemaVersion:1,modules:[]}))
     expect(run('--write').stderr).toContain('release requires populated CPU, DSP core and memory gauges')
     put(impactsPath,impactBytes)
+    // The library's Recently added sort reads each entry's first addition date.
+    put(resolve(root,'sdk/catalog.json'),JSON.stringify({...catalog,modules:[{id:document.id,version:document.version}]}))
+    expect(run('--write').stderr).toContain('Catalog entry needs addedAt')
+    save()
     expect(run('--write').status).toBe(0)
     git('init','--quiet')
     git('add','.')
@@ -52,6 +56,10 @@ it('checks real PR publication changes without executing module source', async (
     expect(failure()).toContain('baseline is frozen')
     put(baselinePath,baselineBytes)
     put(resolve(folder,'README.md'),'Documentation update\n')
+    // Documentation needs no version bump (owner decision, 5 October 2026); it does end the frozen baseline's exact-folder exemption.
+    expect(failure()).not.toContain('greater module version')
+    // Code does.
+    put(resolve(folder,'manifest.py'),'raise AssertionError("module source must never execute")\n# changed\n')
     expect(failure()).toContain('greater module version')
     document.version='0.1.1'
     catalog.modules[0].version=document.version
@@ -94,7 +102,7 @@ it('checks real PR publication changes without executing module source', async (
     expect(run('--write').status).toBe(0)
     git('add','.')
     git('-c','user.name=Publication test','-c','user.email=fixture@example.invalid','commit','--quiet','-m','Unpublished draft fixture')
-    catalog.modules=[{id:document.id,version:document.version}]
+    catalog.modules=[{id:document.id,version:document.version,addedAt:'2026-10-05T12:00:00Z'}]
     save()
     expect(failure()).toContain('actual screenshots')
   } finally { rmSync(root,{recursive:true,force:true}) }

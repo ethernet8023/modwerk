@@ -1,12 +1,16 @@
 <div align="center">
-  <img src="public/favicon.svg" alt="Octamod logo" width="88" height="88" />
-  <h1>Octamod</h1>
-  <p><strong>SDK for developing effects and playback modules for the Elektron Octatrack.</strong></p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/modwerk-mark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="public/modwerk-mark-on-light.svg" />
+    <img src="public/modwerk-mark-on-light.svg" alt="Modwerk logo" width="88" height="88" />
+  </picture>
+  <h1>Modwerk</h1>
+  <p><strong>Firmware modules and developer SDKs for Elektron instruments.</strong></p>
   <p>Independent and unofficial. Not affiliated with, endorsed by or supported by Elektron.</p>
   <p>
     <a href="#get-started">Get started</a> ·
     <a href="sdk/README.md">SDK guide</a> ·
-    <a href="sdk/octabam/docs/remixer/MODULES.md">Writing modules</a> ·
+    <a href="docs/ADD_A_MODULE.md">Add or port a module</a> ·
     <a href="CONTRIBUTING.md">Contribute</a>
   </p>
   <p>
@@ -16,7 +20,7 @@
   </p>
 </div>
 
-Write DSP effects in **DSP56300 assembly** or playback and system patches in **ColdFire assembly**, with Python manifests describing their controls, placement and compatibility. Source, documentation and module metadata live together in this repository.
+For Octatrack modules, write DSP effects in **DSP56300 assembly** or playback and system patches in **ColdFire assembly**, with Python manifests describing their controls, placement and compatibility. Source, documentation and module metadata live together in this repository.
 
 > **Experimental SDK.** Scaffolding and metadata checks are ready to use. Native builds require a locally prepared toolchain; portable setup and hardware qualification remain incomplete. See the [SDK guide](sdk/README.md#native-development) and [verification status](docs/VERIFICATION.md).
 
@@ -31,8 +35,8 @@ Third-party copyright notices and full licence terms are preserved in the [SDK n
 Requires **Git, Node.js 24 and Python 3.10+**. Clone the repository, or your fork when contributing:
 
 ```sh
-git clone https://github.com/repeat98/octamod.git
-cd octamod
+git clone https://github.com/repeat98/modwerk.git
+cd modwerk
 npm ci
 npm run module:new -- my-effect --kind dsp --author your-github-login
 ```
@@ -54,7 +58,7 @@ The scaffold is untested: choose an unused effect ID for DSP modules and replace
 
 ## Develop and validate
 
-Follow [Writing a module](sdk/octabam/docs/remixer/MODULES.md), using [Character](sdk/octabam/modules/character/) for a DSP example or [Repitch](sdk/octabam/modules/repitch/) for ColdFire. Keep native controls and module metadata synchronized, and record actual measurements in `TESTING.md`.
+The whole process, including porting from octabam or elekloader, is in [Add or port a module](docs/ADD_A_MODULE.md). For the native code, follow [Writing a module](sdk/octabam/docs/remixer/MODULES.md), using [Character](sdk/octabam/modules/character/) for a DSP example or [Repitch](sdk/octabam/modules/repitch/) for ColdFire. Keep native controls and module metadata synchronized, and record actual measurements in `TESTING.md`.
 
 Run these from the repository root:
 
@@ -66,7 +70,7 @@ npm run modules:check -- --base origin/main
 
 These validate metadata, version changes and repository code; they do not compile or qualify your native module. Native compilation needs CMake, the patched DSP assembler/disassembler and GNU `m68k-elf` tools described in the [SDK guide](sdk/README.md#native-development). Record native behavior, resource and hardware evidence separately.
 
-For updates, increase the module's semantic version for **every source, documentation or media change**, and update its pin in `sdk/catalog.json` if listed. New catalog entries need approved scope, engine integration and native parity/rejection evidence.
+For updates, increase the module's semantic version for **every code change** (documentation and media edits do not need one; see [CONTRIBUTING](CONTRIBUTING.md#required-version-increase)), and update its pin in `sdk/catalog.json` if listed. New catalog entries need approved scope, engine integration and native parity/rejection evidence.
 
 ## Contribute
 
@@ -76,7 +80,8 @@ Open a pull request with source, documentation, test results, attribution and li
 
 | Need | Start here |
 | --- | --- |
-| SDK setup and current limits | [SDK guide](sdk/README.md) |
+| Add, port or update a module | [Add or port a module](docs/ADD_A_MODULE.md) |
+| SDK layout and native verifiers | [SDK README](sdk/README.md) |
 | Native module declarations | [Writing modules](sdk/octabam/docs/remixer/MODULES.md) |
 | Memory and compatibility | [Placement](sdk/octabam/docs/remixer/PLACEMENT.md) |
 | Metadata and version rules | [Module contract](docs/MODULE_REPOSITORIES.md) |

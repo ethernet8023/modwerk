@@ -14,7 +14,7 @@ A separate Cloudflare Worker with D1 serves the initial community backend. R2 re
 
 Keep the HTTP contract independent of the hosting provider. A future self-hosted backend can use SQLite and file/object-storage adapters; these adapters and a self-hosted entry point remain unimplemented. Keep the core experience free of paid dependencies and within initial hosting free-tier constraints.
 
-Cross-origin guest requests use an opaque device session in a bearer header, without third-party cookies. CORS and mutations are restricted to the configured frontend origin. No session token appears in a URL. See [app development and operations](APP_DEVELOPMENT.md) for setup.
+Cross-origin account requests use a signed session in a bearer header, without third-party cookies. CORS and mutations are restricted to the configured frontend origin. No session token appears in a URL. See [app development and operations](APP_DEVELOPMENT.md) for setup.
 
 ## Local firmware and build qualification
 
@@ -26,7 +26,7 @@ Configuration builds perform compatibility, placement and packaging integrity ch
 
 ## Contributions and approval
 
-New modules, updates, documentation and media are submitted through GitHub pull requests. Owner merge approves that exact module version; there is no second website approval step. Every source, documentation, evidence or media change requires a strictly greater semantic version. Pending or rejected updates and failed release builds preserve the previous approved publication.
+New modules, updates, documentation and media are submitted through GitHub pull requests. Owner merge approves that exact module version; there is no second website approval step. Every source, documentation, evidence or media change requires a strictly greater semantic version. Pending or rejected updates and failed release builds preserve the previous approved publication. Public firmware builds and downloads must remain enabled for every visible module. Develop and verify pending core/module updates on their own branches; do not merge a global download pause to represent review progress. Keep the deployed approved implementation until its replacement is ready. The release checks in `src/engine/download-policy.test.ts` enforce public download enablement and buildable compiled versions.
 
 Approved packages bind source commits, versions, compiler records and immutable artifact hashes. No arbitrary repository code runs in the website or metadata importer. Isolate source compilation from network, credentials, firmware and publishing rights; publish only packages reproduced from the reviewed source.
 
@@ -38,11 +38,25 @@ The eleven current module versions and complete folder fingerprints are retained
 
 Require original or properly licensed sources and media, attribution, contributor declarations and reviewer verification. Distinguish illustrations, emulator evidence and hardware results. Review is not automatic legal clearance. See [contribution rules](../CONTRIBUTING.md).
 
-## Guest community and private administration
+## Registered community and private administration — 3 October 2026
 
-Comments, reviews, ratings, likes and author-directed issues require no visitor account or email. GitHub authentication is used on GitHub itself for pull requests; Octamod has no website GitHub sign-in.
+The owner superseded the earlier guest-only/no-email decision: public reading stays account-free, while threads, replies, comments, ratings, likes and issue reports require a verified account. On 4 October 2026 the owner also requested Google, GitHub and Discord community single sign-on, member-only firmware builds, editable public profiles and self-service account deletion. Better Auth provides password hashing, verification, social authentication, recovery and revocable sessions behind a restricted API facade. PR authentication happens on GitHub itself. See [account access and SSO](SINGLE_SIGN_ON.md).
 
-Administration uses separate server-side authorization. Every administrator route must reject access without valid backend authorization. Issue reports and moderation history remain private; reporters can read only their own reports. Do not expose private routes or use frontend-only access checks.
+The forum has general discussion, module help, public bug reports and immutable shared configuration snapshots. Existing private issue reports remain private and are never migrated by matching display names. New accounts cannot claim historical guest content. Config snapshots contain only named module selections, versions and chooser settings; firmware stays local.
+
+Keep octamod.app registered at Hetzner. Domain registration alone does not provide a transactional mail service. Resend is the initial mail adapter for verification/recovery only, with secrets in the Worker and DNS verification at the registrar. This change does not authorize DNS edits or deployment. See [forum operation and security](FORUM.md).
+
+Administration uses separate server-side authorization. Every administrator route must reject access without valid backend authorization. Moderation history remains private; reporters can list only their own reports on the site. Do not expose private routes or use frontend-only access checks.
+
+On 3 October 2026 the owner chose to mirror issue reports to public GitHub issues so module authors see and answer them directly. Before that, reports were private and passed on by the administrator. The owner also chose to require the on-device `OCTAMOD.LOG` in reports, with an explicit stated-reason escape (for example, a unit that does not boot), and a step-by-step tutorial in the form. Reports carry structured configuration context. The form tells reporters that their name, report, module list and log are public. Logs must pass the strict OCTAMOD.LOG grammar; binary firmware and arbitrary file attachments are rejected. Authors still need no website sign-in: GitHub provides identity and notifications. The owner clarified that the [logger](../sdk/runtime/logging/README.md) is mandatory core infrastructure in every composed build, never a module or catalog entry. Logging uses bounded RAM records and throttled card checkpoints. The owner subsequently explicitly approved all current module versions and the logger for release, lifted the logger addition’s qualification restrictions, authorized firmware/DSP testing here and waived hardware testing. Keep the logger in downloadable builds, preserve lightweight build rejection/integrity checks, and report unmeasured timing and hardware limits honestly. This exception applies to this logger addition; it does not expand module qualification baselines or authorize firmware redistribution.
+
+The account/forum draft preserves structured reports and strict device-log validation but keeps new account reports private. It grants no GitHub publication permissions and blocks private-report retries; previously published GitHub links and status synchronization are retained. Re-enabling public mirroring requires a separately reviewed consent workflow. This limitation follows the automatic approval review during forum integration, not a new owner decision.
+
+## GitHub developer access and machine-aware community — 4 October 2026
+
+The owner explicitly requested GitHub login to claim/manage modules, superseding the earlier restriction on website GitHub sign-in for this developer flow. The reviewed module author/maintainer handle plus a verified stable GitHub identity permits claiming that module. Developer access is separate from verified email membership and administrator access; no GitHub email or repositories are requested. Maintainers receive only reports their authors explicitly share, can reply and resolve/reopen, and lose access when sharing is withdrawn, the claim is revoked or the reviewed maintainer list changes. Historical private reports remain unshared. Updates remain owner-reviewed PRs, without automatic publication. See [DEVELOPER_WORKSPACE.md](DEVELOPER_WORKSPACE.md).
+
+Digitakt/Digitone now use machine-specific community module IDs, immutable configuration sharing and structured private reports without Octatrack-only fields/log requirements. Octatrack keeps its existing context/log validation. Firmware and arbitrary attachments remain rejected.
 
 ## Catalog scope and pins
 
@@ -57,3 +71,128 @@ CC Map and Preview Vol, requested on 2 October 2026, are released at `0.1.2-expe
 USB Audio uses the output-only TRACKS MAIN CUE implementation and its internal USB MIDI dependency under `sdk/octabam/platform/usb-midi/`. This choice follows documented MKI/MKII hardware coverage, sustained multitrack captures and concurrent MIDI traffic; it is not a new comparative hardware test. USB input and other output layouts are outside scope. Preserve documented startup artifacts, host coverage gaps and alignment limits.
 
 The additions retain their own source pins and separate loader-free composition, packaging and rejection evidence; the original seven modules' historical proofs do not cover later integrations by themselves. No firmware/DSP/emulator/stress tests ran during the source import. See [the import record](../sdk/imports/octabam-363861e.json), each module's TESTING.md and the [current verification record](VERIFICATION.md).
+
+## Every Elektron machine — 4 October 2026
+
+The owner expanded the project from the Octatrack to every Elektron machine. The site will move to modwerk.app in one combined launch with the forum. Recorded decisions:
+
+- **One standard for every machine** ([SDK guide](SDK.md)):
+  - Each machine has a validated profile in `sdk/machines/<id>/machine.json`, which generates the site's machine registry.
+  - Modules for elemod machines use contract v3 (`modwerk.module.json`). Octatrack modules keep contract v2 and the frozen eleven-module baseline until their next version.
+- **Library categories** are shared by every machine. **Standalone firmware** is an exclusive category for complete builds that never combine with other mods.
+- **Digitakt and Digitone:**
+  - Modwerk builds their firmware with its own TypeScript engine and its own core, implementing the documented core interface (`sdk/<machine>/core/interface.json`).
+  - elekloader is used only locally, to compare bytes.
+  - Module source lives in Modwerk module folders (or a pinned commit) and is compiled by Modwerk CI.
+  - The existing mods are imported under their licences, with attribution ([import record](../sdk/imports/elemod-2026-10-04.json)).
+- **Patch sites** name an address, a length and the SHA-256 of the expected stock bytes; stock bytes never enter the repository. Steps that need the stock OS run only in the owner's local build.
+- **Evidence on new machines is tiered.** Publication needs measured memory and load, the author's hardware report and actual screenshots. Owner verification is a badge.
+- **Downloads** for a machine stay disabled until its engine and core pass verification. Digitakt and Digitone builds must work at the combined launch.
+- **Contributions** remain pull requests reviewed and merged by the owner. Maintainers named in a manifest are a module's contacts. There are no automatic merges for now.
+- **Licence:** Modwerk's own code is GPL-3.0-or-later. Vendored components and modules keep their licences.
+
+## Digitakt/Digitone builds use elekloader's builder — 4 October 2026
+
+The owner froze Modwerk's own Digitakt/Digitone builder and chose elekloader's builder for the combined launch, so work can focus on the interface and the launch.
+
+- **Vendored builder.** [`vendor/elekloader`](../vendor/elekloader/README.md) holds elekloader's unchanged Python package and web bridge at a pinned commit, its release cores and the five shop mods' author release files, each pinned by SHA-256. Pyodide runs it in a browser worker that loads only from the site. Owners' files stay in their browser.
+- **Parity target.** Builds must match elekloader's online builder. Modwerk keeps its own interface; elekloader's site is not copied.
+- **Own builder later.** The original core and TypeScript engine stay frozen at their recorded state ([verification record](VERIFICATION.md)). Work resumes later with the same target: a builder that matches elekloader's online builder.
+- **Downloads** of Digitakt/Digitone files need the owner's separate approval. Checking and building already run locally.
+- **Licences.** elekloader, the cores and DIGISLICER, NEIGHBOR and digihealth are GPL-2.0-or-later; SOPHIE is MIT; Pyodide is MPL-2.0 with CPython under the PSF licence. Their notices ship with the site. Modwerk stays GPL-3.0-or-later.
+
+## Domain and mail: modwerk.app — 4 October 2026
+
+The owner bought modwerk.app on 4 October 2026. It stays registered, with its DNS, at Hetzner, like octamod.app; the earlier decision about mail stands: Resend sends verification and recovery messages only, with its key and sender as Worker secrets and its DNS records at the registrar.
+
+The community API keeps trusting exactly one origin, set by `APP_URL`; the launch moves it from octamod.app to modwerk.app with the Worker, the sender and the Pages custom domain in one ordered cutover. octamod.app is not retired: it becomes a plain redirect to the same path on modwerk.app, so shared links and mail links already sent keep working. Browser storage is per site, so saved configurations are not carried over; the move is announced first so people can export them.
+
+Whether the public support contact becomes a `support@modwerk.app` forwarder is left to the owner; the Gmail contact chosen on 3 October stays until a forwarder is proven. Nothing in the repository edits DNS or a provider account. The order, records and checks are in [DOMAIN_AND_MAIL.md](DOMAIN_AND_MAIL.md); `npm run domain:check` reads public DNS and pages to report progress.
+
+
+## 4 October 2026 — Bug Reports forum and automatic developer delivery
+
+The owner requested that issue reports reach developers and appear in the Bug Reports forum. New module forms disclose public posting before submission and explicitly request `visibility: "forum"`. A transaction creates the forum thread and scoped developer notifications alongside the private report. Public fields are the title, reproduction details, device/base OS and affected module version; full configuration, build fingerprint, log/missing-log notes and private replies stay authorized. Developer notification and follow recipients require current reviewed maintainer metadata and an active GitHub-verified claim. Reports submitted through older clients and all existing private reports remain private. Resolution/reopening synchronizes both records. Migration 0020 adds the nullable forum link; no production rollout is authorized by implementation.
+
+## 5 October 2026 — GitHub is the one bug tracker
+
+Community feedback pointed out that tracking the same bug in the site's report inbox, a Bug Reports forum thread and GitHub creates overhead for developers and lets the copies drift. The owner chose GitHub as the single place where bugs are tracked; Modwerk only collects reports and shows their status.
+
+- **Intake stays on Modwerk.** The report form still collects the structured device context and validated log that a GitHub issue template cannot, and reporters do not need a GitHub account.
+- **A public report becomes a GitHub issue straight away**, labelled `module:<id>` and mentioning the module author and declared maintainers, and it gets no forum thread of its own. The issue carries only what the form already discloses as public: title, device and base OS, module version, steps, expected and actual result, and the reporter's username. The configuration, build fingerprint and log stay private; the issue links verified maintainers to them in the developer workspace. Migration 0025 stores that public snapshot (`issues.public_json`), backfilled from earlier forum reports, and the admin retry publishes only reports that have one.
+- **Status and replies flow back from GitHub.** Signed `issues` and `issue_comment` webhooks update the report status and notify the reporter in the bell and activity email; bot comments and redelivered events are ignored.
+- **The form checks for duplicates first** by listing the module's open mirrored issues and linking GitHub's full list for the label.
+- **Fallback.** Without `GITHUB_TOKEN`, public reports keep using the Bug Reports forum as before. Earlier forum threads stay and follow their GitHub issue if one is created later.
+
+## 5 October 2026 — Images and sound clips in the forum
+
+The owner asked for images and audio snippets in forum posts, compressed well (Opus and WebP).
+
+- **Compression happens in the browser.** Images are redrawn to WebP (JPEG where the browser cannot encode WebP) at most 2048 px on the long side, which also drops metadata such as GPS. Sound is decoded, resampled to 48 kHz and encoded with WebCodecs to Opus at 96 kbit/s in an Ogg file; a 30-second WAV becomes roughly 360 KB. Browsers without an Opus encoder upload WAV, MP3 or Ogg unchanged within the size limit.
+- **The server still decides the type** from the file's bytes (PNG, JPEG, WebP, WAV, MP3, Ogg) and rejects everything else, including firmware. Limits: 5 MB per image, 10 MB per sound clip, four files per post, 20 uploads and 100 MB per member per day.
+- **Files are attached to posts, not embedded in the text,** so post bodies stay plain escaped text. They are stored in the `MEDIA` R2 bucket and served by the Worker with a fixed type, `nosniff`, a sandbox CSP and byte ranges (Safari needs them to play audio).
+- **Deleting an account removes its files** while the post text stays with anonymous attribution, because pictures and recordings are more likely to contain personal data than the discussion around them. Authors can remove their own files at any time; administrators can delete a file permanently. Unused uploads are purged after a day.
+
+## 5 October 2026 — Forum organization, Shoutbox 8 and rich editing
+
+The owner asked to bring the shoutbox and forum organization from elektronmods.com into Modwerk; the app's existing module gallery already serves that purpose. The chat is named **Shoutbox 8** and opens expanded by default as a floating chat panel on the side, keeping the forum layout unchanged. Browse by machine also starts expanded. New topics cover feature requests, tutorials, introductions and showcases. Latest activity, new threads, followed discussions, category counts and recent reply previews improve discovery without adding another mod catalog.
+
+The owner also requested a richer post editor. Threads and replies use visual formatting with a Markdown source option; the stored text remains Markdown and public rendering does not execute HTML or embed external images. Shoutbox messages remain brief plain text with verified-account posting, ownership controls, rate limits, reports and administrator moderation.
+
+The owner explicitly requires local review before any production rollout. The isolated preview uses fictional data, a separate local Worker configuration, no production database ID and no mail credentials. Implementation and local migrations do not authorize deployment.
+
+## New-member welcome · 5 October 2026
+
+Each new verified, fully onboarded member receives the approved welcome once, including members with optional news disabled. The footer explains signup as the reason for the welcome. Further news remains opt-in. Existing completed members are excluded at rollout, and a persistent delivery record with provider duplicate protection prevents repeats. The five-minute job shares the account-mail budget; hourly cleanup and activity digests keep their schedule.
+
+## 5 October 2026 — A faster module workflow
+
+Adding Sidechain Compressor took a whole day. Most of it went to comparing Modwerk's browser builder with native octabam on every selection that contains the module: 1,558 firmware builds, rerun after each fix. `npm run check` takes about 15 seconds and was not the bottleneck. A new module also meant hand edits in about fifty files outside its folder, and the guidance was spread over long documents that contradicted each other.
+
+The owner decided:
+
+- **One guide.** [Add or port a module](ADD_A_MODULE.md) replaces the agent workflow. Contributors and their coding agents start there; the other module documents are field references.
+- **A smaller native comparison.** A new module is compared with native octabam on a coverage set instead of every combination:
+  - the module alone;
+  - beside each other module;
+  - the fullest selections that build;
+  - the selections at the edge of being refused.
+
+  Each runs with and without the stock FX2 effects. Results are cached by their inputs, so a fix reruns only the selections it affects.
+- **Approval bound to code.** An owner approval and the compiled packages bind to the module's code fingerprint. Editing only its documentation or media needs no re-approval, package rebuild or version bump. Implemented on 6 October 2026 for modules with a qualification record and for the Sidechain Compressor approval; the frozen baseline, the two utility waivers and MIDI Scenes keep their exact-folder bindings.
+- **Integration from the manifest.** Library visibility, the date a module was added, its thumbnail and its effect conflicts should come from the module's manifest instead of hand-kept lists.
+- **Automated hardware tests later.** Hardware testing is to be automated over USB, using a customised test firmware that runs the checks on the unit and reports the results. Until then, a person's functional hardware report is the evidence. The 60-minute, eight-track stress run has not been required since 2 October 2026.
+
+Separate pull requests implement these. Until each lands, the current checks apply.
+
+## 5 October 2026 — The Digitakt/Digitone builder runs elekloader's TypeScript engine
+
+The Modwerk and elekloader developers agreed to port elekloader's mod manager to TypeScript, so the builder no longer needs Pyodide. elekloader merged the engine as `js/` (GPL-3.0-or-later). It is checked against elekloader's Python, which stays its reference, for the same bytes and the same refusals.
+
+- **Vendored engine.** [`vendor/elekloader/engine`](../vendor/elekloader/README.md) is elekloader's `js/src` at a pinned commit, unchanged. The builder worker imports it, and Vite bundles it into an 82 KB worker; Pyodide's runtime files were about 13 MB. The Python package, the web bridge and the `pyodide` dependency are gone, and the CSP no longer allows `'wasm-unsafe-eval'`.
+- **Same builds.** The cores and mods are unchanged. Run old against new on the owner's stock files, every build is byte-identical and every refusal is the same ([verification record](VERIFICATION.md)).
+- **Faster.** The engine loads in about 30 ms, where Pyodide took seconds, and a build takes about 0.4 s, where it took 11 to 13 s.
+- **Backups keep working.** A configuration backup names the catalog (`catalogRevision` in `UPSTREAM.json`, still `e4d8ba8`), no longer the engine's commit, so engine updates do not invalidate backups.
+- **Licences.** The engine is GPL-3.0-or-later. elekloader's cores, DIGISLICER, NEIGHBOR and digihealth stay GPL-2.0-or-later, and SOPHIE stays MIT. The Pyodide and CPython notices are removed with Pyodide.
+
+The same day the engine moved into elekloader's kit, below: Modwerk vendors the kit instead of the engine alone, and its own builder worker and client are gone.
+
+## 5 October 2026 — The builder is elekloader's kit
+
+elekloader packaged its builder as a kit that any website can use, with nothing in it naming a site. Several sites want the integration, so the shared parts live in elekloader and Modwerk keeps only its own pages.
+
+- **Vendored kit.** [`vendor/elekloader/kit`](../vendor/elekloader/README.md) is the kit's release zip, unchanged: the engine, the builder worker, the page's client and the catalog format.
+- **The catalog.** [`vendor/elekloader/catalog`](../vendor/elekloader/README.md) holds the same cores and mods, in the kit's catalog format, with revision `e4d8ba8`, so backups keep importing.
+- **The lock.** `vendor/elekloader/elekloader.lock.json` pins every kit file and the catalog. `npm run elekloader:check` checks against it.
+- **What Modwerk keeps.** `src/engine/elekloader/digi-build.ts` maps machine ids to the kit's device keys and starts the kit's worker. Modwerk's own worker and client are gone.
+- **Same builds.** It is the same engine, so the same bytes: the browser check gave the parity record's identities ([verification record](VERIFICATION.md)).
+
+## 5 October 2026 — Updating elekloader in one command, and backups across catalogs
+
+Taking an elekloader update was four manual steps, and every catalog change broke importing older configuration backups.
+
+- **One command.** `npm run elekloader:update -- [kit.zip [--sha256 …]] [catalog.json]` does the vendoring steps: it checks the zip against its `kit.json`, refuses another protocol, syncs the catalog for Digitakt and Digitone, writes the lock, updates the licence entry and notices, and runs the vendor check. Both new copies are staged first. It updates `kit/` and `catalog/` file by file, because on Windows a running dev server keeps the folders open.
+- **What stays by hand.** It lists Modwerk's own module files to update for each mod that changed, came or left, and licence entries naming a file that is gone. The owner-reviewed verification record is unchanged.
+- **Backups across catalogs.** A backup naming another catalog revision now imports. Its modules are looked up again in the library by id: ones no longer there are left out, and the page lists them and each version that changed. A backup whose modules are all gone is refused. With the current revision an unknown module still means an altered backup, and is refused.
+- **The revision test** compares the catalog with the lock instead of a fixed revision, so a catalog update does not need a test edit.
+

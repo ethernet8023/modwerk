@@ -1,8 +1,8 @@
 import type { Database, Env } from './platform'
+import { USAGE_CONSENT_VERSION } from '../src/legal/policy'
 import { boundedBody, HttpError, response } from './security'
 import { throttle } from './auth'
-import { isModuleAvailable } from '../src/catalog/availability'
-import { moduleBuildPending } from '../src/catalog/build-support'
+import { canTrackModuleDownload } from '../src/community/module-downloads'
 import { USAGE_EVENTS, type UsageEvent, type UsageDay } from '../src/community/usage-contract'
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/
 const columns: Record<UsageEvent, string> = { page_view:'page_views', configuration_started:'configurations', build_succeeded:'builds', firmware_download_requested:'downloads', configuration_exported:'exports' }
@@ -15,6 +15,7 @@ async function privateHash(key: string, purpose: string) {
 /** No guest account, IP, user agent, referrer, module list or firmware enters these tables. */
 export async function recordUsage(request: Request, env: Env, db: Database) {
   if (request.headers.get('DNT') === '1' || request.headers.get('Sec-GPC') === '1') return new Response(null,{status:204})
+  if(request.headers.get('X-Octamod-Usage-Consent')!==USAGE_CONSENT_VERSION)throw new HttpError(403,'Usage counts require your current opt-in choice.')
   const secret = env.ADMIN_KEY_SHA256?.trim().toLowerCase() ?? ''
   if (!/^[a-f0-9]{64}$/.test(secret)) throw new HttpError(503,'Usage counts are not configured.')
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new HttpError(415,'Send JSON for this request.')
@@ -37,12 +38,57 @@ export async function recordUsage(request: Request, env: Env, db: Database) {
   ])
   return response({ok:true})
 }
+/** Daily random salt for estimating unique visitors. It lives only in usage_meta and is deleted by the first
+ * hourly cleanup of the next UTC day, after which that day's visitor digests can no longer be recomputed or linked. */
+async function visitorSalt(db: Database, today: string) {
+  const random = Array.from(crypto.getRandomValues(new Uint8Array(32)),b=>b.toString(16).padStart(2,'0')).join('')
+  await db.prepare('INSERT INTO usage_meta(key,value) VALUES(?,?) ON CONFLICT DO NOTHING').bind('visitor-salt:' + today,random).run()
+  const saved = await db.prepare('SELECT value FROM usage_meta WHERE key=?').bind('visitor-salt:' + today).first<{value:string}>()
+  if (!saved) throw new HttpError(503,'Usage counts are not available right now.')
+  return saved.value
+}
+/** Counts without consent: only a closed event name (and, for downloads, one public module ID) is accepted.
+ * Nothing is read from or stored on the device. Unique visitors are estimated from a digest of IP address and
+ * User-Agent, keyed with the backend secret and a daily salt; the raw values are never stored and digests are
+ * kept only until the hourly cleanup removes the previous day (at most about 48 hours). A separate keyed IP
+ * digest limits abuse in rate_limits and expires within the hour. */
+export async function recordAnonymousCount(request: Request, env: Env, db: Database) {
+  if (request.headers.get('DNT') === '1' || request.headers.get('Sec-GPC') === '1') return new Response(null,{status:204})
+  const secret = env.ADMIN_KEY_SHA256?.trim().toLowerCase() ?? ''
+  if (!/^[a-f0-9]{64}$/.test(secret)) throw new HttpError(503,'Usage counts are not configured.')
+  if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new HttpError(415,'Send JSON for this request.')
+  let body: Record<string,unknown>
+  try { const value: unknown = JSON.parse(new TextDecoder().decode(await boundedBody(request,256))); if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(); body=value as Record<string,unknown> }
+  catch(error) { if(error instanceof HttpError)throw error; throw new HttpError(400,'Invalid usage count.') }
+  const keys = Object.keys(body).sort().join(',')
+  const moduleCount = keys === 'event,moduleId' && body.event === 'module_download' && typeof body.moduleId === 'string' && canTrackModuleDownload(body.moduleId)
+  if (!moduleCount && (keys !== 'event' || typeof body.event !== 'string' || !USAGE_EVENTS.includes(body.event as UsageEvent))) throw new HttpError(400,'Invalid usage count.')
+  const now = new Date(), today = day(now)
+  await throttle(db,'usage-count:' + await privateHash(secret,today + ':count-rate:' + (request.headers.get('CF-Connecting-IP') ?? 'local')),300,3600)
+  if (moduleCount) {
+    await db.batch([
+      db.prepare('INSERT INTO module_downloads(module_id,downloads) VALUES(?,1) ON CONFLICT(module_id) DO UPDATE SET downloads=downloads+1').bind(body.moduleId),
+      db.prepare("INSERT INTO module_download_meta(key,value) VALUES('collection_started',?) ON CONFLICT DO NOTHING").bind(now.toISOString()),
+    ])
+    return response({ok:true})
+  }
+  const metric = columns[body.event as UsageEvent] // Selected only from the closed enum above, never from arbitrary SQL input.
+  const visitor = await privateHash(secret,today + ':anonymous-visitor:' + await visitorSalt(db,today) + ':' + (request.headers.get('CF-Connecting-IP') ?? 'local') + ':' + (request.headers.get('User-Agent') ?? ''))
+  await db.batch([
+    db.prepare('INSERT INTO usage_visitors(day,visitor_hash) VALUES(?,?) ON CONFLICT DO NOTHING').bind(today,visitor),
+    db.prepare(`INSERT INTO usage_daily(day,visitors,${metric}) VALUES(?,(SELECT COUNT(*) FROM usage_visitors WHERE day=? AND visitor_hash=? AND counted=0),1) ON CONFLICT(day) DO UPDATE SET visitors=visitors+excluded.visitors,${metric}=${metric}+1`).bind(today,today,visitor),
+    db.prepare('UPDATE usage_visitors SET counted=1 WHERE day=? AND visitor_hash=?').bind(today,visitor),
+    db.prepare("INSERT INTO usage_meta(key,value) VALUES('collection_started',?) ON CONFLICT DO NOTHING").bind(now.toISOString()),
+  ])
+  return response({ok:true})
+}
 /** Called hourly by the Worker and available to other backend adapters. */
 export async function cleanupUsage(db: Database, now = new Date()) {
   await db.batch([
     db.prepare('DELETE FROM usage_events WHERE day<?').bind(before(now,1)),
     db.prepare('DELETE FROM module_download_events WHERE day<?').bind(before(now,1)),
     db.prepare('DELETE FROM usage_visitors WHERE day<?').bind(before(now,1)),
+    db.prepare("DELETE FROM usage_meta WHERE key LIKE 'visitor-salt:%' AND key<?").bind('visitor-salt:' + day(now)),
     db.prepare('DELETE FROM usage_daily WHERE day<?').bind(before(now,89)),
     db.prepare('DELETE FROM rate_limits WHERE expires<?').bind(Math.floor(now.getTime()/1000)),
   ])
@@ -51,21 +97,31 @@ export async function cleanupUsage(db: Database, now = new Date()) {
 export async function usageStatistics(db: Database, days: number, now = new Date()) {
   if (![7,30,90].includes(days)) throw new HttpError(400,'Choose 7, 30 or 90 days.')
   const from = before(now,days-1), to = day(now)
-  const collectionStarted = (await db.prepare("SELECT value FROM usage_meta WHERE key='collection_started'").first<{value:string}>())?.value ?? null
-  const rows = (await db.prepare('SELECT day,visitors,page_views,configurations,builds,downloads,exports FROM usage_daily WHERE day>=? AND day<=? ORDER BY day').bind(from,to).all<UsageDay>()).results
-  return response({generatedAt:now.toISOString(),collectionStarted,from,to,days,rows})
+  // Compare equal windows of completed days; today and the first partial collection day are excluded.
+  const previousFrom = before(now,2 * (days-1)), previousTo = before(now,days)
+  const outsideRetention = previousFrom < before(now,89)
+  const [meta,daily] = await Promise.all([
+    db.prepare("SELECT value FROM usage_meta WHERE key='collection_started'").first<{value:string}>(),
+    db.prepare('SELECT day,visitors,page_views,configurations,builds,downloads,exports FROM usage_daily WHERE day>=? AND day<=? ORDER BY day').bind(outsideRetention?from:previousFrom,to).all<UsageDay>(),
+  ])
+  const collectionStarted = meta?.value ?? null
+  const rows = daily.results.filter(row=>row.day>=from)
+  const unavailableReason = outsideRetention ? 'retention' : !collectionStarted || previousFrom <= collectionStarted.slice(0,10) ? 'collection' : null
+  const previousRows = unavailableReason ? [] : daily.results.filter(row=>row.day>=previousFrom&&row.day<=previousTo)
+  return response({generatedAt:now.toISOString(),collectionStarted,from,to,days,rows,comparison:{from:previousFrom,to:previousTo,rows:previousRows,unavailableReason}})
 }
 
 /** Each request names one build-integrated module; no configuration grouping is stored. */
 export async function recordModuleDownload(request: Request, env: Env, db: Database) {
   if (request.headers.get('DNT') === '1' || request.headers.get('Sec-GPC') === '1') return new Response(null,{status:204})
+  if(request.headers.get('X-Octamod-Usage-Consent')!==USAGE_CONSENT_VERSION)throw new HttpError(403,'Usage counts require your current opt-in choice.')
   const secret = env.ADMIN_KEY_SHA256?.trim().toLowerCase() ?? ''
   if (!/^[a-f0-9]{64}$/.test(secret)) throw new HttpError(503,'Usage counts are not configured.')
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new HttpError(415,'Send JSON for this request.')
   let body: Record<string,unknown>
   try { const value: unknown = JSON.parse(new TextDecoder().decode(await boundedBody(request,512))); if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(); body=value as Record<string,unknown> }
   catch(error) { if(error instanceof HttpError)throw error; throw new HttpError(400,'Invalid module download event.') }
-  if (Object.keys(body).sort().join(',') !== 'eventId,moduleId,visitor' || typeof body.moduleId !== 'string' || !isModuleAvailable(body.moduleId) || moduleBuildPending(body.moduleId) || typeof body.eventId !== 'string' || !uuid.test(body.eventId) || typeof body.visitor !== 'string' || !uuid.test(body.visitor)) throw new HttpError(400,'Invalid module download event.')
+  if (Object.keys(body).sort().join(',') !== 'eventId,moduleId,visitor' || typeof body.moduleId !== 'string' || !canTrackModuleDownload(body.moduleId) || typeof body.eventId !== 'string' || !uuid.test(body.eventId) || typeof body.visitor !== 'string' || !uuid.test(body.visitor)) throw new HttpError(400,'Invalid module download event.')
   const today = day(new Date())
   // Rate-limit digests are separate from deduplication. Neither table links a module to a visitor.
   const visitor = await privateHash(secret,today + ':module-rate:' + body.visitor), identity = await privateHash(secret,today + ':module-event:' + body.eventId)
