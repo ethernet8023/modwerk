@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "moduleVersion": "0.2.0-experimental",
+  "testedOn": "2026-10-06",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
+  "isolation": "Network-disabled read-only Docker root, all capabilities dropped, private executable tmpfs. Firmware-free C core only.",
+  "command": "cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined engine.c test_engine.c -o /tmp/riff-tests && /tmp/riff-tests",
+  "cases": 244800,
+  "secondaryControlCases": 29772,
+  "result": "passed",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "writerChecks": [
+    "empty-only generation refuses notes/trigless/recorder/slide/lock data",
+    "exact swing, recorder, track timing and unrelated-lock preservation",
+    "fail-before-write on invalid phrase and short buffer",
+    "buffer canaries"
+  ],
+  "secondaryChecks": [
+    "scale membership and native pitch bounds for all roots/scales/spans/offsets",
+    "rotation and reverse for lengths 1..64",
+    "repeat lengths 1..64",
+    "nine-byte settings round trip and canaries",
+    "gate/accent edits retain notes and pitches",
+    "seed wrap at 127"
+  ],
+  "sources": {
+    "engine.c": "f077e83608b575ad850982f8c48e400f9d9827db3c0620827680db90e5b07760",
+    "engine.h": "70c92a089ca08d5557e79365d8e514b2e3948fde1ee035772d874afbc024976d",
+    "test_engine.c": "3c24f2ba225ea8c529df7b99b95915d4b4d46531142a96e7f1c0b80d8aeb286b"
+  },
+  "limitations": "Synthetic host buffers; not hardware or native timing, audio or persistence qualification."
+}

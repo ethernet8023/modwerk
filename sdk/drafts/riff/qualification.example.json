@@ -1,0 +1,92 @@
+{
+  "moduleVersion": "0.2.0-experimental",
+  "sourceSha256": "REPLACE_WITH_NATIVE_SOURCE_SHA256",
+  "imageSha256": "REPLACE_WITH_LOCAL_TESTED_IMAGE_SHA256",
+  "cycles": [
+    {
+      "processor": "coldfire",
+      "worstCase": null,
+      "maxConfiguration": null,
+      "maxInstances": null,
+      "budget": null,
+      "unit": "cycles/event",
+      "method": "emulator",
+      "conditions": {
+        "parameterExtremes": "Describe every minimum, maximum and branch boundary tested.",
+        "parameterModulation": "Describe simultaneous LFOs, p-locks, MIDI CC and scene sweeps; justify each inapplicable mechanism.",
+        "modeSwitching": "Describe repeated/interrupted mode, bypass and Part changes.",
+        "maxLoad": "Describe maximum voices/instances, both cores, FX slots, streaming and USB/MIDI load.",
+        "inputConditions": "Describe silence, impulses, full-scale inputs, feedback and other worst-case signal conditions."
+      },
+      "report": "TESTING.md"
+    }
+  ],
+  "memory": {
+    "regions": [
+      {
+        "name": "Replace with each code, state, table, buffer, stack/heap and padding allocation",
+        "space": "sdram",
+        "words": null,
+        "wordBits": 8,
+        "bytes": null,
+        "scope": "shared"
+      }
+    ],
+    "perInstanceBytes": null,
+    "sharedBytes": null,
+    "maxInstances": null,
+    "totalBytes": null,
+    "conditions": "State exact build options, alignment, accounting convention, allocator/stack bounds and reused stock/shared memory; justify every absent allocation class.",
+    "report": "TESTING.md"
+  },
+  "hardware": {
+    "status": "pending",
+    "model": "MKII",
+    "testedOn": "YYYY-MM-DD",
+    "tester": "Your credited tester handle; no email",
+    "project": {
+      "name": "Your local stress project",
+      "sha256": "REPLACE_WITH_PROJECT_FINGERPRINT",
+      "recipe": "Record generator/tool revision and command, local source template fingerprint, sample recipe, all settings and modifications needed to reproduce this stress project. Keep the project/card/firmware local."
+    },
+    "durationMinutes": null,
+    "audioTracks": null,
+    "midiTracks": null,
+    "conditions": {
+      "parameterExtremes": "Describe every minimum, maximum and branch boundary tested.",
+      "parameterModulation": "Describe simultaneous LFOs, p-locks, MIDI CC and scene sweeps; justify each inapplicable mechanism.",
+      "modeSwitching": "Describe repeated/interrupted mode, bypass and Part changes.",
+      "maxLoad": "Describe maximum voices/instances, both cores, FX slots, streaming and USB/MIDI load.",
+      "inputConditions": "Describe silence, impulses, full-scale inputs, feedback and other worst-case signal conditions."
+    },
+    "checks": {
+      "audioContinuity": "failed",
+      "transport": "failed",
+      "controls": "failed",
+      "memoryIntegrity": "failed",
+      "recovery": "failed"
+    },
+    "report": "TESTING.md",
+    "maxInstances": null
+  },
+  "documentation": {
+    "screenshotStyle": "black-and-white",
+    "screenshots": [
+      "media/ot-location.png",
+      "media/ot-generator.png",
+      "media/ot-generated.png",
+      "media/ot-edit.png",
+      "media/ot-setup.png"
+    ],
+    "tutorial": {
+      "title": "Generate a phrase, then edit a note",
+      "steps": [
+        "Select an audio track. Choose FLEX or STATIC on SRC page 2 (double-tap SRC), load one tuned sample from that pool, then reopen SRC page 2, move DOWN to RIFF and press YES. RIFF keeps the selected pool and sample.",
+        "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A\u2013F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+        "Open SRC page 2 with a double tap on SRC. Encoders A\u2013F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
+        "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
+        "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
+      ]
+    }
+  }
+}

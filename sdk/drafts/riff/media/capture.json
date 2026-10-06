@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "riff",
+  "moduleVersion": "0.2.0-experimental",
+  "captured": "2026-10-06",
+  "firmware": "1.40C",
+  "imageSha256": "9940674332f3dc77c3c34f88e284276fd28c87d441ffb857ec1e1bd46fa34bc4",
+  "baseSha256": "164f31224bf61181e3f50e7dec40df9afcae5b16dbf6e4c0d0cc5e986af0a84e",
+  "emulator": "octemu",
+  "emulatorSha256": "3ce6cebde0de2c61edc4228436338a1e115ce227373351a5ca84aefc9cf90acb",
+  "emulatorSourceRevision": "87000189418c8ca2026dc047bda220b66802809d",
+  "emulatorWorkingTree": "Existing local board/DSP/main changes; exact executed binary bound above. Panel script/renderer are unchanged.",
+  "panelScriptSourceSha256": "526459b760cb3756644cdca6c04b42c606c0f3cfec232c1095ffa37fecc28b79",
+  "compiler": "m68k-elf-gcc (GCC) 16.2.0",
+  "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
+  "nativeSdkBaseRevision": "f6c02edbaa01c19122487604c6276dff370471cc",
+  "isolation": "Docker native compile: no network, read-only root, all capabilities dropped, no-new-privileges, user 501:20, private work/tmp mounts. Emulator guest and card/NVRAM are task-private; only test-session GDB reads.",
+  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
+  "panelWalk": "media/walk.jsonl",
+  "panelWalkSha256": "d09ff3ea3421fd2831a20457f5690e1e431905f6bfc0b174ed712ef14e0e40c0",
+  "executedPanelWalkSha256": "5a905c867b65df46db4e844006988c23a30a2d4836977cae7d7b8e247862c1b6",
+  "panelWalkNormalization": "Only screenshot destination prefixes are replaced with CAPTURE_DIR. Substitute a task-private absolute directory before running.",
+  "imageProfile": {
+    "modules": [
+      "RIFF"
+    ],
+    "stockEffects": [
+      "FILTER",
+      "EQUALIZER",
+      "DJ EQ",
+      "PHASER",
+      "FLANGER",
+      "CHORUS",
+      "SPATIALIZER",
+      "COMB FILTER",
+      "COMPRESSOR",
+      "LO-FI",
+      "DELAY",
+      "PLATE REV",
+      "SPRING REV",
+      "DARK REV"
+    ],
+    "staticStock": true,
+    "XBUS": 1,
+    "SPEC": 1,
+    "DEV": 0,
+    "BUILD": 98
+  },
+  "nativeBuildInputs": {
+    "engine.c": "f077e83608b575ad850982f8c48e400f9d9827db3c0620827680db90e5b07760",
+    "engine.h": "70c92a089ca08d5557e79365d8e514b2e3948fde1ee035772d874afbc024976d",
+    "native.c": "5b3f6f4b584c4dbb5f18549d52fd1f6a4831ffa779408ecf35facc69500b2077",
+    "hooks.s": "51aab282986d94c305ebfb866dd772f8f402b83bbc97fa9f798aecc3cc720534",
+    "prepare.py": "d5f682e1b860a33e8bb7457421c70c40a1ea8679d576761a5213386877e70e42",
+    "manifest.py": "f2879385d0c395c8297fb7e792ce4a2fce03c250a8a984a3b6acb1212be0393b"
+  },
+  "screenshots": {
+    "ot-location.png": "df9cfb3f0c68a63f8879bb19ce29bad177c39924878e97d4cf89521ae8a69bf3",
+    "ot-generator.png": "de718caf2969c25a745f5b28195d41e796357f9cd49e8df2bf7a78a4e8787c56",
+    "ot-generated.png": "24e61363df1e70eec4c3d1d13b15d145aa389f0b1c22657afc99892f9c89c5de",
+    "ot-edit.png": "1fe7e8374ff353e46c4d12cef923e1ba698a74189caf9130d92e85786efb0a53",
+    "ot-setup.png": "df9cfb3f0c68a63f8879bb19ce29bad177c39924878e97d4cf89521ae8a69bf3"
+  },
+  "reviewed": "Native SRC, secondary page, sample edit, held-trig and generated frames visually inspected. The stable secondary-page frame also shows the selected machine location; an incomplete pre-selection LCD update was discarded.",
+  "limitations": "UI and focused emulator behavior only. Does not qualify real hardware, complete timing/memory, persistence, both sample pools or audio continuity.",
+  "sourceSha256": "53ddf7d62134b539aaf87dc18c0daacf5a2569d3124bbe5f13da5eef688a95c1"
+}
