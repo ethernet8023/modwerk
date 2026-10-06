@@ -14,6 +14,7 @@ import { ForumMachines } from './ForumMachines'
 import { ForumDirectory } from './ForumDirectory'
 import { ForumRecentPosts } from './ForumRecentPosts'
 import { ForumShoutbox } from './ForumShoutbox'
+import { ForumShowcase } from './ForumShowcase'
 import { ForumAvatar as Avatar } from './ForumIdentity'
 import { ForumThreadList } from './ForumThreadList'
 import { RichTextEditor } from './ForumEditor'
@@ -37,10 +38,12 @@ function ForumList({query,profile}:{query:URLSearchParams;profile?:string}){
   const heading=(profile?'Public discussions':saved?'Your bookmarks':following?'Following':moduleView?'Module discussions':category&&Object.hasOwn(FORUM_CATEGORIES,category)?FORUM_CATEGORIES[category as ForumCategory]:query.get('q')?'Search results':newest?'New threads':'Latest activity')+(machine&&!profile?' · '+machine.name:'')
   const newParams=new URLSearchParams();if(category)newParams.set('category',category);if(machine)newParams.set('machine',machine.id);if(query.get('module'))newParams.set('module',query.get('module')!)
   const startHref=category==='issues'||session.user?.verified?'#forum/new'+(newParams.size?'?'+newParams.toString():''):session.user?'#account':'#account/register'
+  const showcase=overview&&<ForumShowcase machine={machine?.id} shareHref={session.user?.verified?'#forum/new?category=showcase'+(machine?'&machine='+machine.id:''):session.user?'#account':'#account/register'}/>
   return <>
     {profile&&<BackLink href="#forum">All discussions</BackLink>}
     <div className="page-heading forum-heading"><div><span className="forum-eyebrow">Connect · Create · Explore</span><h1>{profile?'@'+profile:'Community forum'}</h1><p>{profile?'Public threads by this member.':'A place for the people who make their machines do more.'}</p></div><a className="button button-primary" href={startHref}><Icon name="plus" size={16}/><span className="forum-start-long">{category==='issues'?'Report an issue':'Start a thread'}</span><span className="forum-start-short">{category==='issues'?'Report':'New thread'}</span></a></div>
     {profile&&<ForumProfile key={profile} username={profile}/>}
+    {home&&showcase}
     {!profile&&<>
       <nav className="forum-categories" aria-label="Discussion views">
         <a aria-current={!newest&&!saved&&!following&&!moduleView?'page':undefined} href={link({sort:'',saved:'',following:'',view:''})}>Latest activity</a>
@@ -67,6 +70,7 @@ function ForumList({query,profile}:{query:URLSearchParams;profile?:string}){
       <a className="forum-clear-filters" href={link({q:'',category:'',module:'',machine:''})}>Clear all</a>
     </div>}
     {!profile&&!saved&&!following&&machine&&<div className="forum-machine-header"><span className="forum-machine-art"><DeviceImage device={machine}/></span><div><h2>{machine.name}{machine.variants&&<small> {machine.variants.join(' · ')}</small>}</h2><p>{machine.summary}</p></div><a className="text-button" href={link({machine:'',module:''})}><Icon name="back" size={13}/>All machines</a></div>}
+    {machine&&showcase}
 
     {home&&<details className="forum-machine-directory"><summary><Icon name="grid" size={16}/><span>Browse by machine</span><span>Every Elektron box</span><Icon name="back" size={16}/></summary><ForumMachines href={id=>link({machine:id,category:'',module:''})}/></details>}
     {category&&Object.hasOwn(FORUM_CATEGORIES,category)&&<p className="forum-category-description">{FORUM_CATEGORY_DESCRIPTIONS[category as ForumCategory]} <a className="text-button" href={link({category:''})}><Icon name="back" size={13}/>All topics</a></p>}

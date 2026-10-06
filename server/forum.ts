@@ -100,6 +100,19 @@ export async function forum(request: Request, db: Database, user: User|null, adm
       AND p.id<>(SELECT first.id FROM forum_posts first WHERE first.thread_id=t.id ORDER BY first.created_at,first.rowid LIMIT 1)
       ORDER BY p.created_at DESC,p.rowid DESC LIMIT 6`).bind(machine,machine).all()).results)
   }
+  // The newest visible posts with images or sound clips, module threads included; bug reports are not showcase material.
+  if (path === '/api/forum/showcase' && request.method === 'GET') {
+    let machine: string | null
+    try { machine=forumMachine(url.searchParams.get('machine')) } catch { throw new HttpError(400,'Unknown machine.') }
+    const posts = (await db.prepare(`SELECT p.id,p.thread_id,p.created_at,u.username,p.user_id='${SYSTEM_AUTHOR}' AS official,t.title,COALESCE(t.section,t.category) AS category,t.machine,
+      (SELECT CAST(COUNT(*)/30 AS INTEGER) FROM forum_posts preceding WHERE preceding.thread_id=t.id AND (preceding.created_at<p.created_at OR (preceding.created_at=p.created_at AND preceding.rowid<p.rowid))) AS page
+      FROM forum_posts p JOIN forum_threads t ON t.id=p.thread_id JOIN users u ON u.id=p.user_id
+      WHERE p.id IN (SELECT m.post_id FROM forum_media m WHERE m.removed=0 AND m.post_id IS NOT NULL)
+      AND p.hidden=0 AND t.hidden=0 AND t.category<>'issues' AND (? IS NULL OR t.machine=?)
+      ORDER BY p.created_at DESC,p.rowid DESC LIMIT 12`).bind(machine,machine).all<{id:string}>()).results
+    const attachments = await postAttachments(db,posts.map(post=>post.id))
+    return response(posts.map(post=>({...post,attachments:attachments.get(post.id)??[]})))
+  }
 
   if (path === '/api/forum/machines' && request.method === 'GET') {
     return response((await db.prepare('SELECT machine,COUNT(*) AS threads,MAX(updated_at) AS updated_at FROM forum_threads WHERE hidden=0 AND user_id<>? AND machine IS NOT NULL GROUP BY machine').bind(SYSTEM_AUTHOR).all()).results)
