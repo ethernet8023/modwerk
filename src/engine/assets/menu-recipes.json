@@ -1246,7 +1246,7 @@
       "caveLimit": 1074625596
     }
   ],
-  "sourceCommit": null,
+  "sourceCommit": "26b74e28dd30b4e351138ea18b858ef54f49886f",
   "moduleVersions": {
     "spectrum": "0.1.1-experimental",
     "modulation": "0.1.1-experimental",

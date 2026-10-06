@@ -55,3 +55,17 @@ The engine uses stock note/trig starts, releases and stops. Its oscillators run 
 Do not add this draft to sdk/catalog.json or freeze a qualification exemption. Required before publication: full worst-case cycles/memory; current attributed hardware report (or exact owner waiver where policy allows); lock/modulation/stock-path/persistence coverage; stock-free packages; shared native/browser composition and matching refusal matrix; module doctor. The hardware policy has no minimum duration or track count, but requires truthful recorded coverage. `qualification.example.json` contains pending fields and is not attached as tests.qualification.
 
 Stock-free draft integrity and documentation tests are run by `npm run check` and `npm run sdk:check`. `npm run modules:generate`, `npm run modules:check -- --base origin/main`, and licence generation/checks validate the existing published catalog without adding this draft. `npm run module:doctor -- synth` reports it unavailable because it is deliberately outside native/public discovery; publication integration is pending.
+
+## Repository review checks — passed on current main
+
+Rebased onto `ea147a8f42f166437e56e1087c8cfba12808dbe4`. The native preview reproduces the captured/audio-tested image exactly; shared native tools/DSP inputs did not change across this rebase.
+
+- `npm run modules:generate`: passed; draft remains excluded.
+- `npm run check`: passed — lint, SDK checks, TypeScript, production build and 761 tests in 115 files.
+- `npm run sdk:check`: passed — 39 read-only SDK tests, including three new draft integrity/hygiene/evidence tests.
+- `npm run modules:check -- --base origin/main`: passed.
+- `npm run licenses:generate` and `npm run licenses:check`: passed.
+- `npm run module:doctor -- synth`: expected unavailable-draft result; there is no module under native/public discovery. This is a pending publication gate, not a green doctor claim.
+- Isolated stock-free package rebuild and `npm run modules:import -- <private-output>/packages --development`: passed. Image `modwerk-source-tools:continuation` provides GCC 16.2.0, GNU binutils 2.47 and Node 24.21.0. The full immutable image ID was supplied to `scripts/build-modules-isolated.sh`; no firmware/network/credentials were mounted. All ten existing package documents compare identical to main after removing only sourceCommit provenance. The release source-tree fingerprint changes because the licence inventory/notices now identify this draft. No existing executable payload, module version or recipe changed.
+
+The final check result supersedes early runs against incomplete shared dependencies and the pre-rebuild release fingerprint. All source and evidence changes remain in the isolated worktree.
