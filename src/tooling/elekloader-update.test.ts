@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { DEVICE } from '../engine/elekloader/digi-build'
-import { DEVICES, KIT_PROTOCOL, catalogChanges, followUps, readKitZip, type KitJson } from '../../scripts/elekloader-update.ts'
+import { DEVICES, KIT_PROTOCOL, catalogChanges, describeChange, followUps, libraryCatalog, readKitZip, type KitJson } from '../../scripts/elekloader-update.ts'
 import { PROTOCOL } from '../../vendor/elekloader/kit/src/kit/protocol.ts'
 
 const sha = (data: Uint8Array) => createHash('sha256').update(data).digest('hex')
@@ -70,13 +70,41 @@ describe('the elekloader update', () => {
     const before = { revision: 'a', cores: [pin('core', '2.1')], mods: [pin('digislicer', '2.1'), pin('digisophie', '1.1.13')] }
     const after = { revision: 'b', cores: [pin('core', '2.1')], mods: [pin('digislicer', '2.2'), pin('digifresh', '0.1', '1.43', 'digitone-mk1')] }
     const changes = catalogChanges(before, after)
-    expect(changes.map(c => [c.id, c.from?.version ?? null, c.to?.version ?? null])).toEqual([['digifresh', null, '0.1'], ['digislicer', '2.1', '2.2'], ['digisophie', '1.1.13', null]])
+    expect(changes.map(describeChange)).toEqual([
+      'digifresh for digitone-mk1 OS 1.43: added 0.1 (digifresh-0.1.elemod)',
+      'digislicer for digitakt-mk1 OS 1.53: 2.1 (digislicer-2.1.elemod) -> 2.2 (digislicer-2.2.elemod)',
+      'digisophie for digitakt-mk1 OS 1.53: 1.1.13 (digisophie-1.1.13.elemod) removed',
+    ])
+    // a second core for one OS is added beside the first, not in its place
+    const twoCores = catalogChanges(before, { ...before, cores: [...before.cores, pin('core', '2.2')] })
+    expect(twoCores.map(describeChange)).toEqual(['core for digitakt-mk1 OS 1.53: added 2.2 (core-2.2.elemod)'])
     const manifest = { components: [{ id: 'digisophie', usedIn: ['vendor/elekloader/catalog/digisophie-1.1.12.elemod'] }, { id: 'digi-mods', usedIn: ['vendor/elekloader/catalog'] }] }
     expect(followUps(fileURLToPath(new URL('../..', import.meta.url)), changes, manifest)).toEqual([
       'sdk/digitakt/modules/digislicer/modwerk.module.json: bring its version, releases and memory in line with the catalog, then run npm run modules:generate.',
       'sdk/digitakt/modules/digisophie/modwerk.module.json: digisophie left the catalog for OS 1.53. Remove those releases, or the module, then run npm run modules:generate.',
-      "digitone/digifresh is in the catalog but not in Modwerk's library: add sdk/digitone/modules/digifresh/ to offer it, or leave it out of the catalog.",
+      "digitone/digifresh is in the catalog but not in Modwerk's library: add sdk/digitone/modules/digifresh/ to offer it, or leave it out of the catalog (--library).",
       'vendor/licenses/manifest.json: "digisophie" names vendor/elekloader/catalog/digisophie-1.1.12.elemod, which is gone.',
+    ])
+  })
+  it('cuts a full catalog to the library, with what its mods require (--library)', () => {
+    const pin = (id: string, os: string, device = 'digitakt-mk1', requires: string[] = ['core']) => ({ file: `${id}-${os}-${device}.elemod`, sha256: sha(text(id + os + device)), id, version: '1', device, os, requires })
+    const catalog = {
+      schema: 1, kind: 'elekloader-catalog', revision: 'r', about: 'kept as it is',
+      cores: [pin('core', '1.53'), pin('core', '1.40C', 'octatrack')],
+      mods: [pin('digislicer', '1.53'), pin('digimono', '1.53', 'digitakt-mk1', ['core', 'digichain']), pin('digichain', '1.53'), pin('digichain', '1.54'), pin('digifresh', '1.53'), pin('octamod', '1.40C', 'octatrack')],
+    }
+    const listed = (machine: string, id: string) => machine === 'digitakt' && ['digislicer', 'digimono'].includes(id)
+    const cut = libraryCatalog(catalog, listed)
+    expect(cut.catalog.mods.map(m => m.file)).toEqual(['digislicer-1.53-digitakt-mk1.elemod', 'digimono-1.53-digitakt-mk1.elemod', 'digichain-1.53-digitakt-mk1.elemod'])
+    expect(cut.catalog.cores.map(c => c.device)).toEqual(['digitakt-mk1'])
+    expect(cut.catalog).toMatchObject({ schema: 1, kind: 'elekloader-catalog', revision: 'r', about: 'kept as it is' })
+    expect([...cut.required]).toEqual(['digitakt/digichain'])
+    expect(cut.leftOut).toEqual(['digitakt/digifresh'])
+    const root = fileURLToPath(new URL('../..', import.meta.url))
+    const changes = catalogChanges({ revision: 'a', cores: [], mods: [] }, { revision: 'b', cores: [pin('core', '1.53')], mods: [pin('digichain', '1.53')] })
+    expect(followUps(root, changes, { components: [] }, cut.required)).toEqual([
+      'Cores changed (core for digitakt-mk1 OS 1.53: added 1 (core-1.53-digitakt-mk1.elemod)): builds for those OS releases change. Build them and record the identities in docs/VERIFICATION.md.',
+      'digitakt/digichain comes with the catalog because a library mod requires it: it needs no library entry.',
     ])
   })
 })

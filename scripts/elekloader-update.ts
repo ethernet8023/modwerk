@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Updates the vendored elekloader kit, its catalog, or both (vendor/elekloader/README.md, "Updating"):
 //
-//   npm run elekloader:update -- [elekloader-kit-<version>.zip [--sha256 <the release's>]] [elekloader-catalog.json]
+//   npm run elekloader:update -- [elekloader-kit-<version>.zip [--sha256 <the release's>]] [elekloader-catalog.json [--library]]
 //
 // - The kit: every file in the zip checked against its kit.json, and the files Modwerk vendors put in place of kit/.
 //   A kit of another protocol is refused: src/engine/elekloader/digi-build.ts is written for KIT_PROTOCOL.
 // - The catalog: its Digitakt and Digitone entries, each file downloaded from its author's release by the kit's own
-//   sync and checked against its pin. Files it no longer names are removed.
+//   sync and checked against its pin. Files it no longer names are removed. With --library, only the mods Modwerk's
+//   library lists (sdk/<machine>/modules/<id>/modwerk.module.json) and the mods they require are taken, so elekloader's
+//   whole catalog can go in as it is; the rest are not downloaded.
 // Then the lock, the elekloader licence entry and the notices, and the vendor check. It prints what changed and what
 // is left to do by hand. Both new copies are staged in a temporary folder first, so a refusal or a failed download
 // leaves vendor/elekloader as it was.
@@ -26,7 +28,7 @@ export const DEVICES: Record<string, string> = { 'digitakt-mk1': 'digitakt', 'di
 const VENDORED = (name: string) => name.startsWith('src/') || ['tools/kit.ts', 'LICENSE', 'NOTICE', 'README.md', 'kit.json'].includes(name)
 
 export type KitJson = { name: string; version: string; protocol: number; commit: string; files: Record<string, string> }
-type Pin = { file: string; sha256: string; id: string; version: string; device: string; os: string }
+type Pin = { file: string; sha256: string; id: string; version: string; device: string; os: string; requires?: string[] }
 type CatalogFile = { revision: string; cores: Pin[]; mods: Pin[] }
 
 const sha = (data: Uint8Array) => createHash('sha256').update(data).digest('hex')
@@ -61,29 +63,65 @@ export async function readKitZip(raw: Uint8Array): Promise<{ kit: KitJson; files
   return { kit, files: new Map([...all].filter(([name]) => VENDORED(name))) }
 }
 
-export type Change = { key: string; id: string; device: string; os: string; from?: Pin; to?: Pin }
-
-/** What changed between two catalogs, by mod (or core), device and OS. */
-export function catalogChanges(before: CatalogFile, after: CatalogFile): Change[] {
-  const index = (c: CatalogFile) => new Map([...c.cores, ...c.mods].map(p => [`${p.id} ${p.device} ${p.os}`, p]))
-  const a = index(before), b = index(after), out: Change[] = []
-  for (const key of [...new Set([...a.keys(), ...b.keys()])].sort()) {
-    const from = a.get(key), to = b.get(key)
-    if (from?.sha256 === to?.sha256 && from?.file === to?.file) continue
-    const pin = (to ?? from)!
-    out.push({ key, id: pin.id, device: pin.device, os: pin.os, from, to })
+/** A catalog cut to Modwerk's library: the mods `listed(machine, id)` names, with the mods they require on the same
+ * device and OS (`required`, as machine/id), and only Modwerk's devices. The other fields stay as they are. `leftOut`
+ * names the mods (machine/id) none of whose files are kept. */
+export function libraryCatalog<C extends { cores: Pin[]; mods: Pin[] }>(catalog: C, listed: (machine: string, id: string) => boolean) {
+  const ours = (p: Pin) => p.device in DEVICES
+  const keep = new Set(catalog.mods.filter(m => ours(m) && listed(DEVICES[m.device], m.id)))
+  for (let grew = true; grew;) {
+    grew = false
+    for (const m of [...keep])
+      for (const id of m.requires ?? [])
+        for (const r of catalog.mods)
+          if (id !== 'core' && r.id === id && r.device === m.device && r.os === m.os && !keep.has(r)) { keep.add(r); grew = true }
   }
-  return out
+  const mods = catalog.mods.filter(m => keep.has(m)), key = (m: Pin) => `${DEVICES[m.device]}/${m.id}`
+  return {
+    catalog: { ...catalog, cores: catalog.cores.filter(ours), mods },
+    required: new Set(mods.filter(m => !listed(DEVICES[m.device], m.id)).map(key)),
+    leftOut: [...new Set(catalog.mods.filter(m => ours(m) && !mods.some(k => key(k) === key(m))).map(key))].sort(),
+  }
 }
 
-/** What is left to do by hand after a catalog change: Modwerk's own module files, and licence entries naming a
- * catalog file that is gone. `root` is the repository. */
-export function followUps(root: string, changes: readonly Change[], manifest: { components: { id: string; usedIn?: string[] }[] }) {
+/** The files of one mod (or core) for one device and OS that left the catalog (`from`) and came (`to`). */
+export type Change = { key: string; id: string; device: string; os: string; from: Pin[]; to: Pin[] }
+
+/** What changed between two catalogs, file by file, grouped by mod (or core), device and OS: a catalog can hold
+ * several files for one of them, such as two cores for one OS. */
+export function catalogChanges(before: CatalogFile, after: CatalogFile): Change[] {
+  const a = [...before.cores, ...before.mods], b = [...after.cores, ...after.mods]
+  const same = (p: Pin, q: Pin) => p.file === q.file && p.sha256 === q.sha256
+  const groups = new Map<string, Change>()
+  const add = (p: Pin, side: 'from' | 'to') => {
+    const key = `${p.id} ${p.device} ${p.os}`
+    if (!groups.has(key)) groups.set(key, { key, id: p.id, device: p.device, os: p.os, from: [], to: [] })
+    groups.get(key)![side].push(p)
+  }
+  for (const p of a) if (!b.some(q => same(p, q))) add(p, 'from')
+  for (const p of b) if (!a.some(q => same(p, q))) add(p, 'to')
+  return [...groups.values()].sort((x, y) => (x.key < y.key ? -1 : x.key > y.key ? 1 : 0))
+}
+
+/** A change in a line: replaced, added or removed. */
+export function describeChange(c: Change) {
+  const files = (pins: Pin[]) => pins.map(p => `${p.version} (${p.file})`).join(', ')
+  const what = !c.from.length ? 'added ' + files(c.to) : !c.to.length ? files(c.from) + ' removed' : files(c.from) + ' -> ' + files(c.to)
+  return `${c.id} for ${c.device} OS ${c.os}: ${what}`
+}
+
+/** What is left to do by hand after a catalog change: the builds a changed core changes, Modwerk's own module files,
+ * and licence entries naming a catalog file that is gone. `root` is the repository; `required` names (machine/id) the
+ * mods the catalog carries only because a listed mod requires them. */
+export function followUps(root: string, changes: readonly Change[], manifest: { components: { id: string; usedIn?: string[] }[] }, required: ReadonlySet<string> = new Set()) {
   const out: string[] = []
+  const cores = changes.filter(c => c.id === 'core')
+  if (cores.length) out.push(`Cores changed (${cores.map(describeChange).join('; ')}): builds for those OS releases change. Build them and record the identities in docs/VERIFICATION.md.`)
   for (const id of [...new Set(changes.filter(c => c.id !== 'core').map(c => `${DEVICES[c.device]}/${c.id}`))].sort()) {
     const [machine, mod] = id.split('/'), folder = `sdk/${machine}/modules/${mod}`
-    const mine = changes.filter(c => c.id === mod && DEVICES[c.device] === machine), gone = mine.filter(c => !c.to).map(c => 'OS ' + c.os)
-    if (!existsSync(resolve(root, folder))) { if (gone.length < mine.length) out.push(`${id} is in the catalog but not in Modwerk's library: add ${folder}/ to offer it, or leave it out of the catalog.`) }
+    const mine = changes.filter(c => c.id === mod && DEVICES[c.device] === machine), gone = mine.filter(c => !c.to.length).map(c => 'OS ' + c.os)
+    if (required.has(id)) out.push(`${id} comes with the catalog because a library mod requires it: it needs no library entry.`)
+    else if (!existsSync(resolve(root, folder))) { if (gone.length < mine.length) out.push(`${id} is in the catalog but not in Modwerk's library: add ${folder}/ to offer it, or leave it out of the catalog (--library).`) }
     else if (gone.length === mine.length) out.push(`${folder}/modwerk.module.json: ${mod} left the catalog for ${gone.join(', ')}. Remove those releases, or the module, then run npm run modules:generate.`)
     else out.push(`${folder}/modwerk.module.json: bring its version, releases and memory in line with the catalog, then run npm run modules:generate.`)
   }
@@ -121,16 +159,17 @@ function mirror(next: string, target: string) {
 }
 
 async function main(root: string, argv: string[]) {
-  const usage = 'Usage: npm run elekloader:update -- [elekloader-kit-<version>.zip [--sha256 <hex>]] [elekloader-catalog.json]'
+  const usage = 'Usage: npm run elekloader:update -- [elekloader-kit-<version>.zip [--sha256 <hex>]] [elekloader-catalog.json [--library]]'
   const paths: string[] = []
-  let expected: string | undefined
+  let expected: string | undefined, library = false
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--sha256') expected = argv[++i]
+    else if (argv[i] === '--library') library = true
     else if (argv[i].startsWith('--')) throw new Error(usage)
     else paths.push(argv[i])
   }
   const zip = paths.find(p => p.toLowerCase().endsWith('.zip')), from = paths.find(p => p.toLowerCase().endsWith('.json'))
-  if (!paths.length || paths.length !== [zip, from].filter(Boolean).length || expected !== undefined && (!zip || !/^[0-9a-fA-F]{64}$/.test(expected))) throw new Error(usage)
+  if (!paths.length || paths.length !== [zip, from].filter(Boolean).length || expected !== undefined && (!zip || !/^[0-9a-fA-F]{64}$/.test(expected)) || library && !from) throw new Error(usage)
   const vendor = resolve(root, 'vendor/elekloader'), kitDir = join(vendor, 'kit'), catalogDir = join(vendor, 'catalog')
   const scratch = mkdtempSync(join(tmpdir(), 'modwerk-elekloader-')), notes: string[] = []
   const kitNext = join(scratch, 'kit'), catalogNext = join(scratch, 'catalog')
@@ -147,13 +186,23 @@ async function main(root: string, argv: string[]) {
       after = kit; kitCount = files.size
     }
     const oldCatalog = JSON.parse(readFileSync(join(catalogDir, 'catalog.json'), 'utf8')) as CatalogFile
-    let newCatalog = oldCatalog
+    let newCatalog = oldCatalog, required: ReadonlySet<string> = new Set()
     if (from) {
+      let source = resolve(from)
+      if (library) {
+        // only what Modwerk's library lists, and what that requires: the rest is not downloaded
+        const cut = libraryCatalog(JSON.parse(readFileSync(source, 'utf8')), (machine, id) => existsSync(resolve(root, `sdk/${machine}/modules/${id}/modwerk.module.json`)))
+        source = join(scratch, 'catalog-library.json')
+        writeFileSync(source, JSON.stringify(cut.catalog, null, 1) + '\n')
+        required = cut.required
+        if (cut.leftOut.length) console.log(`--library: left out ${cut.leftOut.length} mods Modwerk's library does not list: ${cut.leftOut.join(', ')}`)
+        if (required.size) console.log(`--library: kept as requirements of library mods: ${[...required].join(', ')}`)
+      }
       // the kit's own sync, the new kit's if there is one, into a copy of the current folder: files already there
       // with the pinned sha256 are not downloaded again
       cpSync(catalogDir, catalogNext, { recursive: true })
       const tool = join(zip ? kitNext : kitDir, 'tools/kit.ts')
-      run([tool, 'sync', resolve(from), catalogNext, ...Object.keys(DEVICES).flatMap(key => ['--device', key])], { cwd: root })
+      run([tool, 'sync', source, catalogNext, ...Object.keys(DEVICES).flatMap(key => ['--device', key])], { cwd: root })
       newCatalog = JSON.parse(readFileSync(join(catalogNext, 'catalog.json'), 'utf8')) as CatalogFile
       const named = new Set([...newCatalog.cores, ...newCatalog.mods].map(p => p.file))
       for (const name of readdirSync(catalogNext)) if (name !== 'catalog.json' && !named.has(name)) rmSync(join(catalogNext, name))
@@ -164,7 +213,7 @@ async function main(root: string, argv: string[]) {
     const changes = catalogChanges(oldCatalog, newCatalog)
     if (from) {
       console.log(`Catalog: ${oldCatalog.revision.slice(0, 7)} -> ${newCatalog.revision.slice(0, 7)}, ${newCatalog.cores.length} cores and ${newCatalog.mods.length} mods${changes.length ? ':' : ', no file changed.'}`)
-      for (const c of changes) console.log(`  ${c.id} for ${c.device} OS ${c.os}: ${c.from ? c.from.version + ' (' + c.from.file + ')' : 'new'} -> ${c.to ? c.to.version + ' (' + c.to.file + ')' : 'removed'}`)
+      for (const c of changes) console.log('  ' + describeChange(c))
       if (newCatalog.revision !== oldCatalog.revision) notes.push('Configuration backups made before this name the old catalog revision. They still import, with their modules checked again against the library.')
     }
     writeFileSync(join(vendor, 'elekloader.lock.json'), run([join(kitDir, 'tools/kit.ts'), 'lock', '--kit', kitDir, '--catalog', catalogDir], { capture: true, cwd: root }))
@@ -176,7 +225,7 @@ async function main(root: string, argv: string[]) {
     }
     run(['scripts/licenses.mjs', '--write'], { cwd: root })
     run(['scripts/elekloader-vendor.ts'], { cwd: root })
-    const todo = [...followUps(root, changes, JSON.parse(readFileSync(manifestPath, 'utf8'))),
+    const todo = [...followUps(root, changes, JSON.parse(readFileSync(manifestPath, 'utf8')), required),
       'Run npm run check, then record the update in docs/VERIFICATION.md (vendor/elekloader/README.md, "Updating").']
     for (const note of notes) console.log('Note: ' + note)
     console.log('Left to do:\n' + todo.map(item => '  - ' + item).join('\n'))

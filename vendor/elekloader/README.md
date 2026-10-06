@@ -30,6 +30,8 @@ Update by pull request, owner reviewed:
    ```bash
    npm run elekloader:update -- elekloader-kit-<version>.zip --sha256 <the release's> elekloader-catalog.json
    ```
+   Add `--library` to take elekloader's whole catalog as it is: only the mods Modwerk's library lists (`sdk/<machine>/modules/<id>/modwerk.module.json`) and the mods they require are kept, and the rest are not downloaded.
+
    It refuses a zip whose files are not the ones its `kit.json` names, and a kit of another protocol than `digi-build.ts` is written for. The catalog's Digitakt and Digitone files are downloaded from their authors' releases by the kit's `sync` and checked against their pins, and files it no longer names are removed. Both are staged first, so a refusal or a failed download changes nothing. Then it writes the lock, points the elekloader licence entry at the new commit, regenerates the notices and runs the vendor check.
 3. **Do what it lists.** It prints what changed and what is left by hand: Modwerk's own module files (`sdk/<machine>/modules/<id>/modwerk.module.json`) for each mod that changed, came or left, and licence entries naming a file that is gone. A new catalog `revision` needs nothing more: older configuration backups still import, with their modules checked again against the library.
 4. **Check and record:** run `npm run check`. Build every module subset locally against the previous builder or elekloader's command line, and record the result in `docs/VERIFICATION.md`.

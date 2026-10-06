@@ -738,3 +738,19 @@ The vendored kit moved from `aca3537` (the kit branch) to `a1be3ce`, elekloader 
   - `elekloader:check`, `licenses:check`, `typecheck`, `lint` and the production build pass;
   - Vitest, on main `5897804`: 709 pass, and the same two fail as above;
   - not run: no firmware, DSP or hardware test. Stock files and builds stayed local and temporary.
+
+## The update command takes elekloader's whole catalog — 5 October 2026
+
+`npm run elekloader:update -- elekloader-catalog.json --library` keeps only the mods Modwerk's library lists, with the mods they require on the same device and OS, so elekloader's published catalog goes in as it is. The change list now goes file by file: a catalog can hold two cores for one OS, and a core added beside another was reported as replacing it. A changed core is listed as left to do, because the builds of its OS change.
+
+**Tests.** `elekloader-update.test.ts` adds:
+- a catalog cut to the library keeps a required mod for its OS only, drops other devices, and keeps the catalog's other fields;
+- the change list for a replaced, an added and a removed file, and a second core added for one OS;
+- the follow-ups for a changed core and for a mod kept only as a requirement.
+
+**Run** (reverted after). elekloader's [kit-v0.4.0](https://github.com/irpina/elekloader/releases/tag/kit-v0.4.0) `elekloader-catalog.json` with `--library`:
+- it left out the 7 Digitakt and Digitone mods the library does not list: digichain, digieq, digimatrix, digimono, digipoly, digiutils and digitables;
+- it downloaded only `core-dn1-2.2.elemod`, kept the same 8 mod files, and the lock and vendor check passed;
+- it listed the Digitone 1.43 core 2.2 as left to do, since Digitone 1.43 builds would use it.
+
+**Checks (Node 24, Windows 11).** `licenses:check`, `machines:check`, `modules:check`, `elekloader:check`, `sdk:check`, `lint` and the production build pass. Vitest, on main `5897804` with the pull request it builds on: 710 pass, and the same two fail as above.
