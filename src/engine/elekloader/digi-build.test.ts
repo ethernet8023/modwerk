@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { DIGI_MODS } from '../../devices/digi-mods'
 import MACHINES from '../../devices/machines.generated.json'
+import LOCK from '../../../vendor/elekloader/elekloader.lock.json'
 import { BUILDER_CATALOG, BUILDER_SOURCE, buildLogText, buildStep, builderReleases, planBuild, prepareBuild, type Builder } from './digi-build'
 import { DIGI_DOWNLOADS_ENABLED } from './protocol'
 
@@ -14,7 +15,7 @@ describe('the vendored elekloader catalog', () => {
   it('has the pinned release file for every library module on each release it lists', () => {
     for (const mod of DIGI_MODS) expect(builderReleases(mod.device, mod.id).sort(), mod.device + ' ' + mod.id).toEqual([...mod.releases].sort())
     expect(BUILDER_CATALOG.mods.every(item => /^[a-f0-9]{64}$/.test(item.sha256) && /^[\w.-]+\.elemod$/.test(item.file))).toBe(true)
-    expect(BUILDER_CATALOG.revision).toBe('e4d8ba84841900db78144030a991e1d69816b6a4')       // saved backups name it
+    expect(BUILDER_CATALOG.revision).toBe(LOCK.catalog.revision)       // saved backups name it
   })
   it('reports modules without a file for the chosen release', () => {
     expect(planBuild('digitakt', '1.54', ['digisophie', 'digihealth'])).toMatchObject({ missing: ['digisophie'], mods: [{ id: 'digihealth', os: '1.54' }] })

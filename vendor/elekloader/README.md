@@ -10,7 +10,7 @@ Modwerk builds Digitakt mk1 and Digitone mk1/Keys firmware with [elekloader](htt
 
 `npm run elekloader:check` (part of `npm run check`) checks everything against the lock, as the kit's own `verify --lock` does. It refuses any changed, missing or extra file in `kit/` or `catalog/`. The site serves `catalog/` under `elekloader/`.
 
-The catalog's `revision` names its set of cores and mods: the elekloader commit whose catalog pinned them, still `e4d8ba8`. Configuration backups record it, so it changes only when the cores or mods do, not with the kit.
+The catalog's `revision` names its set of cores and mods: the elekloader commit whose catalog pinned them, still `e4d8ba8`. Configuration backups record it, so it changes only when the cores or mods do, not with the kit. A backup that names an older revision still imports: its modules are looked up again in the library, and the page says which were left out or changed version.
 
 `src/engine/elekloader/digi-build.ts` is Modwerk's side:
 - it starts the kit's worker (`kit/src/kit/worker.ts`, bundled by Vite) through the kit's client;
@@ -25,10 +25,11 @@ The `.elemod` files carry each author's own bytes. Stock instructions are refere
 
 Update by pull request, owner reviewed:
 
-1. **The kit:** take `elekloader-kit-<version>.zip` from an elekloader release and check it against the release's sha256. Replace `kit/` with its `src/`, `tools/kit.ts`, `LICENSE`, `NOTICE`, `README.md` and `kit.json`.
-2. **New cores or mods:**
-   - take them from elekloader's catalog (`elekloader-catalog.json` in the release), or add entries pinned to their authors' releases;
-   - copy them with `node vendor/elekloader/kit/tools/kit.ts sync <catalog.json> vendor/elekloader/catalog --device digitakt-mk1 --device digitone-mk1`;
-   - give the catalog a new `revision`.
-3. **The lock:** run `node vendor/elekloader/kit/tools/kit.ts lock --kit vendor/elekloader/kit --catalog vendor/elekloader/catalog > vendor/elekloader/elekloader.lock.json`. Update the elekloader entry in `vendor/licenses/manifest.json`, and run `npm run licenses:generate`.
+1. **Get the files.** Take `elekloader-kit-<version>.zip`, and `elekloader-catalog.json` if the cores or mods change, from an elekloader release. Until a release attaches the kit, build the zip from a commit with elekloader's `python packaging/build_kit.py --out build/kit`: it is reproducible.
+2. **Run the update** with the kit, the catalog, or both:
+   ```bash
+   npm run elekloader:update -- elekloader-kit-<version>.zip --sha256 <the release's> elekloader-catalog.json
+   ```
+   It refuses a zip whose files are not the ones its `kit.json` names, and a kit of another protocol than `digi-build.ts` is written for. The catalog's Digitakt and Digitone files are downloaded from their authors' releases by the kit's `sync` and checked against their pins, and files it no longer names are removed. Both are staged first, so a refusal or a failed download changes nothing. Then it writes the lock, points the elekloader licence entry at the new commit, regenerates the notices and runs the vendor check.
+3. **Do what it lists.** It prints what changed and what is left by hand: Modwerk's own module files (`sdk/<machine>/modules/<id>/modwerk.module.json`) for each mod that changed, came or left, and licence entries naming a file that is gone. A new catalog `revision` needs nothing more: older configuration backups still import, with their modules checked again against the library.
 4. **Check and record:** run `npm run check`. Build every module subset locally against the previous builder or elekloader's command line, and record the result in `docs/VERIFICATION.md`.

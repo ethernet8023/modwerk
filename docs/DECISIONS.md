@@ -187,3 +187,12 @@ elekloader packaged its builder as a kit that any website can use, with nothing 
 - **What Modwerk keeps.** `src/engine/elekloader/digi-build.ts` maps machine ids to the kit's device keys and starts the kit's worker. Modwerk's own worker and client are gone.
 - **Same builds.** It is the same engine, so the same bytes: the browser check gave the parity record's identities ([verification record](VERIFICATION.md)).
 
+## 5 October 2026 — Updating elekloader in one command, and backups across catalogs
+
+Taking an elekloader update was four manual steps, and every catalog change broke importing older configuration backups.
+
+- **One command.** `npm run elekloader:update -- [kit.zip [--sha256 …]] [catalog.json]` does the vendoring steps: it checks the zip against its `kit.json`, refuses another protocol, syncs the catalog for Digitakt and Digitone, writes the lock, updates the licence entry and notices, and runs the vendor check. Both new copies are staged first. It updates `kit/` and `catalog/` file by file, because on Windows a running dev server keeps the folders open.
+- **What stays by hand.** It lists Modwerk's own module files to update for each mod that changed, came or left, and licence entries naming a file that is gone. The owner-reviewed verification record is unchanged.
+- **Backups across catalogs.** A backup naming another catalog revision now imports. Its modules are looked up again in the library by id: ones no longer there are left out, and the page lists them and each version that changed. A backup whose modules are all gone is refused. With the current revision an unknown module still means an altered backup, and is refused.
+- **The revision test** compares the catalog with the lock instead of a fixed revision, so a catalog update does not need a test edit.
+

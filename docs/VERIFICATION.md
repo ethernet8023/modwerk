@@ -704,3 +704,26 @@ The Digitakt/Digitone builder now runs elekloader's kit:
 - **Vitest:** 643 tests pass. Two fail as they do without this change on this machine: `scaffold.test.ts` needs `python3`, and `module-publication.test.ts`.
 - **Not run:** no firmware, DSP or hardware test. Stock files and builds stayed local and temporary.
 
+## The update command and backups across catalogs — 5 October 2026
+
+**Tests.**
+- `src/tooling/elekloader-update.test.ts`:
+  - `KIT_PROTOCOL` is the vendored kit's, and `DEVICES` matches `digi-build.ts`;
+  - a kit zip yields exactly the files Modwerk vendors;
+  - a changed, missing or extra file, protocol 2, a mismatched folder, two folders and a path outside the folder are refused;
+  - catalog changes and the follow-ups: a module file to update, one to remove, a mod not in the library, a licence path that is gone.
+- `digi-selection.test.ts`: an older-catalog backup imports, with notes for a module left out and a version changed; one whose modules are all gone is refused; a current-catalog backup has no notes; an empty or missing revision is refused.
+
+**Runs** (each reverted after):
+- The kit zip built by `packaging/build_kit.py` from elekloader main `a1be3ce` (sha256 `576b7d44…bf70ad`), with the dev server running:
+  - 2 of 31 vendored files changed (`README.md`, `kit.json`), since the engine is the same as `aca3537`'s;
+  - the lock, the licence entry and both notices moved to `a1be3ce`, and the vendor check passed.
+- The current catalog fed back in: nothing downloaded, no file changed.
+- The catalog without SOPHIE, under a new revision:
+  - `digisophie-1.1.13.elemod` removed and the lock rewritten;
+  - it listed `sdk/digitakt/modules/digisophie/modwerk.module.json` and the `digisophie` licence entry as left to do.
+
+**Browser.** A Digitakt backup naming another revision, with digihealth 0.9.0, DIGISLICER 2.1.0 and a module that no longer exists, imported with digihealth and DIGISLICER. The page said the retired module was left out and that digihealth is 1.0.1 now.
+
+**Checks (Node 24, Windows 11).** `typecheck`, `lint`, `elekloader:check`, `licenses:check` and the production build pass. Vitest, on main `5897804`: 709 pass, and the same two fail as above.
+- **Note:** run Vitest without npm's environment, for example `node node_modules/vitest/vitest.mjs run`. Under `npx vitest` on Windows, `check.test.ts` starts the real `npm run test`, which runs the suite again and again.
