@@ -2,20 +2,21 @@ import { describe, expect, it } from 'vitest'
 import { resolve } from 'node:path'
 import { readFile, readdir } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
-import draft from '../../sdk/drafts/stang-2/octamod.module.json'
-import template from '../../sdk/drafts/stang-2/qualification.example.json'
-import capture from '../../sdk/drafts/stang-2/media/capture.json'
-import coreTests from '../../sdk/drafts/stang-2/media/core-tests.json'
+import draft from '../../sdk/drafts/riff/octamod.module.json'
+import template from '../../sdk/drafts/riff/qualification.example.json'
+import capture from '../../sdk/drafts/riff/media/capture.json'
+import coreTests from '../../sdk/drafts/riff/media/core-tests.json'
+import behavior from '../../sdk/drafts/riff/media/behavior.json'
 import baseline from '../../sdk/module-qualification-baseline.json'
 import { parseModuleDocument, requireModuleUiForPublication, requireModuleQualificationForPublication } from './module-contract'
 import { moduleNativeSourceSha256, parseQualificationBaseline, requireFolderQualification } from '../../scripts/module-qualification.mjs'
 import { requireCompleteReadme, requireMonochromePng } from '../../scripts/module-documentation.mjs'
 import { MODULES, resolveSelection } from './modules'
 
-const folder = resolve('sdk/drafts/stang-2')
+const folder = resolve('sdk/drafts/riff')
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex')
 
-describe('Stang 2 source draft', () => {
+describe('RIFF source draft', () => {
   it('keeps UI evidence separate from qualification and public/native availability', async () => {
     const document = parseModuleDocument(draft)
     expect(document.tests.hardwareStatus).toBe('untested')
@@ -44,7 +45,18 @@ describe('Stang 2 source draft', () => {
     for (const [path, hash] of Object.entries(capture.nativeBuildInputs)) {
       expect(sha(await readFile(resolve(folder, path)))).toBe(hash)
     }
-    expect(sha(await readFile(resolve('scripts/capture-module-ui.py')))).toBe(capture.captureToolSha256)
+    expect(sha(await readFile(resolve(folder, capture.panelWalk)))).toBe(capture.panelWalkSha256)
+  })
+
+  it('records sequence commits and advancing playback separately from UI captures', () => {
+    expect(draft.controls.map(control => control.name)).toEqual(['TYPE', 'DENS', 'ROOT', 'SCAL', 'GATE', 'ACNT', 'SEED', 'SPAN', 'OFST', 'ROT', 'RPT', 'DIR'])
+    expect(behavior.moduleVersion).toBe(draft.version)
+    expect(behavior.imageSha256).toBe(capture.imageSha256)
+    expect(behavior.sourceSha256).toBe(capture.sourceSha256)
+    expect(behavior.result).toBe('passed')
+    expect(behavior.checks.stepsAdvanceAfterPlay).toBe(true)
+    expect(behavior.checks.stepsAdvanceAfterLiveEdit).toBe(true)
+    expect(behavior.checks.otherSevenTracksUnchanged).toBe(true)
   })
 
   it('binds the recorded firmware-free tests without running native code in application checks', async () => {

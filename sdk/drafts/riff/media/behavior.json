@@ -666,5 +666,6 @@
   },
   "otherTracksSha256": "6680e2d25c0ada4c612d058ecee3bfecf1bac77c9f3eb722baa79038ed82dcfe",
   "limitations": "One 16-step Static fixture. The user reported a PLAY freeze; the prior UI/record checks had not sampled step progression. This candidate removes PLAY from RIFF key interception and verifies native progression on empty/populated tracks and after edits. The exact original interactive freeze has not been reproduced. Read-only GDB pauses invalidate audio continuity/timing conclusions. Hardware, Flex, persistence and maximum load remain pending.",
-  "sourceSha256": "53ddf7d62134b539aaf87dc18c0daacf5a2569d3124bbe5f13da5eef688a95c1"
+  "sourceSha256": "53ddf7d62134b539aaf87dc18c0daacf5a2569d3124bbe5f13da5eef688a95c1",
+  "sourceRevision": "a829bed93a933a13e3be460a9fb03ed0a45af23c"
 }

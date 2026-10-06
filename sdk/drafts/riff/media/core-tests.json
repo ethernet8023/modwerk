@@ -32,5 +32,6 @@
     "engine.h": "70c92a089ca08d5557e79365d8e514b2e3948fde1ee035772d874afbc024976d",
     "test_engine.c": "3c24f2ba225ea8c529df7b99b95915d4b4d46531142a96e7f1c0b80d8aeb286b"
   },
-  "limitations": "Synthetic host buffers; not hardware or native timing, audio or persistence qualification."
+  "limitations": "Synthetic host buffers; not hardware or native timing, audio or persistence qualification.",
+  "sourceRevision": "a829bed93a933a13e3be460a9fb03ed0a45af23c"
 }

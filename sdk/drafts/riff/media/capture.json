@@ -15,7 +15,7 @@
   "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
   "nativeSdkBaseRevision": "f6c02edbaa01c19122487604c6276dff370471cc",
   "isolation": "Docker native compile: no network, read-only root, all capabilities dropped, no-new-privileges, user 501:20, private work/tmp mounts. Emulator guest and card/NVRAM are task-private; only test-session GDB reads.",
-  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
+  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
   "panelWalk": "media/walk.jsonl",
   "panelWalkSha256": "d09ff3ea3421fd2831a20457f5690e1e431905f6bfc0b174ed712ef14e0e40c0",
   "executedPanelWalkSha256": "5a905c867b65df46db4e844006988c23a30a2d4836977cae7d7b8e247862c1b6",
@@ -63,5 +63,6 @@
   },
   "reviewed": "Native SRC, secondary page, sample edit, held-trig and generated frames visually inspected. The stable secondary-page frame also shows the selected machine location; an incomplete pre-selection LCD update was discarded.",
   "limitations": "UI and focused emulator behavior only. Does not qualify real hardware, complete timing/memory, persistence, both sample pools or audio continuity.",
-  "sourceSha256": "53ddf7d62134b539aaf87dc18c0daacf5a2569d3124bbe5f13da5eef688a95c1"
+  "sourceSha256": "53ddf7d62134b539aaf87dc18c0daacf5a2569d3124bbe5f13da5eef688a95c1",
+  "sourceRevision": "a829bed93a933a13e3be460a9fb03ed0a45af23c"
 }
