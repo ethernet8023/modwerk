@@ -204,6 +204,7 @@ st_encs:
 /* Only the stock parameter-page DRAW call chooses the generator descriptor.
  * The parameter resolver and every playback/editor consumer remain stock. */
         .text
+        .balign 2
         .global st_src_draw
 st_src_draw:
         pea -1.w

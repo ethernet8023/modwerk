@@ -19,6 +19,12 @@ export function selectionConflicts(ids: readonly string[], keepStockFx2 = false)
       moduleIds: modules.map(module => module.id),
       fixes: [{ label: 'Keep MIDI Scenes', removeIds: companions.map(module => module.id) }, { label: 'Remove MIDI Scenes', removeIds: ['midi-scenes'] }] })
   }
+  if (selected.has('riff') && selected.has('analog-bassdrum')) conflicts.push({
+    id: 'riff-analog-bd', title: 'Choose RIFF or Analog BD',
+    description: 'RIFF and Analog BD use the same native machine chooser hooks. Build them separately.',
+    moduleIds: ['riff', 'analog-bassdrum'],
+    fixes: [{ label: 'Keep RIFF', removeIds: ['analog-bassdrum'] }, { label: 'Keep Analog BD', removeIds: ['riff'] }],
+  })
   const keepEffectsRemoves = ['analog-bassdrum', ...(crowdedMenuIds.every(id => selected.has(id)) ? ['euclid'] : [])]
   if (selected.has('analog-bassdrum') && analogBdBlockers.length) conflicts.push({
     id: 'analog-bd-custom-dsp', title: 'Choose Analog BD or custom effects',

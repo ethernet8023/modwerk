@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "riff",
+  "version": "0.2.2-experimental",
+  "approvedBy": "repeat98",
+  "approvedOn": "2026-10-06",
+  "waived": [
+    "current-build-hardware"
+  ],
+  "reason": "Owner explicitly approved release using the current emulator evidence on 6 October 2026 because their Octatrack is in repair. This waives current-build physical hardware testing only; software behavior, source packaging, resource accounting and browser/native parity remain required.",
+  "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3",
+  "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b"
+}

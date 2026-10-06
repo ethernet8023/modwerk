@@ -1,15 +1,18 @@
-"""RIFF source draft. Prepare only in an isolated local native tree.
-Generated runtime.s contains stock replay bytes; never publish that file.
-"""
+"""RIFF: authored UI runtime; replay spans restored from guarded local stock."""
 from remix.stock_guard import stock_guard
-from remix.schema import Category, Detour, Gate, Kind, Linked, Module, Poke, Proof, SymbolRef
+from remix.schema import Category, Detour, Gate, Kind, Linked, Module, Poke, Proof, SymbolRef, StockCopy
 H=bytes.fromhex
 MODULE=Module(
     name="riff", key="RIFF", kind=Kind.CF_PATCH,
     category=Category.MACHINES, author="repeat98", author_url="https://github.com/repeat98",
     doc="Editable generative sample patterns; SRC generator and stock edit view.",
-    proof=Proof.UNTESTED, proof_note="Source draft; native behavior and hardware qualification pending.",
-    linked=(Linked("riff", "modules/riff/runtime.s", cpu="5475", dram=True),),
+    proof=Proof.PORT, proof_note="Software checks recorded; physical hardware testing owner-waived for this release.",
+    linked=(Linked("riff", "modules/riff/control.s", cpu="5475", dram=True, stock_copies=(
+        StockCopy("st_name_replay", stock_guard(0x400334d8, 6, "d6c9f1f60272197a17511f496fc19dd21ddd7df5f1f1ec0cab7a16cad60b0609")),
+        StockCopy("st_main_replay", stock_guard(0x4007981c, 6, "89c50ac3ca041fdf5647ec5ee2c3580f9a67dd79f0b5cc15ceadda4b9e9bede0")),
+        StockCopy("st_edit_replay", stock_guard(0x4003a52e, 8, "cae34bf50383462ed4f92d8044e3021247edb8bf69c17a9c7ead62f6edf79510")),
+        StockCopy("st_draw_replay", stock_guard(0x4003cd98, 8, "ed71ef874312890edc87cef7e19cd8c0f8ac4ac9b90182c2364f78d3a4567f45")),
+    )),),
     symbol_refs=(
         SymbolRef(0x400ce128, 0, "riff", "st_pool_choice_right", note="RIGHT browses the highlighted backing pool without committing it"),
         SymbolRef(0x400ce10e, 0, "riff", "st_pool_choice_left", note="LEFT returns from RIFF pool choice to machines"),

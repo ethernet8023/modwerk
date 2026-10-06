@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "moduleId": "riff",
-  "moduleVersion": "0.2.1-experimental",
+  "moduleVersion": "0.2.2-experimental",
   "captured": "2026-10-06",
   "firmware": "1.40C",
-  "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
+  "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
   "baseSha256": "164f31224bf61181e3f50e7dec40df9afcae5b16dbf6e4c0d0cc5e986af0a84e",
   "emulator": "octemu",
   "emulatorSha256": "3ce6cebde0de2c61edc4228436338a1e115ce227373351a5ca84aefc9cf90acb",
@@ -15,10 +15,10 @@
   "toolchainImage": "sha256:244853509446c2f2bb0b9032b6160b1dbffc911ab5a66a9139eadfbd0930f457",
   "nativeSdkBaseRevision": "f6c02edbaa01c19122487604c6276dff370471cc",
   "isolation": "Docker native compile: no network, read-only root, all capabilities dropped, no-new-privileges, user 501:20, private work/tmp mounts. Emulator guest and card/NVRAM are task-private; only test-session GDB reads.",
-  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128\u00d764 LCD scaled 6\u00d7 with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
+  "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification.",
   "panelWalk": "media/walk.jsonl",
   "panelWalkSha256": "d81347438e480485ef23088c3c5f54bbcd849f17bd56ef08eea09d97dcae6236",
-  "executedPanelWalkSha256": "77f7ee6bac99439dab0edaa4c0744eb90b2a20bc9c03b4cc2c29a0ea8173c4a7",
+  "executedPanelWalkSha256": "f647ebce8f334b4dc5f516c2948239d689958aeae4a0a2a6aa0d1d6dabbe5047",
   "panelWalkNormalization": "Only screenshot destination prefixes are replaced with CAPTURE_DIR. Substitute a task-private absolute directory before running.",
   "imageProfile": {
     "modules": [
@@ -50,25 +50,24 @@
     "engine.c": "f077e83608b575ad850982f8c48e400f9d9827db3c0620827680db90e5b07760",
     "engine.h": "70c92a089ca08d5557e79365d8e514b2e3948fde1ee035772d874afbc024976d",
     "native.c": "bee751a45c976e4f234406f9cbbc8b7f417703a5bbba64180cd6cdefbf8ccf40",
-    "hooks.s": "f3a956d5394ceae7c425aa7bbca10af5ece62077df1d1e2fd7a807824dbe415d",
-    "prepare.py": "d5f682e1b860a33e8bb7457421c70c40a1ea8679d576761a5213386877e70e42",
-    "manifest.py": "0bf19cba30eae8f0763fec4f5ade556e7a4474576d2dd314c1441e6319526b0e"
+    "hooks.s": "21fbe456a3ce0b8d70a93054741a85246f5dcf50a3cae94c92bcc31edba40550",
+    "prepare.py": "5ace50a2b724bae813371da2605ebaabc79436e2f4a0aad8faebd63cc86802bf",
+    "manifest.py": "a77d36fdb124d3976f82241bb9576145879df1dd313f761af7cff9ff6d0bfae6"
   },
   "screenshots": {
-    "ot-location.png": "df9cfb3f0c68a63f8879bb19ce29bad177c39924878e97d4cf89521ae8a69bf3",
-    "ot-generator.png": "de718caf2969c25a745f5b28195d41e796357f9cd49e8df2bf7a78a4e8787c56",
-    "ot-generated.png": "6a75768712f40191bb4f4325ddc6e21cfe03a8d9ef473b3cbdacd6955b494924",
-    "ot-edit.png": "77b01e26c8cb2b8d3055465b2f94aebdaeaf12aa9a81d95e5f019107cc0c5ef6",
-    "ot-setup.png": "df9cfb3f0c68a63f8879bb19ce29bad177c39924878e97d4cf89521ae8a69bf3",
-    "ot-pool-choice.png": "6d3b6ca3229ff73514730743ba0c4692283081bd9e54d703e4f879ad71be4ca9",
-    "ot-static-pool.png": "96bacfb99185c074b1432b57787db47e0cd408d38bfb114854e8ee8fc819d65d",
-    "ot-flex-pool.png": "d63f71295f9b07c64e4d7d3c72793c005ff6ee7ef248f5992123c2e3b622492e"
+    "ot-location.png": "419996c9a96d0d8baf9a7716de11a30e165cdafb0439ac61339687cd3fee7e96",
+    "ot-generator.png": "3f8ec668738c4f1234c64140ead4ad518812f7a5743a56ced74f89264e5690df",
+    "ot-generated.png": "4a9f13762833db63f2d31ce5196565123f44cc3aa346ec58b4e2456d48d77755",
+    "ot-edit.png": "460060b49a98f7c4cf5b1f16548475f7f6abd05db999a579b7c7ca1c104c8f3b",
+    "ot-setup.png": "419996c9a96d0d8baf9a7716de11a30e165cdafb0439ac61339687cd3fee7e96",
+    "ot-pool-choice.png": "0ed6ed14ffca105245554be91d8f314c567f95d26b5bfc25f2c1e239847f667f",
+    "ot-static-pool.png": "20920e526d9ade2a4004054ef29c3c794b1b67b7d9bc71547c59ff95d1ca730c",
+    "ot-flex-pool.png": "65ce480e59a082a3c8ab15894fe5375b756840dc86ec99c5cb65b3c7430570b3"
   },
-  "reviewed": "Native SRC, secondary page, sample edit, held-trig and generated frames visually inspected. The stable secondary-page frame also shows the selected machine location; an incomplete pre-selection LCD update was discarded. Pool-choice chevrons, both native sample pools and file-loading pages visually inspected. Pool-choice chevrons, both native sample pools and file-loading pages visually inspected.",
+  "reviewed": "Native SRC, secondary page, sample edit, held-trig and generated frames visually inspected. The stable secondary-page frame also shows the selected machine location; an incomplete pre-selection LCD update was discarded. Pool-choice chevrons, both native sample pools and file-loading pages visually inspected.",
   "limitations": "UI and focused emulator behavior only. Does not qualify real hardware, complete timing/memory, persistence or audio continuity.",
   "poolPanelWalk": "media/pool-walk.jsonl",
   "poolPanelWalkSha256": "287e686e74ce8c1a5e5d913ca14c7969ed8a2772e6b15ae063b6d6f4a0158faa",
-  "executedPoolPanelWalkSha256": "c52e90a81651dba362b491abfd39bdb824bfff97a291b5ea0c2d73370875dfdd",
-  "sourceSha256": "8a6f5b6414600e16301fca59f072c072b8df6b71c1615a9e41cf708251efe966",
-  "sourceRevision": "3b285711d27305138b8657435f8ccbe39afe6316"
+  "executedPoolPanelWalkSha256": "687ce312d5094079e03428afb15e87a7d434a3440fb303986c642c9bbf429958",
+  "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3"
 }

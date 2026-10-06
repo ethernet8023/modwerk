@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "moduleVersion": "0.2.1-experimental",
+  "moduleVersion": "0.2.2-experimental",
   "testedOn": "2026-10-06",
-  "imageSha256": "bc98f40fc2006a826e7266b00af0c725f7ca87ff8d18009befce025615b23a1d",
+  "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
   "result": "passed",
   "observations": [
     {
@@ -232,7 +232,7 @@
       "poolBrowserOpen": false,
       "browserPool": "STATIC",
       "playing": true,
-      "nativeNextStep": 9,
+      "nativeNextStep": 8,
       "trackRecordSha256": "5295f202c7f4c6e471f20e23d83a616b2c151e0c6ef5ee38b15f299a0532094f"
     },
     {
@@ -242,7 +242,7 @@
       "poolBrowserOpen": false,
       "browserPool": "STATIC",
       "playing": true,
-      "nativeNextStep": 2,
+      "nativeNextStep": 1,
       "trackRecordSha256": "5295f202c7f4c6e471f20e23d83a616b2c151e0c6ef5ee38b15f299a0532094f"
     }
   ],
@@ -268,6 +268,5 @@
     "stepsAdvanceWithStatic": true
   },
   "limitations": "Focused emulator checks on one 16-step track using a test tone loaded through both native pools. Read-only GDB pauses invalidate audio-continuity and exact timing conclusions. Hardware, persistence and maximum load remain pending.",
-  "sourceSha256": "8a6f5b6414600e16301fca59f072c072b8df6b71c1615a9e41cf708251efe966",
-  "sourceRevision": "3b285711d27305138b8657435f8ccbe39afe6316"
+  "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3"
 }

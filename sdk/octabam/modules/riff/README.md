@@ -1,8 +1,8 @@
 # RIFF
 
-Version: `0.2.1-experimental` · author: @repeat98 / Octamod contributors.
+Version: `0.2.2-experimental` · author: @repeat98 / Octamod contributors.
 
-Source draft in `sdk/drafts/riff/`; unavailable in the configurator until qualification and owner review.
+Native SRC generator for Flex and Static samples. Physical hardware remains untested; the owner approved this exact release using emulator evidence while their OT is in repair.
 
 ![RIFF phrase generator](presentation/thumbnail.svg)
 
@@ -67,9 +67,9 @@ The shared DRAM loader reserves 1,707 audio pages / 10,487,808 bytes. RIFF adds 
 
 ## Tests and measurements
 
-See [TESTING.md](TESTING.md). Sanitizer tests cover the firmware-free C engine, secondary controls, packed settings and native-record writer. Emulator evidence separately covers real panel navigation and sequence-record changes during playback. Both backing-pool browsers, file loading, sample confirmation, menu navigation and cancellation are checked in the emulator. Native persistence, maximum load, hardware and release-builder parity remain pending.
+See [TESTING.md](TESTING.md). Sanitizer tests cover the firmware-free C engine, secondary controls, packed settings and native-record writer. Emulator evidence separately covers real panel navigation and sequence-record changes during playback. Both backing-pool browsers, file loading, sample confirmation, menu navigation and cancellation are checked in the emulator. Save/reload and power-cycle persistence, hardware audio continuity and mixed-module maximum-load playback remain untested. The release includes source packaging, a conditional resource model and browser/native parity checks.
 
-Run `prepare.py` only in an isolated private build tree. It compiles original C and reconstructs four displaced spans from the verified local stock image. Keep `runtime.s`, ELF, firmware images, card images and dumps private. `verify_native.py` continues to reject publication while qualification is incomplete.
+Run `prepare.py` in the isolated toolchain to regenerate authored `control.s`; its four replay spans remain zero placeholders. The shared native/browser builders restore them from guarded local 1.40C firmware. Keep linked ELF, firmware, cards and dumps private. `verify_native.py` checks sanitizer cases and assembly reproducibility; it does not claim a hardware test.
 
 ## Authorship and licences
 
