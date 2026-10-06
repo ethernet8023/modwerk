@@ -43,6 +43,7 @@ function Sound({ item, title, cover }: { item: ForumAttachment; title: string; c
 function Card({ item }: { item: ForumShowcaseItem }) {
   const image = item.attachments.find(media => media.kind === 'image'), sound = item.attachments.find(media => media.kind === 'audio')
   const href = '#forum/thread/' + item.thread_id + '?post=' + item.id + '&page=' + item.page, more = item.attachments.length - (image ? 1 : 0) - (sound ? 1 : 0)
+  const caption = (image?.caption || sound?.caption || '').trim()
   return <li className="forum-showcase-card" data-kind={image ? 'image' : 'audio'} data-category={item.category}>
     <div className="forum-showcase-cover">
       {image && <img src={apiUrl('/forum/media/' + image.id)} alt={image.caption || 'Image from “' + item.title + '”'} loading="lazy" decoding="async" />}
@@ -51,23 +52,25 @@ function Card({ item }: { item: ForumShowcaseItem }) {
     </div>
     <div className="forum-showcase-copy">
       <h3><a className="forum-showcase-title" href={href}>{item.title}</a></h3>
+      {caption && <p className="forum-showcase-caption">{caption}</p>}
       <div className="forum-showcase-meta"><ForumAvatar username={item.username} official={item.official} /><ForumAuthorName username={item.username} official={item.official} /><ForumTime value={item.created_at} relative /></div>
     </div>
   </li>
 }
 
-/** The newest images and sound clips across the forum, with an invitation to add one. */
-export function ForumShowcase({ machine, shareHref }: { machine?: string; shareHref: string }) {
+/** The newest images and sound clips, with an invitation to add one: a sideways strip on the front page, a wrapping gallery on the Showcase topic. */
+export function ForumShowcase({ machine, category, shareHref, layout = 'strip' }: { machine?: string; category?: string; shareHref: string; layout?: 'strip' | 'grid' }) {
   const { session } = useCommunity(), [items, setItems] = useState<ForumShowcaseItem[] | null>(null), [failed, setFailed] = useState(false)
+  const query = new URLSearchParams({ ...(machine ? { machine } : {}), ...(category ? { category } : {}) }).toString()
   useEffect(() => {
     let cancelled = false
-    void api<ForumShowcaseItem[]>('/forum/showcase' + (machine ? '?machine=' + machine : '')).then(value => { if (!cancelled) setItems(value) }).catch(() => { if (!cancelled) setFailed(true) })
+    void api<ForumShowcaseItem[]>('/forum/showcase' + (query ? '?' + query : '')).then(value => { if (!cancelled) setItems(value) }).catch(() => { if (!cancelled) setFailed(true) })
     return () => { cancelled = true }
-  }, [machine])
+  }, [query])
   // Without media storage nobody can share here, and on a failed load the feed below still works.
   if (!session.forumMedia || failed) return null
-  return <section className="forum-showcase" aria-labelledby="forum-showcase-title" aria-busy={!items}>
-    <div className="forum-list-heading"><h2 id="forum-showcase-title">Fresh from the community</h2><a className="text-button" href={'#forum?category=showcase' + (machine ? '&machine=' + machine : '')}>Browse the Showcase<Icon name="arrow" size={13} /></a></div>
+  return <section className="forum-showcase" data-layout={layout} aria-labelledby="forum-showcase-title" aria-busy={!items}>
+    <div className="forum-list-heading"><h2 id="forum-showcase-title">{layout === 'grid' ? 'Latest shares' : 'Fresh from the community'}</h2>{layout === 'strip' && <a className="text-button" href={'#forum?category=showcase' + (machine ? '&machine=' + machine : '')}>Browse the Showcase<Icon name="arrow" size={13} /></a>}</div>
     <ul className="forum-showcase-strip" data-empty={items?.length === 0 || undefined}>
       {items ? items.map(item => <Card key={item.id} item={item} />) : [0, 1, 2].map(index => <li key={index} className="forum-showcase-card forum-showcase-loading" aria-hidden="true"><div className="forum-showcase-cover" /><div className="forum-showcase-copy"><span /><span /></div></li>)}
       <li className="forum-showcase-invite"><a href={shareHref}>

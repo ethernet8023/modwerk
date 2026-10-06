@@ -138,11 +138,18 @@ describe('forum images and sound clips',()=>{
   expect(JSON.stringify(items)).not.toMatch(/user_id|email|object_key|bytes/)
   expect((await(await f.call('/forum/threads/'+id+'?page=1')).json()).posts.some((post:{id:string})=>post.id===items[0].id)).toBe(true)
   expect((await showcase('?machine=digitakt')).map(item=>item.thread_id)).toEqual([desk.id])
+  expect((await showcase('?category=showcase')).map(item=>item.thread_id)).toEqual([id])
   expect((await f.call('/forum/showcase?machine=unknown')).status).toBe(400)
+  expect((await f.call('/forum/showcase?category=issues')).status).toBe(400)
+  // Thread rows say which kinds of files a discussion carries.
+  const rows=(await(await f.call('/forum/threads')).json()).threads as {id:string;media_kinds:string|null}[]
+  expect(rows.find(row=>row.id===id)!.media_kinds!.split(',').sort()).toEqual(['audio','image'])
+  expect(rows.find(row=>row.id===desk.id)!.media_kinds).toBe('image')
   expect((await f.call('/forum/media/'+still,'DELETE',undefined,author)).status).toBe(200)
   expect((await showcase())[0].attachments).toEqual([{id:clip,kind:'audio',caption:''}])
   expect((await f.call('/forum/media/'+clip,'DELETE',undefined,author)).status).toBe(200)
   expect((await showcase()).map(item=>item.thread_id)).toEqual([desk.id])
+  expect((await(await f.call('/forum/threads')).json()).threads.find((row:{id:string})=>row.id===id).media_kinds).toBeNull()
   const opening=(await(await f.call('/forum/threads/'+desk.id)).json()).posts[0].id
   await f.call('/admin/forum/posts/'+opening,'PATCH',{action:'hidden',value:true,reason:'Hide the photo'},'',await f.admin())
   expect(await showcase()).toEqual([])
