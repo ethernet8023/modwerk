@@ -2774,7 +2774,8 @@
           "The tables restored at power-up are unchecked: the Digitone keeps a working copy of the project for power-up, which the author’s emulator cannot show.",
           "The arpeggiator and portamento have not been tried with tables. On a note the arpeggiator plays, ADD steps add nothing.",
           "ADD steps use voices: the Digitone has 8, shared by the four tracks, and an added note takes one like any note, stealing the oldest when none is free. A loop over ADD steps adds notes over and over. An added note is skipped when the firmware’s note pool is short.",
-          "The author reports testing v1.3 on a Digitone mk1 (3–4 October 2026): the TBL page, the table editor, the fast speeds, the Mod Menu and ADD steps. Not yet checked: the tables restored at power-up, and the arpeggiator with tables. That report is for the author’s own build."
+          "The author reports testing v1.3 on a Digitone mk1 (3–4 October 2026): the TBL page, the table editor, the fast speeds, the Mod Menu and ADD steps. Not yet checked: the tables restored at power-up, and the arpeggiator with tables. That report is for the author’s own build.",
+          "SPD MAX steps once every audio block, 1500 times a second at any tempo: the one setting that does not follow the sequencer's tempo, by design. Every other SPD value counts ticks of the 24 PPQN clock."
         ]
       },
       "platform": {

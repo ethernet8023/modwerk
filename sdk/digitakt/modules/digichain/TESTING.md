@@ -11,6 +11,13 @@ Modwerk’s vendored elekloader builder linked and verified a build of this mod 
 
 This is a build check against the owner’s stock OS files, kept locally, not a hardware test.
 
+## Combinations
+
+Modwerk's vendored builder ran elekloader's check with this mod beside each other Modwerk mod for its OS, with what each requires, against the owner's stock files kept locally. These are build checks, not hardware tests.
+
+- OS 1.53: combines with digihealth, Digi EQ, Digi Matrix, Digi Mono, Digi Poly and Digi utilities; refused beside NEIGHBOR, DIGISLICER and SOPHIE, whose patch sites overlap (the builder names the sites).
+- OS 1.54: combines with digihealth, Digi EQ, Digi Matrix, Digi Mono, Digi Poly and Digi utilities; refused beside NEIGHBOR and DIGISLICER, whose patch sites overlap (the builder names the sites).
+
 ## Upstream
 
 Not yet tested on a unit, its author reports; it passes the author’s emulator tests on OS 1.53 and 1.54.

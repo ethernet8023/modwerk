@@ -13,6 +13,13 @@ This is a build check against the owner’s stock files kept locally, not a hard
 
 The quarter-sine table is the one change to the author’s source: `src/osc_data.s` now has `.include "spec_sin.inc"` where the author’s file has `.incbin "spec_sin.bin"`, because Modwerk accepts no binary files. `src/spec_sin.inc` holds the same 257 values as the author’s generated `bin/spec_sin.bin`. The `.include` was checked to assemble (GNU as for m68k, `-mcpu=5475`) to the same 514 bytes as the author’s `spec_sin.bin` at commit 35bacb3730d1 (SHA-256 `ab2f4a23849e787a94e06e4b5a3b956541c63b8cccc1ee1111dc828bf831a469` for both).
 
+## Combinations
+
+Modwerk's vendored builder ran elekloader's check with this mod beside each other Modwerk mod for its OS, with what each requires, against the owner's stock files kept locally. These are build checks, not hardware tests.
+
+- OS 1.53: combines with digihealth, NEIGHBOR, DIGISLICER, SOPHIE, digichain, Digi EQ, Digi Matrix, Digi Mono and Digi Poly.
+- OS 1.54: combines with digihealth, NEIGHBOR, DIGISLICER, digichain, Digi EQ, Digi Matrix, Digi Mono and Digi Poly.
+
 ## Upstream
 
 The author reports the stand-alone 1.5d (the v3r-all build, with all three views) tested on a Digitakt mk1, and 1.9a not yet; it passes their emulator tests on OS 1.53 and 1.54. Their documentation, kept in [upstream/REPOSITORY.md](upstream/REPOSITORY.md), says the linked Digi utilities code is instruction for instruction the stand-alone code, that the mods lint and link alone and together, that a full walk-through boots in the digiemu emulator with FAST AUDIO on, and that on OS 1.54 the Digi utilities pages pass the same emulator tests. Those results belong to the author’s 1.9a builds with elekloader’s toolchain and core; they do not qualify a Modwerk build.

@@ -799,6 +799,7 @@ The import of digichain, Digi EQ, Digi Matrix, Digi Mono, Digi Poly, Digi utilit
 - `src/spec_sin.inc` was assembled with `m68k-linux-gnu-as`. It gives the author's `bin/spec_sin.bin` byte for byte (514 bytes).
 - Each `build.json` is the conversion of the author's `mod.json`. elekloader's ports replace the top level's keys, so each release carries its complete defsym, cflags and sites.
 - Each module's claims are the names in its released `.elemod`, which elekloader checks.
+- Each TESTING.md lists the combinations the builder checked, as the module guides ask.
 
 **Source builds, as CI does them.**
 - `scripts/build-elemod-packages.mjs`'s steps were run with WSL's `m68k-linux-gnu-gcc` 15.2 and binutils, not CI's container:
@@ -828,7 +829,9 @@ The import of digichain, Digi EQ, Digi Matrix, Digi Mono, Digi Poly, Digi utilit
 
 **Checks (Node 24, Windows 11).**
 - **Pass:** `licenses:check`, `machines:check`, `modules:check`, `elekloader:check`, `sdk:check`, `lint` and the production build.
-- **Vitest:** 710 pass, and the same two fail as above.
+- **Vitest,** on main `f595681`: 826 pass. Four fail here and on main alike: `scaffold.test.ts` and `module-source.test.mjs` need `python3`, `module-publication.test.ts` needs a git identity, and `module-pages.test.mjs` builds a `C:\C:\` path on Windows.
+- **`service.test.ts`:** the popularity test rated each Digitakt/Digitone module `index + 1`, which passes 5 with more than five of them. It now rates `index % 5 + 1`.
+- **`module:doctor`** is green for all seven.
 - **Not run:**
   - no hardware test, and no build in CI's container;
   - stock files and builds stayed local and temporary.

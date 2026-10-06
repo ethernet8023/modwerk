@@ -10,6 +10,12 @@ Modwerk’s vendored elekloader builder linked and verified a build of this mod 
 
 This is a build check against the owner’s stock files, kept locally. It is not a hardware test.
 
+## Combinations
+
+Modwerk's vendored builder ran elekloader's check with this mod beside each other Modwerk mod for its OS, with what each requires, against the owner's stock files kept locally. These are build checks, not hardware tests.
+
+- OS 1.43: combines with digihealth.
+
 ## Upstream
 
 The author reports testing on a Digitone mk1 (3–4 October 2026): the TBL page, the table editor, the fast speeds, the Mod Menu and ADD steps. Not yet checked: the tables restored at power-up, and the arpeggiator with tables. The author’s documentation in [upstream/README.md](upstream/README.md) adds that the Digitone Keys runs the same OS file but has not been tried, that the power-up step cannot be shown in the author’s emulator, that portamento has not been tried with tables, and that digitables links with digihealth 1.1 in elekloader’s lint but the two have not been run together.

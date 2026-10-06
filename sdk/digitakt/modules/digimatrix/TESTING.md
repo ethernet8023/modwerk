@@ -11,6 +11,13 @@ Modwerk’s vendored elekloader builder linked and verified a build of this mod 
 
 This is a build check against the owner’s stock files, kept locally. It is not a hardware test.
 
+## Combinations
+
+Modwerk's vendored builder ran elekloader's check with this mod beside each other Modwerk mod for its OS, with what each requires, against the owner's stock files kept locally. These are build checks, not hardware tests.
+
+- OS 1.53: combines with digihealth, NEIGHBOR, DIGISLICER, SOPHIE, digichain, Digi EQ, Digi Mono, Digi Poly and Digi utilities.
+- OS 1.54: combines with digihealth, NEIGHBOR, DIGISLICER, digichain, Digi EQ, Digi Mono, Digi Poly and Digi utilities.
+
 ## Upstream
 
 Not yet tested on a unit, its author reports; it passes their emulator tests on OS 1.53 and 1.54. The author’s repository describes two checks: `tests/emu_matrix.py` runs both engine passes, the clamps, the keys, the knobs and the drawing in unicorn, and `tests/digiemu_matrix.py` boots the firmware in the digiemu emulator to show the SETTINGS row, the page, what its keys and knobs write into the pattern’s kit, and one track’s LFO moving another track’s parameter. The author’s RISKS.md asks owners to check once, after a power cycle on a unit, that a pattern’s matrix came back.

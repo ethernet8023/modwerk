@@ -11,6 +11,13 @@ Modwerk’s vendored elekloader builder linked and verified a build of this mod 
 
 This is a build check against the owner’s stock files, kept locally, not a hardware test. The built images stay on the owner’s computer.
 
+## Combinations
+
+Modwerk's vendored builder ran elekloader's check with this mod beside each other Modwerk mod for its OS, with what each requires, against the owner's stock files kept locally. These are build checks, not hardware tests.
+
+- OS 1.53: combines with digihealth, NEIGHBOR, DIGISLICER, SOPHIE, digichain, Digi Matrix, Digi Mono, Digi Poly and Digi utilities.
+- OS 1.54: combines with digihealth, NEIGHBOR, DIGISLICER, digichain, Digi Matrix, Digi Mono, Digi Poly and Digi utilities.
+
 ## Upstream
 
 Its author reports Digi EQ 1.0b is not yet tested on a unit; it passes their emulator tests on OS 1.53 and 1.54. Their documentation describes those checks: `tests/emu_eq.py` checks the knobs against the design model, the audio bit for bit against it, and the settings in the kit and the global override; `tests/digiemu_eq.py` boots the firmware and measures a test tone put into the master mix again in the bus the USB stream is built from, against what the model says the settings should do. For 1.0b the author also reports a firmware round trip: settings written, project saved, RAM wiped and project loaded, with all bytes back and the EQ playing them. Their risk table asks owners to check once on the unit, after a power cycle, that a pattern’s EQ came back.
