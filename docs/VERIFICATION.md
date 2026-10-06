@@ -727,3 +727,14 @@ The Digitakt/Digitone builder now runs elekloader's kit:
 
 **Checks (Node 24, Windows 11).** `typecheck`, `lint`, `elekloader:check`, `licenses:check` and the production build pass. Vitest, on main `5897804`: 709 pass, and the same two fail as above.
 - **Note:** run Vitest without npm's environment, for example `node node_modules/vitest/vitest.mjs run`. Under `npx vitest` on Windows, `check.test.ts` starts the real `npm run test`, which runs the suite again and again.
+
+## elekloader kit at a1be3ce — 5 October 2026
+
+The vendored kit moved from `aca3537` (the kit branch) to `a1be3ce`, elekloader main after the kit was merged (#48), with `npm run elekloader:update`:
+- **The zip:** `elekloader-kit-0.4.0.zip`, built by `packaging/build_kit.py` from a clean checkout of `a1be3ce`, sha256 `576b7d44639d4abeb1351a7771b4e3a1ef91f0b7cbcc69f64db9bb5255bf70ad`. elekloader's [kit-v0.4.0](https://github.com/irpina/elekloader/releases/tag/kit-v0.4.0) pre-release attaches the same zip, by that sha256, and `npm run elekloader:update` on the release's download changes no file.
+- **What changed:** 2 of 31 vendored files, `README.md` (the merged integration guide) and `kit.json` (the commit). Every engine and kit source is byte for byte the same, so builds are too. The lock, the elekloader licence entry and both notices name `a1be3ce`. The catalog is unchanged (`e4d8ba8`).
+- **Browser:** Digitakt 1.53, digihealth + NEIGHBOR + DIGISLICER built `5031993c…eebe6b`, the identity from before the move, and again after the rebase onto main `5897804`, with digihealth + DIGISLICER at the parity record's `3c9fe6fc…729633`. The file identity names elekloader `a1be3ce`. digihealth + NEIGHBOR + DIGISLICER + SOPHIE is still refused for its conflicts.
+- **Checks (Node 24, Windows 11):**
+  - `elekloader:check`, `licenses:check`, `typecheck`, `lint` and the production build pass;
+  - Vitest, on main `5897804`: 709 pass, and the same two fail as above;
+  - not run: no firmware, DSP or hardware test. Stock files and builds stayed local and temporary.

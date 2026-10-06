@@ -25,7 +25,7 @@ The `.elemod` files carry each author's own bytes. Stock instructions are refere
 
 Update by pull request, owner reviewed:
 
-1. **Get the files.** Take `elekloader-kit-<version>.zip`, and `elekloader-catalog.json` if the cores or mods change, from an elekloader release. Until a release attaches the kit, build the zip from a commit with elekloader's `python packaging/build_kit.py --out build/kit`: it is reproducible.
+1. **Get the files.** Take `elekloader-kit-<version>.zip`, and `elekloader-catalog.json` if the cores or mods change, from an elekloader release; the first is [kit-v0.4.0](https://github.com/irpina/elekloader/releases/tag/kit-v0.4.0). For a commit no release carries yet, build the zip with elekloader's `python packaging/build_kit.py --out build/kit`: it is reproducible.
 2. **Run the update** with the kit, the catalog, or both:
    ```bash
    npm run elekloader:update -- elekloader-kit-<version>.zip --sha256 <the release's> elekloader-catalog.json

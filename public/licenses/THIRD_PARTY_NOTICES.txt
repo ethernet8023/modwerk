@@ -2119,7 +2119,7 @@ SPDX: GPL-3.0-or-later
 Used in: vendor/elekloader/kit; Digitakt/Digitone browser builder
 Notice source: vendor/elekloader/kit/NOTICE
 Notice source: vendor/elekloader/kit/LICENSE
-Notice source: https://github.com/irpina/elekloader/tree/aca353742b2eb05a67e102d81098e77204c8248f/js
+Notice source: https://github.com/irpina/elekloader/tree/a1be3ce0c006ea0c46fa82c6f254c11a05d42beb/js
 
 elekloader
 Copyright (C) 2026 irpina and contributors

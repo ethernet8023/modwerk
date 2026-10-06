@@ -7,8 +7,8 @@
   "files": {
    "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
    "NOTICE": "8c4bdbdd7553262a0c725ed4da01ef09c2d60858d8006cb9c9ee5225ce1dd315",
-   "README.md": "bb049ec8aa8835003d07cdf81464ba78131b1797dd96cf26b06d809b339cdda1",
-   "kit.json": "bbd5b6f90bd3cc4b3904bf2408a3fec928d73382f08e8ea6b95d3a0e1864ec81",
+   "README.md": "ea990c3ec8a4f28305cc18369c6dc4902bebe21c0b5e2cdb332703456bcc4fde",
+   "kit.json": "41d656979a8cd2ed90719e0ddb23b9aaf996f2e79df097c61ef7504b1046ff5c",
    "src/bridge.ts": "842365a5abae7996152a25751259b2e28f26711dbf986acc2ab5c012090372a7",
    "src/bytes.ts": "57fb9de1346e41ab42bbc1418dfcca9af1c03fbee9e025ec0b47d233f399df55",
    "src/codec/aplib.ts": "80d10ac92fd99a829f539b0a4c6fc0d9a993b3643bb69a3c71df3bab5388a26d",
