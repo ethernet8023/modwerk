@@ -65,7 +65,7 @@ for (const variant of packages.get('resident-dsp.json').variants) {
 }
 const requested = packages.get('requested-packages.json')
 for (const pkg of requested.objects) {
-  if (!Array.isArray(pkg.stockCopies) || pkg.stockCopies.length !== (['usbmidi_cfg', 'riff'].includes(pkg.label) ? 4 : 0)) throw new Error('Invalid inherited stock placeholder inventory')
+  if (!Array.isArray(pkg.stockCopies) || pkg.stockCopies.length !== (['usbmidi_cfg', 'vector'].includes(pkg.label) ? 4 : 0)) throw new Error('Invalid inherited stock placeholder inventory')
   if (!hash(pkg.sha256) || !/^[a-f0-9]+$/.test(pkg.code) || pkg.code.length !== pkg.bytes * 2 || sha(Buffer.from(pkg.code, 'hex')) !== pkg.sha256) throw new Error('Invalid requested authored object')
   const object = parseColdFireObject(new Uint8Array(Buffer.from(pkg.code, 'hex')))
   validateStockCopies(object, pkg.stockCopies)

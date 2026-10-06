@@ -4248,25 +4248,25 @@
     },
     {
       "schemaVersion": 2,
-      "id": "riff",
-      "key": "RIFF",
-      "name": "RIFF",
-      "version": "0.2.2-experimental",
+      "id": "vector",
+      "key": "VECTOR",
+      "name": "VECTOR",
+      "version": "0.2.3-experimental",
       "category": "machines",
       "source": {
         "repository": "https://github.com/repeat98/modwerk",
         "revision": "37bb20004c0ed2074d7e91aabe563232c8e57569",
-        "path": "sdk/octabam/modules/riff"
+        "path": "sdk/octabam/modules/vector"
       },
       "access": {
-        "location": "Audio track machine chooser: RIFF, then the native-sized Static/Flex backing-pool modal. SRC main holds live phrase controls; SRC SETUP holds secondary controls. Double-tap TRACK reopens pool choice; push LEVEL toggles ordinary sample editing.",
+        "location": "Audio track machine chooser: VECTOR, then the native-sized Static/Flex backing-pool modal. SRC main holds live phrase controls; SRC SETUP holds secondary controls. Double-tap TRACK reopens pool choice; push LEVEL toggles ordinary sample editing.",
         "steps": [
-          "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
-          "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
-          "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+          "Select an audio track. Open SRC page 2 (double-tap SRC), choose VECTOR and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to VECTOR. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
+          "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on VECTOR opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
+          "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the vector.",
           "Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
           "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
-          "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
+          "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove VECTOR while retaining the generated pattern."
         ],
         "screenshots": [
           "media/ot-location.png",
@@ -4292,7 +4292,7 @@
         "label": "GENERATIVE",
         "family": "Sample pattern generator",
         "summary": "Shape an editable sample phrase directly on both native SRC pages.",
-        "overview": "RIFF commits real trigs and PTCH/HOLD/VOL locks as its SRC parameters change. The native sequencer plays the result immediately. SRC SETUP holds secondary controls. Physical hardware is untested; the owner approved release using the recorded emulator evidence while their Octatrack is in repair.",
+        "overview": "VECTOR commits real trigs and PTCH/HOLD/VOL locks as its SRC parameters change. The native sequencer plays the result immediately. SRC SETUP holds secondary controls. Physical hardware is untested; the owner approved release using the recorded emulator evidence while their Octatrack is in repair.",
         "highlights": [
           "Immediate sequence changes while playing",
           "Two native SRC pages with twelve controls",
@@ -4300,12 +4300,12 @@
           "Flex or Static sample playback"
         ],
         "usage": [
-          "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
-          "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
-          "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+          "Select an audio track. Open SRC page 2 (double-tap SRC), choose VECTOR and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to VECTOR. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
+          "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on VECTOR opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
+          "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the vector.",
           "Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
           "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
-          "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
+          "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove VECTOR while retaining the generated pattern."
         ]
       },
       "controls": [
@@ -4445,7 +4445,7 @@
           "value": 10487808,
           "unit": "bytes",
           "method": "static",
-          "conditions": "The platform reserves 1,707 audio pages shared by every DRAM module. RIFF alone occupies 24,596 bytes of linked runtime within that arena. Native borrowed memory and flash append are counted separately in qualification.",
+          "conditions": "The platform reserves 1,707 audio pages shared by every DRAM module. VECTOR alone occupies 24,604 bytes of linked runtime within that arena. Native borrowed memory and flash append are counted separately in qualification.",
           "source": "TESTING.md"
         },
         "processing": {
@@ -4474,7 +4474,7 @@
           "memory": {
             "level": "high",
             "basis": "source-estimate",
-            "rationale": "The shared loader reserves 10,487,808 audio-pool bytes. RIFF has one shared runtime/staging buffer, bounded UI stack and reuses native pattern/settings/window capacities. No added DSP buffers or new heap allocations.",
+            "rationale": "The shared loader reserves 10,487,808 audio-pool bytes. VECTOR has one shared runtime/staging buffer, bounded UI stack and reuses native pattern/settings/window capacities. No added DSP buffers or new heap allocations.",
             "source": "TESTING.md"
           }
         }
@@ -4497,12 +4497,12 @@
             "tutorial": {
               "title": "Generate a phrase, then edit a note",
               "steps": [
-                "Select an audio track. Open SRC page 2 (double-tap SRC), choose RIFF and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to RIFF. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
-                "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on RIFF opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
-                "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the riff.",
+                "Select an audio track. Open SRC page 2 (double-tap SRC), choose VECTOR and press YES. In the backing-pool modal, highlight STATIC or FLEX with UP/DOWN or LEVEL, then press RIGHT to enter that pool. YES also opens the highlighted pool; YES on a loaded sample slot assigns that pool and sample to VECTOR. Use the corresponding stock sample-slot and file-loading tools to load a tuned sample; NO returns from the sample browser.",
+                "Double-tap the assigned TRACK to reopen the pool modal. LEFT returns to the machine list; RIGHT on VECTOR opens the modal. RIGHT in the pool modal opens the highlighted Static/Flex sample list. In a sample-slot list, LEFT returns to pool choice and RIGHT opens the stock file browser. Horizontal arrows navigate menus without changing the assigned pool; YES on a sample slot commits the pool and sample.",
+                "Press SRC for TYPE, DENS, ROOT, SCAL, GATE and ACNT on encoders A–F. Turn a parameter to commit a phrase immediately, including during playback. The current seed stays fixed while shaping the vector.",
                 "Open SRC page 2 with a double tap on SRC. Encoders A–F adjust SEED, SPAN, OFST, ROT, RPT and DIR. These changes also commit immediately; press SRC to return.",
                 "Press PLAY to hear the native sequencer repeat the phrase. Push LEVEL on SRC for the ordinary sample controls, then use grid recording and a held trig to edit PTCH. AMP exposes the generated HOLD/VOL locks. Push LEVEL again to return.",
-                "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove RIFF while retaining the generated pattern."
+                "Press YES on the generator for a new seed and variation. STOP/PLAY preserves a populated phrase. Select normal FLEX/STATIC to remove VECTOR while retaining the generated pattern."
               ]
             },
             "screenshots": [
@@ -4517,9 +4517,9 @@
             ],
             "screenshotStyle": "black-and-white"
           },
-          "moduleVersion": "0.2.2-experimental",
-          "sourceSha256": "587bf206aa6f0fd0370ff718d8831f78e4613e7e3749fbea976723a976df84a3",
-          "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+          "moduleVersion": "0.2.3-experimental",
+          "sourceSha256": "34151c0e360314dd50d25ae8447cfa175838d7eddfd80cba13bc26dc4513668e",
+          "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
           "cycles": [
             {
               "processor": "coldfire",
@@ -4552,9 +4552,9 @@
               {
                 "name": "Platform flash append: loader, packed runtime and platform metadata",
                 "space": "cpu-flash",
-                "words": 8248,
+                "words": 8247,
                 "wordBits": 8,
-                "bytes": 8248,
+                "bytes": 8247,
                 "scope": "shared"
               },
               {
@@ -4599,10 +4599,10 @@
               }
             ],
             "perInstanceBytes": 74656,
-            "sharedBytes": 10499532,
+            "sharedBytes": 10499531,
             "maxInstances": 8,
-            "totalBytes": 11096780,
-            "conditions": "RIFF alone with stock FX2, static stock descriptors, XBUS=1 SPEC=1 DEV=0 BUILD=98. Arena includes the entire aligned 24,596-byte linked runtime and packed staging; counted once. Native pattern/settings/UI/lock-index capacities are borrowed and counted explicitly, not new allocations. The stock window constructor uses fixed slots and preallocated surfaces; new heap bytes are zero. Stack ceiling includes 1,048 observed bytes on a full commit plus 168-byte UI wrapper/caller allowance. No new DSP code, state, delay lines or audio buffers. See TESTING.md for exact section/frame and range accounting.",
+            "totalBytes": 11096779,
+            "conditions": "VECTOR alone with stock FX2, static stock descriptors, XBUS=1 SPEC=1 DEV=0 BUILD=98. Arena includes the entire aligned 24,604-byte linked runtime and packed staging; counted once. Native pattern/settings/UI/lock-index capacities are borrowed and counted explicitly, not new allocations. The stock window constructor uses fixed slots and preallocated surfaces; new heap bytes are zero. Stack ceiling includes 1,048 observed bytes on a full commit plus 168-byte UI wrapper/caller allowance. No new DSP code, state, delay lines or audio buffers. See TESTING.md for exact section/frame and range accounting.",
             "report": "evidence/software.json"
           },
           "hardware": {
@@ -4618,14 +4618,14 @@
       "license": {
         "spdx": "MIT",
         "file": "LICENSE",
-        "declaration": "Original RIFF C generator, tests, documentation and vector illustration by Octamod contributors. Native registration/input-layer interoperability is adapted from MIT octabam; Sam Banks and existing component notices are retained. Iftah’s Sting 2 is musical inspiration; no Sting source, branding artwork or assets were copied and no exact algorithm or endorsement is claimed. Firmware and extracted routines are excluded; replay bytes are reconstructed only from verified local firmware into temporary build output. Actual LCD images require reviewer rights verification under media/LICENSE.md; review is not automatic legal clearance."
+        "declaration": "Original VECTOR C generator, tests, documentation and vector illustration by Octamod contributors. Native registration/input-layer interoperability is adapted from MIT octabam; Sam Banks and existing component notices are retained. Iftah’s Sting 2 is musical inspiration; no Sting source, branding artwork or assets were copied and no exact algorithm or endorsement is claimed. Firmware and extracted routines are excluded; replay bytes are reconstructed only from verified local firmware into temporary build output. Actual LCD images require reviewer rights verification under media/LICENSE.md; review is not automatic legal clearance."
       },
       "media": [
         {
           "path": "media/ot-location.png",
           "captureType": "emulator",
-          "caption": "RIFF is selected in the normal SRC SETUP machine list.",
-          "alt": "Native SRC SETUP machine list with RIFF selected beneath PICKUP, beside the secondary controls.",
+          "caption": "VECTOR is selected in the normal SRC SETUP machine list.",
+          "alt": "Native SRC SETUP machine list with VECTOR selected beneath PICKUP, beside the secondary controls.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4633,8 +4633,8 @@
             "page": "SRC SETUP machine chooser",
             "shows": "location",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
@@ -4642,7 +4642,7 @@
           "path": "media/ot-generator.png",
           "captureType": "emulator",
           "caption": "SRC page 1 uses the normal six native cells: TYPE, DENS, ROOT, SCAL, GATE and ACNT.",
-          "alt": "Native RIFF SRC page with six generator dials and the normal track, sample and Part display.",
+          "alt": "Native VECTOR SRC page with six generator dials and the normal track, sample and Part display.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4650,8 +4650,8 @@
             "page": "SRC generator",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
@@ -4659,7 +4659,7 @@
           "path": "media/ot-generated.png",
           "captureType": "emulator",
           "caption": "YES advances SEED and commits a fresh variation; turning a parameter commits with the current seed.",
-          "alt": "Native RIFF SRC page after generating a new variation.",
+          "alt": "Native VECTOR SRC page after generating a new variation.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4667,8 +4667,8 @@
             "page": "SRC after Generate",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
@@ -4676,7 +4676,7 @@
           "path": "media/ot-edit.png",
           "captureType": "emulator",
           "caption": "Push LEVEL to access native PTCH, STRT, LEN, RATE, RTRG and RTIM.",
-          "alt": "Native SRC sample controls on a track named RIFF.",
+          "alt": "Native SRC sample controls on a track named VECTOR.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4684,8 +4684,8 @@
             "page": "SRC sample editor",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
@@ -4693,7 +4693,7 @@
           "path": "media/ot-setup.png",
           "captureType": "emulator",
           "caption": "SRC page 2 holds SEED, SPAN, OFST, ROT, RPT and DIR in the native SRC SETUP layout.",
-          "alt": "Native SRC SETUP with RIFF selected and six secondary generator controls.",
+          "alt": "Native SRC SETUP with VECTOR selected and six secondary generator controls.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4701,16 +4701,16 @@
             "page": "SRC SETUP",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
         {
           "path": "media/ot-pool-choice.png",
           "captureType": "emulator",
-          "caption": "RIFF uses the stock list modal with visible left and right chevrons. RIGHT enters the highlighted pool.",
-          "alt": "Native RIFF backing-pool modal with Static and Flex entries and left/right menu arrows.",
+          "caption": "VECTOR uses the stock list modal with visible left and right chevrons. RIGHT enters the highlighted pool.",
+          "alt": "Native VECTOR backing-pool modal with Static and Flex entries and left/right menu arrows.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4718,8 +4718,8 @@
             "page": "Backing-pool choice",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
@@ -4727,7 +4727,7 @@
           "path": "media/ot-static-pool.png",
           "captureType": "emulator",
           "caption": "RIGHT on STATIC opens the existing Static sample-slot tools.",
-          "alt": "Native Static sample-slot list reached from RIFF pool choice.",
+          "alt": "Native Static sample-slot list reached from VECTOR pool choice.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4735,8 +4735,8 @@
             "page": "Static sample pool",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         },
@@ -4744,7 +4744,7 @@
           "path": "media/ot-flex-pool.png",
           "captureType": "emulator",
           "caption": "RIGHT on FLEX opens the existing Flex sample and recorder-slot tools.",
-          "alt": "Native Flex sample-slot list with recorder buffers and memory readout reached from RIFF pool choice.",
+          "alt": "Native Flex sample-slot list with recorder buffers and memory readout reached from VECTOR pool choice.",
           "credit": "Octamod contributors",
           "license": "LicenseRef-OT-UI-Documentation",
           "source": "original",
@@ -4752,8 +4752,8 @@
             "page": "Flex sample pool",
             "shows": "controls",
             "firmware": "1.40C",
-            "moduleVersion": "0.2.2-experimental",
-            "imageSha256": "97694779c281c0a34aa4fd70629cd5a9873df6c7519720c80fc0b002db05461b",
+            "moduleVersion": "0.2.3-experimental",
+            "imageSha256": "48c0ec735bc9fcc7f050b448b15b3204fa5b968812f4a2aacdf6a4a2c0b1c6e2",
             "setup": "octemu MKII panel; disposable T1 Static ~SINE440 fixture, Part ONE, A01, 120 BPM, FX NONE; actual 128×64 LCD scaled 6× with nearest-neighbor sampling. GDB observations in a separate headless session; no hardware or audio-continuity qualification."
           }
         }

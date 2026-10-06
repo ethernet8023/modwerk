@@ -101,7 +101,7 @@ export async function requireFolderQualification(folder, document, baseline, wai
       const builder=JSON.parse(await readFile(resolve(folder,'evidence/common-builder.json'),'utf8'))
       if(software.cycles?.staticPerCore!==q.cycles[0].maxConfiguration) throw new Error(document.id+': processor bounds differ from the software evidence')
       if(builder.moduleVersion!==document.version||builder.images?.sharedBuilderNative?.sha256!==q.imageSha256||builder.differenceFromStandalone?.sidechainOwnedBytesDiffering!==0||builder.composition?.platformOrLoggerWritesOverlappingModuleOwnedWrites!==0||builder.composition?.browserRefusalsMatchNative!==builder.composition?.nativeRefused||builder.composition?.browserModuleOwnedWritesMatchNativeOutsidePlatformWrites!==builder.composition?.nativeBuilt) throw new Error(document.id+': shared-builder evidence does not show matching composition')
-    } else if(document.id==='riff') {
+    } else if(document.id==='vector') {
       const capture=JSON.parse(await readFile(resolve(folder,'media/capture.json'),'utf8'))
       if(software.cycles?.staticPerEvent!==q.cycles[0].maxConfiguration||software.cycles?.mode!=='conditional-static-bound'||software.sequenceChecks!=='passed'||software.poolChecks!=='passed'||capture.imageSha256!==q.imageSha256||capture.sourceSha256!==q.sourceSha256) throw new Error(document.id+': current emulator behavior and resource evidence must cover the qualified source and image')
     }

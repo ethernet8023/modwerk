@@ -259,11 +259,11 @@ export function requireModuleQualificationForPublication(document: ModuleDocumen
   if(q.moduleVersion!==document.version) fail(path+'.moduleVersion','qualification must cover this module version')
   if(q.cycles.some(c=>c.maxConfiguration>c.budget)) fail(path+'.cycles','worst-case maximum configuration exceeds the declared real-time budget')
   if('kind' in q.hardware && q.hardware.kind==='owner-waived') {
-    if(document.id==='sidechain-compressor' && document.version==='0.1.1-experimental' && q.hardware.approvedOn==='2026-10-05') {
+    if(document.id==='sidechain-compressor' && document.version==='0.1.1-experimental' && document.tests.hardwareStatus==='historical' && q.hardware.approvedOn==='2026-10-05') {
       if(document.tests.hardwareStatus!=='historical'||q.cycles.length!==2||!q.cycles.some(c=>c.processor==='coldfire')||!q.cycles.some(c=>c.processor==='dsp')||q.memory.maxInstances!==16) fail(path,'hardware-only approval still requires both processor bounds and complete sixteen-instance memory')
-    } else if(document.id==='riff' && document.version==='0.2.2-experimental' && q.hardware.approvedOn==='2026-10-06') {
-      if(document.tests.hardwareStatus!=='untested'||q.cycles.length!==1||q.cycles[0].processor!=='coldfire'||q.cycles[0].maxInstances!==8||q.memory.maxInstances!==8) fail(path,'RIFF hardware-only approval requires honest untested status, ColdFire bounds and complete eight-track memory')
-    } else fail(path+'.hardware','hardware-only owner approval must cover an exact approved release')
+    } else if(document.id==='vector' && document.version==='0.2.3-experimental' && q.hardware.approvedOn==='2026-10-06') {
+      if(document.tests.hardwareStatus!=='untested'||q.cycles.length!==1||q.cycles[0].processor!=='coldfire'||q.cycles[0].maxInstances!==8||q.memory.maxInstances!==8) fail(path,'VECTOR hardware-only approval requires honest untested status, ColdFire bounds and complete eight-track memory')
+    } else fail(path+'.hardware','hardware-only owner approval covers only exact approved releases')
   } else if('kind' in q.hardware) {
     if(document.tests.hardwareStatus!=='reported'||q.hardware.imageSha256!==q.imageSha256||q.hardware.sourceRevision!==document.tests.evidenceRevision) fail(path+'.hardware','the attributed hardware report must match the tested source and image; it is reported evidence, not verified stress qualification')
   } else {
