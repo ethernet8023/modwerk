@@ -26,16 +26,19 @@ import { mediaBusy, readyAttachments, type PendingMedia } from './forum-media-cl
 import { ModuleIssueNotice } from './ModuleIssueNotice'
 import { ModuleDiscussionDialog } from './ModuleDiscussionDialog'
 import { moveDiscussionIssueDraft, saveDiscussionIssueDraft } from './discussion-issue-draft'
+import { GetStarted } from './GetStarted'
 function errorText(error:unknown){return error instanceof Error?error.message:'The request could not be completed.'}
-function ForumList({query,profile}:{query:URLSearchParams;profile?:string}){
+function ForumList({query,profile,machineHint}:{query:URLSearchParams;profile?:string;machineHint?:string}){
   const {session}=useCommunity(),[data,setData]=useState<{threads:ForumThread[];hasMore:boolean}|null>(null),[error,setError]=useState(''),[revision,setRevision]=useState(0)
   const serialized=query.toString(),category=query.get('category')??'',page=Number(query.get('page')??0)
   // Phones fold the topic and machine filters behind a toggle next to the search field.
   const [filtersOpen,setFiltersOpen]=useState(false)
   useEffect(()=>{let cancelled=false;void api<{threads:ForumThread[];hasMore:boolean}>('/forum/threads?'+serialized+(profile?'&author='+encodeURIComponent(profile):'')).then(value=>{if(!cancelled)setData(value)}).catch(error=>{if(!cancelled)setError(errorText(error))});return()=>{cancelled=true}},[serialized,profile,revision])
-  function link(values:Record<string,string>){const next=new URLSearchParams(query);next.delete('page');for(const [key,value] of Object.entries(values)){if(value)next.set(key,value);else next.delete(key)}return (profile?'#forum/profile/'+encodeURIComponent(profile):'#forum')+(next.size?'?'+next.toString():'')}
+  function link(values:Record<string,string>){const next=new URLSearchParams(query);next.delete('page');next.delete('welcome');for(const [key,value] of Object.entries(values)){if(value)next.set(key,value);else next.delete(key)}return (profile?'#forum/profile/'+encodeURIComponent(profile):'#forum')+(next.size?'?'+next.toString():'')}
   const saved=query.get('saved')==='1',following=query.get('following')==='1',moduleView=query.get('view')==='modules',machine=DEVICES_BY_ID[query.get('machine')??''],filtered=!!query.get('q')||!!query.get('module'),newest=query.get('sort')==='newest'
   const overview=!profile&&!saved&&!following&&!moduleView&&!category&&!filtered&&page===0,home=overview&&!machine
+  // A member who just verified their email arrives here signed in, from the link in the verification message.
+  const welcome=home&&query.get('welcome')==='1'&&!!session.user?.verified
   const heading=(profile?'Public discussions':saved?'Your bookmarks':following?'Following':moduleView?'Module discussions':category&&Object.hasOwn(FORUM_CATEGORIES,category)?FORUM_CATEGORIES[category as ForumCategory]:query.get('q')?'Search results':newest?'New threads':'Latest activity')+(machine&&!profile?' · '+machine.name:'')
   const newParams=new URLSearchParams();if(category)newParams.set('category',category);if(machine)newParams.set('machine',machine.id);if(query.get('module'))newParams.set('module',query.get('module')!)
   const startHref=category==='issues'||session.user?.verified?'#forum/new'+(newParams.size?'?'+newParams.toString():''):session.user?'#account':'#account/register'
@@ -46,6 +49,8 @@ function ForumList({query,profile}:{query:URLSearchParams;profile?:string}){
     {profile&&<BackLink href="#forum">All discussions</BackLink>}
     <div className="page-heading forum-heading"><div><span className="forum-eyebrow">Connect · Create · Explore</span><h1>{profile?'@'+profile:'Community forum'}</h1><p>{profile?'Public threads by this member.':'A place for the people who make their machines do more.'}</p></div><a className="button button-primary" href={startHref}><Icon name="plus" size={16}/><span className="forum-start-long">{category==='issues'?'Report an issue':'Start a thread'}</span><span className="forum-start-short">{category==='issues'?'Report':'New thread'}</span></a></div>
     {profile&&<ForumProfile key={profile} username={profile}/>}
+    {welcome&&<p className="success-note forum-welcome" role="status">Welcome to Modwerk, @{session.user!.username}. Your email is confirmed and you are signed in. Have a look around, and say hello when you are ready.</p>}
+    {home&&session.user?.verified&&<GetStarted machine={machineHint}/>}
     {home&&showcase}
     {!profile&&<>
       <div className="forum-toolbar"><nav className="forum-categories" aria-label="Discussion views">
@@ -132,5 +137,5 @@ function NewThread({configuration:active,configurations,query}:{configuration?:C
 }
 export function ForumPage({route,configuration,configurations,onCopy}:{route:string;configuration?:Configuration;configurations:Configuration[];onCopy:(config:SharedConfiguration)=>void}){
   const [path,search='']=route.split('?'),query=new URLSearchParams(search),segments=path.split('/')
-  return <div className={'community-page forum-page'+(segments[1]==='thread'||segments[1]==='messages'?' forum-reading-page':'')}>{segments[1]==='shoutbox'?<><BackLink href="#forum">All discussions</BackLink><div className="page-heading"><div><h1>Shoutbox 8 archive</h1><p>A running conversation with the Modwerk community.</p></div></div><ForumShoutbox archive page={Number(query.get('page')??0)}/></>:segments[1]==='messages'?<ForumMessages username={segments[2]}/>:segments[1]==='new'?<NewThread configuration={configuration} configurations={configurations} query={query}/>:segments[1]==='thread'&&segments[2]?<ForumThreadView key={segments[2]+'?'+search} id={segments[2]} query={query} onCopy={onCopy}/>:<ForumList key={search+segments[2]} query={query} profile={segments[1]==='profile'?segments[2]:undefined}/>}</div>
+  return <div className={'community-page forum-page'+(segments[1]==='thread'||segments[1]==='messages'?' forum-reading-page':'')}>{segments[1]==='shoutbox'?<><BackLink href="#forum">All discussions</BackLink><div className="page-heading"><div><h1>Shoutbox 8 archive</h1><p>A running conversation with the Modwerk community.</p></div></div><ForumShoutbox archive page={Number(query.get('page')??0)}/></>:segments[1]==='messages'?<ForumMessages username={segments[2]}/>:segments[1]==='new'?<NewThread configuration={configuration} configurations={configurations} query={query}/>:segments[1]==='thread'&&segments[2]?<ForumThreadView key={segments[2]+'?'+search} id={segments[2]} query={query} onCopy={onCopy}/>:<ForumList key={search+segments[2]} query={query} profile={segments[1]==='profile'?segments[2]:undefined} machineHint={configuration?configurationDevice(configuration):undefined}/>}</div>
 }
