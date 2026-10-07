@@ -8,8 +8,9 @@ import { ensureDiscussionThread, ensureModuleThreadsOnce, SYSTEM_AUTHOR } from '
 import { notifyMentions, notifyPostLike, notifyReplies, RECIPIENTS } from './notifications'
 import { attachMedia, postAttachments } from './forum-media'
 import { shoutbox } from './shoutbox'
+import { forumHighlights, maintainerColumn, memberProfile } from './recognition'
 
-type Thread = {id:string;user_id:string;locked:number;hidden:number;configuration_json:string|null;issue_json:string|null}
+type Thread = {id:string;user_id:string;module_id:string|null;locked:number;hidden:number;configuration_json:string|null;issue_json:string|null}
 /** `forum_posts.hidden` for a deleted post: hidden like a moderated one, but its text is erased, it is never listed and it cannot be restored. */
 const POST_DELETED=2
 /** Deletes a reply but keeps its row, which notifications and reports refer to: the text is erased, its files are queued for the hourly bucket cleanup and its reports are closed. */
@@ -161,25 +162,30 @@ export async function forum(request: Request, db: Database, user: User|null, adm
     if (!/^[a-z0-9_]{0,24}$/.test(prefix)) throw new HttpError(400,'Usernames use letters, numbers and underscores.')
     return response((await db.prepare(`SELECT u.username,u.display_name AS displayName,u.avatar_id AS avatar FROM users u WHERE u.username LIKE ? ESCAPE '\\' AND u.id<>? AND u.email_verified=1 AND u.suspended=0 AND u.username IS NOT NULL AND NOT EXISTS(SELECT 1 FROM social_pending_accounts s WHERE s.user_id=u.id) ORDER BY u.username LIMIT 8`).bind(prefix.replace(/[\\%_]/g,'\\$&')+'%',asker.id).all()).results)
   }
+  // Public and cacheable: the block changes slowly and the page is read on every forum visit.
+  if (path === '/api/forum/highlights' && request.method === 'GET') {
+    return Response.json(await forumHighlights(db),{headers:{'Cache-Control':'public, max-age=300','X-Content-Type-Options':'nosniff'}})
+  }
   if ((match=path.match(/^\/api\/forum\/profiles\/([a-z0-9_]{3,24})$/)) && request.method === 'GET') {
-    const profile = await db.prepare('SELECT username,display_name AS displayName,profile_bio AS bio,avatar_id AS avatar,created_at FROM users WHERE username=? AND email_verified=1 AND suspended=0 AND NOT EXISTS(SELECT 1 FROM social_pending_accounts p WHERE p.user_id=users.id)').bind(match[1]).first()
+    const profile = await memberProfile(db,match[1])
     if (!profile) throw new HttpError(404,'Profile not found.')
     return response(profile)
   }
   if ((match=path.match(/^\/api\/forum\/threads\/([a-zA-Z0-9-]+)$/)) && request.method === 'GET') {
     const thread = await threadById(db,match[1],admin)
+    const maintainer = maintainerColumn(thread.module_id)
     const [details,pagePosts] = await Promise.all([
       db.prepare(`SELECT ${threadFields},t.hidden,
         EXISTS(SELECT 1 FROM forum_follows f WHERE f.thread_id=t.id AND f.user_id=?) AS following,
         EXISTS(SELECT 1 FROM forum_bookmarks b WHERE b.thread_id=t.id AND b.user_id=?) AS bookmarked
         FROM forum_threads t JOIN users u ON u.id=t.user_id WHERE t.id=?`).bind(user?.id??null,user?.id??null,thread.id).first<Record<string,unknown>&{following:number;bookmarked:number}>(),
-      db.prepare('SELECT p.*,u.username,u.avatar_id AS avatar,u.display_name AS displayName,(SELECT COUNT(*) FROM forum_reactions r WHERE r.post_id=p.id) AS likes,EXISTS(SELECT 1 FROM forum_reactions r WHERE r.post_id=p.id AND r.user_id=?) AS liked FROM forum_posts p JOIN users u ON u.id=p.user_id WHERE p.thread_id=? AND p.hidden<2 ORDER BY p.created_at,p.rowid LIMIT 31 OFFSET ?').bind(user?.id??'',thread.id,page(url)*30).all<{id:string;user_id:string;hidden:number;body:string;username:string;avatar:string|null;displayName:string;created_at:string;edited_at:string|null;likes:number;liked:number}>(),
+      db.prepare(`SELECT p.*,u.username,u.avatar_id AS avatar,u.display_name AS displayName,(SELECT COUNT(*) FROM forum_reactions r WHERE r.post_id=p.id) AS likes,EXISTS(SELECT 1 FROM forum_reactions r WHERE r.post_id=p.id AND r.user_id=?) AS liked,${maintainer.sql} AS maintainer FROM forum_posts p JOIN users u ON u.id=p.user_id WHERE p.thread_id=? AND p.hidden<2 ORDER BY p.created_at,p.rowid LIMIT 31 OFFSET ?`).bind(user?.id??'',...maintainer.values,thread.id,page(url)*30).all<{id:string;user_id:string;hidden:number;body:string;username:string;avatar:string|null;displayName:string;created_at:string;edited_at:string|null;likes:number;liked:number;maintainer:number}>(),
     ])
     if(!details)throw new HttpError(404,'Thread not found.')
     const {following:followed,bookmarked:saved,...summary}=details
     const posts=pagePosts.results,following=!!followed,bookmarked=!!saved
     const attachments = await postAttachments(db,posts.slice(0,30).filter(post=>admin||!post.hidden).map(post=>post.id))
-    return response({thread:summary,posts:posts.slice(0,30).map(post=>({attachments:attachments.get(post.id)??[],canRemoveMedia:!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,id:post.id,body:post.hidden&&!admin?'':post.body,username:post.hidden&&!admin?null:post.username,avatar:post.hidden&&!admin?null:post.avatar,displayName:post.hidden&&!admin?null:post.displayName,created_at:post.created_at,edited_at:post.edited_at,hidden:post.hidden,likes:post.hidden?0:post.likes,liked:!post.hidden&&!!post.liked,canEdit:!thread.locked&&!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,official:post.user_id===SYSTEM_AUTHOR,...(admin?{user_id:post.user_id}:{})})),configuration:thread.configuration_json?JSON.parse(thread.configuration_json):null,issue:thread.issue_json?JSON.parse(thread.issue_json):null,following,bookmarked,hasMore:posts.length>30})
+    return response({thread:summary,posts:posts.slice(0,30).map(post=>({attachments:attachments.get(post.id)??[],canRemoveMedia:!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,id:post.id,body:post.hidden&&!admin?'':post.body,username:post.hidden&&!admin?null:post.username,avatar:post.hidden&&!admin?null:post.avatar,displayName:post.hidden&&!admin?null:post.displayName,created_at:post.created_at,edited_at:post.edited_at,hidden:post.hidden,likes:post.hidden?0:post.likes,liked:!post.hidden&&!!post.liked,canEdit:!thread.locked&&!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,official:post.user_id===SYSTEM_AUTHOR,maintainer:!post.hidden&&!!post.maintainer,...(admin?{user_id:post.user_id}:{})})),configuration:thread.configuration_json?JSON.parse(thread.configuration_json):null,issue:thread.issue_json?JSON.parse(thread.issue_json):null,following,bookmarked,hasMore:posts.length>30})
   }
   const member = needMember(user)
   await throttle(db,'forum:'+member.id,60)

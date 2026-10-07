@@ -22,3 +22,8 @@ export function ForumAvatar({ username, official, avatar }: { username: string |
 export function ForumAuthorName({ username, official, missing = 'Deleted member' }: { username: string | null; official?: unknown; missing?: string }) {
   return official ? <strong>Modwerk</strong> : username ? <a href={'#forum/profile/' + encodeURIComponent(username)}>@{username}</a> : <span>{missing}</span>
 }
+
+// Only a claim confirmed on both sides earns this: the reviewed catalog names the GitHub handle and the member verified it.
+export function ForumMaintainerBadge({ profile }: { profile?: boolean }) {
+  return <span className="forum-author-badge forum-maintainer-badge" title="Linked maintainer, confirmed through the module catalog and a GitHub sign-in">{profile ? 'Module maintainer' : 'Maintainer'}</span>
+}
