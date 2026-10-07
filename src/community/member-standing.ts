@@ -4,6 +4,8 @@ export const MEMBER_ROLES = ['user', 'developer', 'owner'] as const
 export type MemberRole = typeof MEMBER_ROLES[number]
 export const ROLE_LABELS: Record<MemberRole, string> = { user: 'Member', developer: 'Developer', owner: 'Owner' }
 export const isMemberRole = (value: unknown): value is MemberRole => MEMBER_ROLES.includes(value as MemberRole)
+/** The role a member shows: the stored role, raised to developer by a confirmed module claim. */
+export const effectiveRole = (stored: string, developer: boolean): MemberRole => stored === 'owner' ? 'owner' : stored === 'developer' || developer ? 'developer' : 'user'
 
 /** Points per contribution. Hidden posts and threads, likes on one's own posts and suspended members never count,
  * so removing content also removes its points. */

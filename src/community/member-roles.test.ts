@@ -72,4 +72,19 @@ describe('member roles', () => {
     f.db.exec('UPDATE module_maintainers SET revoked=1')
     expect((await f.badges(created.id)).maker).toBe('user')
   })
+
+  it('puts the role, public bug reports and likes from others on the profile', async () => {
+    const f = await fixture(), alice = await f.member('alice'), fan = await f.member('fanone'), owner = await f.member('ownername')
+    f.db.prepare("UPDATE users SET role='owner' WHERE id=?").run(owner.id)
+    const thread = await (await f.call('/forum/threads', 'POST', { title: 'Mine', body: 'Hello', category: 'general' }, alice.session)).json() as { id: string }
+    const opening = String(f.db.prepare('SELECT id FROM forum_posts WHERE thread_id=?').get(thread.id)!.id)
+    for (const who of [alice, fan]) expect((await f.call('/forum/posts/' + opening + '/react', 'POST', { liked: true }, who.session)).status).toBe(200)
+    const report = f.db.prepare("INSERT INTO issues(id,module_id,author_login,reporter_id,title,body,public_json) VALUES(?,'miniverb','x',?,'t','b',?)")
+    report.run('public-report', alice.id, '{}'); report.run('private-report', alice.id, null)
+    const profile = async (name: string) => (await (await f.call('/forum/profiles/' + name)).json()) as { role: string; threads: number; likesReceived: number; reports: number }
+    expect(await profile('alice')).toMatchObject({ role: 'user', threads: 1, likesReceived: 1, reports: 1 })
+    expect((await profile('ownername')).role).toBe('owner')
+    expect((await f.call('/admin/forum/roles/alice', 'PUT', { role: 'developer', reason: 'Builds modules' }, '', await f.admin())).status).toBe(200)
+    expect((await profile('alice')).role).toBe('developer')
+  })
 })

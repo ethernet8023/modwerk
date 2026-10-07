@@ -1,7 +1,7 @@
 import type { Database } from './platform'
 import { HttpError, jsonBody, required, response } from './security'
 import { COMMUNITY_MODULES } from '../src/community/modules'
-import { isMemberRole, type MemberRole } from '../src/community/member-standing'
+import { effectiveRole, isMemberRole, type MemberRole } from '../src/community/member-standing'
 import { CONFIRMED } from './recognition'
 
 const listed = (moduleId: string, login: string) => COMMUNITY_MODULES.some(module => module.id === moduleId && module.maintainers.some(handle => handle.toLowerCase() === login.toLowerCase()))
@@ -16,8 +16,6 @@ export async function claimedDevelopers(db: Database, ids?: string[]): Promise<S
   return new Set(rows.filter(row => listed(row.module_id, row.github_login)).flatMap(row => row.member ? [row.id, row.member] : [row.id]))
 }
 
-/** The role a member shows: the stored role, raised to developer by a confirmed module claim. */
-export const effectiveRole = (stored: string, developer: boolean): MemberRole => stored === 'owner' ? 'owner' : stored === 'developer' || developer ? 'developer' : 'user'
 
 /** Roles for the authors on one page of posts, keyed by member ID. */
 export async function memberRoles(db: Database, ids: string[]): Promise<Map<string, MemberRole>> {
