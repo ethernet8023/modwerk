@@ -142,6 +142,8 @@
 .forum-post-author a, .forum-post-author strong { color: #e1e1ec; font-size: 13px; font-weight: 600; }
 .forum-post-author a:hover { color: #c6cbff; }
 .forum-author-badge { color: #b6b0d7; font-size: 10px; padding: 2px 5px; border: 1px solid #49455c; border-radius: 4px; }
+.forum-role-badge { --role-color: #92bccd; color: var(--role-color); font-size: 10px; font-weight: 600; letter-spacing: .02em; padding: 2px 5px; border: 1px solid color-mix(in srgb, var(--role-color) 45%, transparent); border-radius: 4px; }
+.forum-role-badge[data-role="owner"] { --role-color: #e3c27c; }
 .forum-post time, .forum-post small { font-size: 11px; color: var(--muted); }
 .forum-post-body { overflow-wrap: anywhere; font-size: 15px; line-height: 1.85; color: #dedde8; }
 .forum-post-body p { white-space: pre-wrap; }

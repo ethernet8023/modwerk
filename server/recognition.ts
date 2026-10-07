@@ -8,7 +8,7 @@ const PUBLIC_MEMBER = "u.email_verified=1 AND u.suspended=0 AND u.username IS NO
 const REPLY = 'p.id<>(SELECT first.id FROM forum_posts first WHERE first.thread_id=t.id ORDER BY first.created_at,first.rowid LIMIT 1)'
 const PAGE = '(SELECT CAST(COUNT(*)/30 AS INTEGER) FROM forum_posts preceding WHERE preceding.thread_id=t.id AND (preceding.created_at<p.created_at OR (preceding.created_at=p.created_at AND preceding.rowid<p.rowid))) AS page'
 /** A claim confirmed on both sides: the reviewed catalog lists the GitHub handle and the holder verified it with GitHub. */
-const CONFIRMED = 'm.revoked=0 AND d.suspended=0 AND d.github_id IS NOT NULL AND lower(d.github_login)=lower(m.github_login)'
+export const CONFIRMED = 'm.revoked=0 AND d.suspended=0 AND d.github_id IS NOT NULL AND lower(d.github_login)=lower(m.github_login)'
 
 /** A column for a posts query (`p`) that is 1 when the author is a linked maintainer of the module: the developer
  * identity itself or the forum account signed in through the same GitHub account. Manifest handles alone never

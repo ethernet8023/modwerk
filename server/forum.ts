@@ -9,6 +9,7 @@ import { notifyMentions, notifyPostLike, notifyReplies, RECIPIENTS } from './not
 import { attachMedia, postAttachments } from './forum-media'
 import { shoutbox } from './shoutbox'
 import { forumHighlights, maintainerColumn, memberProfile } from './recognition'
+import { adminRoleRoutes, memberRoles } from './member-roles'
 
 type Thread = {id:string;user_id:string;module_id:string|null;locked:number;hidden:number;configuration_json:string|null;issue_json:string|null}
 /** `forum_posts.hidden` for a deleted post: hidden like a moderated one, but its text is erased, it is never listed and it cannot be restored. */
@@ -82,6 +83,8 @@ export async function forum(request: Request, db: Database, user: User|null, adm
       if (!(result[0] as {meta:{changes:number}}).meta.changes) throw new HttpError(404,'Item not found.')
       return response({ok:true})
     }
+    const roles = await adminRoleRoutes(request,db,path,adminId??ADMIN_ACTOR)
+    if (roles) return roles
     throw new HttpError(404,'Moderation route not found.')
   }
   if (path === '/api/forum/threads' && request.method === 'GET') {
@@ -184,8 +187,8 @@ export async function forum(request: Request, db: Database, user: User|null, adm
     if(!details)throw new HttpError(404,'Thread not found.')
     const {following:followed,bookmarked:saved,...summary}=details
     const posts=pagePosts.results,following=!!followed,bookmarked=!!saved
-    const attachments = await postAttachments(db,posts.slice(0,30).filter(post=>admin||!post.hidden).map(post=>post.id))
-    return response({thread:summary,posts:posts.slice(0,30).map(post=>({attachments:attachments.get(post.id)??[],canRemoveMedia:!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,id:post.id,body:post.hidden&&!admin?'':post.body,username:post.hidden&&!admin?null:post.username,avatar:post.hidden&&!admin?null:post.avatar,displayName:post.hidden&&!admin?null:post.displayName,created_at:post.created_at,edited_at:post.edited_at,hidden:post.hidden,likes:post.hidden?0:post.likes,liked:!post.hidden&&!!post.liked,canEdit:!thread.locked&&!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,official:post.user_id===SYSTEM_AUTHOR,maintainer:!post.hidden&&!!post.maintainer,...(admin?{user_id:post.user_id}:{})})),configuration:thread.configuration_json?JSON.parse(thread.configuration_json):null,issue:thread.issue_json?JSON.parse(thread.issue_json):null,following,bookmarked,hasMore:posts.length>30})
+    const [attachments,roles] = await Promise.all([postAttachments(db,posts.slice(0,30).filter(post=>admin||!post.hidden).map(post=>post.id)),memberRoles(db,posts.slice(0,30).filter(post=>!post.hidden&&post.user_id!==SYSTEM_AUTHOR).map(post=>post.user_id))])
+    return response({thread:summary,posts:posts.slice(0,30).map(post=>({attachments:attachments.get(post.id)??[],canRemoveMedia:!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,id:post.id,body:post.hidden&&!admin?'':post.body,username:post.hidden&&!admin?null:post.username,avatar:post.hidden&&!admin?null:post.avatar,displayName:post.hidden&&!admin?null:post.displayName,created_at:post.created_at,edited_at:post.edited_at,hidden:post.hidden,likes:post.hidden?0:post.likes,liked:!post.hidden&&!!post.liked,canEdit:!thread.locked&&!post.hidden&&post.user_id===user?.id&&!!user?.email_verified,official:post.user_id===SYSTEM_AUTHOR,maintainer:!post.hidden&&!!post.maintainer,role:roles.get(post.user_id)??null,...(admin?{user_id:post.user_id}:{})})),configuration:thread.configuration_json?JSON.parse(thread.configuration_json):null,issue:thread.issue_json?JSON.parse(thread.issue_json):null,following,bookmarked,hasMore:posts.length>30})
   }
   const member = needMember(user)
   await throttle(db,'forum:'+member.id,60)
