@@ -5,6 +5,7 @@ import { testServer } from './test-server'
 import { sendActivityDigests } from '../../server/activity-mail'
 import { communityModule } from './modules'
 import { notificationLines } from './notification-text'
+import { threadPath } from './forum-links'
 import type { NotificationItem } from './notification-contract'
 
 type Listed={id:string;votes:number;request_status:string}
@@ -80,7 +81,7 @@ describe('feature requests',()=>{
     const told=await items(owner.token)
     expect(told).toHaveLength(1)
     expect(told[0]).toMatchObject({kind:'request_status',excerpt:'planned',actor:'bystander',title:'Freeze on the Mini Verb',thread_id:id,module_id:'miniverb'})
-    expect(notificationLines(told)[0]).toMatchObject({text:'@bystander marked the feature request “Freeze on the Mini Verb” as planned',href:'#forum/thread/'+id})
+    expect(notificationLines(told)[0]).toMatchObject({text:'@bystander marked the feature request “Freeze on the Mini Verb” as planned',href:threadPath(id,'Freeze on the Mini Verb')})
     expect((await items(follower.token)).map(item=>item.kind)).toEqual(['request_status'])
     expect(await items(other.token)).toEqual([])
     expect((await call(path,'PATCH',{status:'planned'},other.token,key)).status).toBe(200)
