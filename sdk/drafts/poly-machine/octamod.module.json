@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 2,
+  "id": "poly-machine",
+  "key": "POLY MACHINE",
+  "name": "Poly Machine",
+  "version": "0.2.0-experimental",
+  "category": "machines",
+  "source": {
+    "repository": "https://github.com/repeat98/octamad",
+    "revision": "887a237686d39defb7b85f29359f1e29b9ff6241",
+    "path": "modules/poly-machine"
+  },
+  "build": {
+    "status": "pending",
+    "reason": "Source development draft. Shared allocation, native input and emulator playback tested; hardware deadlines, broad lifecycle/recording regressions and browser composition remain unqualified."
+  },
+  "author": {
+    "github": "repeat98",
+    "name": "repeat98",
+    "credits": [
+      "Sam Banks: original octabam POLY runtime, MIT.",
+      "repeat98: preservation snapshot and VECTOR integration reference, MIT.",
+      "Modwerk contributors: independent pitch, extended keyboard/MIDI range and pool adapter."
+    ]
+  },
+  "nativeManifest": "manifest.py",
+  "presentation": {
+    "label": "32 shared sample voices",
+    "family": "Sample machines",
+    "summary": "Polyphonic FLEX playback with a shared 32-voice pool and independent track tuning.",
+    "overview": "One POLY track can use all 32 free voices. Each head has a preallocated AMP envelope; filters and FX remain shared per track. Draft outside the catalog.",
+    "highlights": [
+      "32 voices shared across tracks; up to 32 on one track.",
+      "Independent ATK/HOLD/REL, with no per-note DSP or heap allocation.",
+      "Ten panel octave positions and dedicated-route MIDI notes 0–127.",
+      "PTCH tunes the chord; POLY opens FLEX samples directly."
+    ],
+    "usage": [
+      "Select an audio track, open SRC SETUP, choose POLY and press YES.",
+      "POLY opens the FLEX sample pool directly. Load a sample with the stock file browser, then confirm its slot with YES. NO leaves the browser.",
+      "Return to SRC and enter chromatic mode with FUNC+DOWN. Hold several trig keys; FUNC+LEFT/RIGHT changes octave from -6 to +3.",
+      "Turn PTCH to transpose the sounding chord. A dedicated POLY MIDI channel accepts notes 0–127; note 84 plays the tuned sample root.",
+      "Set AMP REL to a finite value for notes that end after key-up. All POLY tracks share 32 voices, and one track can use the entire free pool."
+    ]
+  },
+  "access": {
+    "location": "SRC SETUP > POLY > FLEX samples",
+    "steps": [
+      "Select an audio track, open SRC SETUP, choose POLY and press YES.",
+      "POLY opens the FLEX sample pool directly. Load a sample with the stock file browser, then confirm its slot with YES. NO leaves the browser.",
+      "Return to SRC and enter chromatic mode with FUNC+DOWN. Hold several trig keys; FUNC+LEFT/RIGHT changes octave from -6 to +3.",
+      "Turn PTCH to transpose the sounding chord. A dedicated POLY MIDI channel accepts notes 0–127; note 84 plays the tuned sample root.",
+      "Set AMP REL to a finite value for notes that end after key-up. All POLY tracks share 32 voices, and one track can use the entire free pool."
+    ],
+    "screenshots": []
+  },
+  "controls": [
+    {
+      "name": "PTCH",
+      "description": "Track-wide sample tuning. Note input adds an independent semitone offset; all held/releasing voices follow tuning changes."
+    },
+    {
+      "name": "Chromatic octave",
+      "description": "FUNC+LEFT/RIGHT selects -6 to +3; the display shows the full signed value. Panel covers MIDI 0–124."
+    },
+    {
+      "name": "Sample pool",
+      "description": "Native FLEX slot browser opens directly. STATIC is unavailable in this draft."
+    }
+  ],
+  "compatibility": {
+    "firmware": "1.40C",
+    "effectId": null,
+    "location": "Audio track sample machine",
+    "conflicts": [
+      "vector",
+      "analog-bassdrum",
+      "synth",
+      "quantizer",
+      "octakit"
+    ],
+    "limitations": [
+      "Draft outside the catalog; no downloadable firmware or public build package.",
+      "TSTR is OFF while POLY is active.",
+      "FLEX only; STATIC requires independent streaming-cache support.",
+      "Panel/MIDI note recording is incomplete; extended pitches are a live-play feature.",
+      "MIDI channels shared with non-POLY audio tracks keep stock note-command mapping outside 72–96.",
+      "Linear interpolation can alias at high pitches; no anti-aliasing upgrade is claimed.",
+      "Ratios saturate below 32× rather than fold by octaves; very low pitches are limited by Q16 playback phase.",
+      "The octave selector is a global live control; it is not saved per Part.",
+      "No coexistence with other row-five custom machines is claimed."
+    ]
+  },
+  "resources": {
+    "memory": {
+      "label": "Shared platform reserve",
+      "display": "10 MiB shared arena",
+      "value": 10487808,
+      "unit": "bytes",
+      "method": "measured",
+      "conditions": "Reserved once by the shared platform; POLY runtime sits inside it. Sample RAM is reduced by this reservation.",
+      "source": "TESTING.md"
+    },
+    "processing": {
+      "label": "ColdFire playback",
+      "display": "Instruction counts measured; deadlines pending",
+      "value": null,
+      "unit": "cycles/frame",
+      "method": "unmeasured",
+      "conditions": "Native emulator instruction counts are not hardware cycles. Maximum-pitch 32-voice deadlines need qualification.",
+      "source": "TESTING.md"
+    }
+  },
+  "tests": {
+    "report": "TESTING.md",
+    "summary": "Native build, bounded allocator and stealing, current-pool MIDI/release checks, emulator audio and UI. Physical hardware is untested.",
+    "hardwareStatus": "untested",
+    "gates": [
+      "verify-source.py",
+      "pool-test.c",
+      "verify-midi.py",
+      "verify-pool.py"
+    ]
+  },
+  "license": {
+    "spdx": "MIT",
+    "file": "LICENSE",
+    "declaration": "Full upstream MIT terms and snapshot identities retained. VECTOR adapter attribution retained. Firmware, stock dumps, card images and built output stay private."
+  },
+  "media": []
+}

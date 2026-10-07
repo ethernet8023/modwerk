@@ -1,0 +1,7 @@
+[
+  "Select an audio track, open SRC SETUP, choose POLY and press YES.",
+  "POLY opens the FLEX sample pool directly. Load a sample with the stock file browser, then confirm its slot with YES. NO leaves the browser.",
+  "Return to SRC and enter chromatic mode with FUNC+DOWN. Hold several trig keys; FUNC+LEFT/RIGHT changes octave from -6 to +3.",
+  "Turn PTCH to transpose the sounding chord. A dedicated POLY MIDI channel accepts notes 0–127; note 84 plays the tuned sample root.",
+  "Set AMP REL to a finite value for notes that end after key-up. All POLY tracks share 32 voices, and one track can use the entire free pool."
+]

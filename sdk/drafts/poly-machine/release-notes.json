@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0-experimental",
+  "date": "2026-10-07",
+  "publication": "unpublished draft; migrate these notes to the community changelog when this module receives a catalog ID",
+  "changes": [
+    "32 active POLY voices share one global pool; one track can use all free voices.",
+    "Independent preallocated AMP envelopes with shared per-track filters and FX.",
+    "PTCH tuning is independent of chromatic and MIDI notes, with ten panel octave positions and dedicated-route MIDI 0\u2013127.",
+    "Selecting POLY opens native FLEX samples directly; STATIC is excluded.",
+    "Hardware deadlines, broad lifecycle combinations, note recording and public packaging remain unqualified."
+  ]
+}

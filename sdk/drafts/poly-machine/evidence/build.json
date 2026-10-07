@@ -1,0 +1,16 @@
+{
+  "firmware": "1.40C",
+  "build_tag": "06",
+  "image_sha256": "f50074440b98ca4d52735223bbf56945bcfbd8ee8660347293dfa79a91344d2d",
+  "native_sdk_revision": "886f15f",
+  "source_sha256": {
+    "polyphony.s": "a23cf3b0ea8998d443759c1c90f001ce57b1651b88dede75bda2d84c83aac1fd",
+    "pool.c": "1e1c1950f86d4c116eb206c121dd46669fe224f5390f27755c618bf96f200c4b",
+    "registration.c": "fbe3e703a078f1cfa97c74b5fc3c549688d3adf4d33bb29c6c73481696eb9b16",
+    "registration-hooks.s": "1ebaef881e0c701bf81244c2b15a0a26150e10c1402f945a10be516fc0897358",
+    "registration.s": "57df42e9942c0134508f9f025e580b09f2cd553648293d54e01a2743d4646a10",
+    "manifest.py": "5bda325a2e6043c0925f3a467b9cf559ef78278fc56c382f562d66a9dfb9cd14"
+  },
+  "native_rebuild_after_rebase": "byte-identical to tested image",
+  "hardware": "not tested"
+}
