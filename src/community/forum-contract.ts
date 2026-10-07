@@ -18,6 +18,9 @@ export type ForumShout = { id: string; body: string; username: string | null; av
 export type ForumShouts = { messages: ForumShout[]; hasMore: boolean }
 export const SHOUT_MAX_LENGTH = 600
 export type ForumCategory = keyof typeof FORUM_CATEGORIES
+/** Where a feature request stands. Administrators and the linked maintainers of its module set it; every other topic keeps 'open'. */
+export const REQUEST_STATUSES = { open: 'Open', planned: 'Planned', shipped: 'Shipped', declined: 'Declined' } as const
+export type RequestStatus = keyof typeof REQUEST_STATUSES
 // A thread may name one Elektron machine; null means it is about Modwerk or every machine.
 export function forumMachine(value: unknown): string | null {
   if (value === undefined || value === null || value === '') return null
@@ -42,7 +45,9 @@ export function sharedConfiguration(value: unknown): SharedConfiguration {
   }
   return { name: item.name.trim(), ...(item.device ? {device} : {}), moduleIds: [...item.moduleIds], moduleVersions: { ...item.moduleVersions }, keepStockFx2: item.keepStockFx2 }
 }
-export type ForumThread = { id:string;title:string;category:ForumCategory;machine:string|null;module_id:string|null;username:string|null;avatar?:string|null;official?:number;status:'open'|'resolved';locked:number;pinned:number;hidden?:number;created_at:string;updated_at:string;replies:number;last_post_id?:string|null;last_username?:string|null;last_excerpt?:string|null;last_post_page?:number;media_kinds?:string|null }
+export type ForumThread = { id:string;title:string;category:ForumCategory;machine:string|null;module_id:string|null;username:string|null;avatar?:string|null;official?:number;status:'open'|'resolved';request_status:RequestStatus;votes:number;locked:number;pinned:number;hidden?:number;created_at:string;updated_at:string;replies:number;last_post_id?:string|null;last_username?:string|null;last_excerpt?:string|null;last_post_page?:number;media_kinds?:string|null;unread?:number;new_replies?:number }
+/** What happened since a member's previous forum visit; `since` is null on the first visit. */
+export type ForumVisit = { since: string | null; newThreads: number; newReplies: number; unreadFollowed: number }
 // Images and sound clips attached to a post. Sizes are checked again on the server after the file type is read from its bytes.
 /** An @username as the Worker notifies it: not inside a word, an email or a path, 3–24 username characters. */
 export const MENTION_SOURCE = String.raw`(?<![\w@/])@([A-Za-z0-9_]{3,24})(?![A-Za-z0-9_])`
@@ -79,4 +84,4 @@ export type ForumMember = {username:string;avatar:string|null}
 export type ForumHighlights = {since:string;topPosts:(ForumReplyItem&ForumMember&{category:ForumCategory;likes:number})[];topMembers:(ForumMember&{likes:number})[];newMembers:ForumMember[]}
 /** The public online count, and the names of members who show themselves in the online list; `more` are online but unlisted. */
 export type MembersOnline = {online:number;members:ForumMember[];more:number}
-export type ThreadDetail = {thread:ForumThread;posts:ForumPost[];configuration:SharedConfiguration|null;issue:{device:string;version:string;steps:string;expected:string;actual:string}|null;following:boolean;bookmarked:boolean;hasMore:boolean}
+export type ThreadDetail = {thread:ForumThread;posts:ForumPost[];configuration:SharedConfiguration|null;issue:{device:string;version:string;steps:string;expected:string;actual:string}|null;following:boolean;bookmarked:boolean;voted:boolean;canSetRequestStatus:boolean;hasMore:boolean;firstUnread?:{id:string;page:number}|null}
