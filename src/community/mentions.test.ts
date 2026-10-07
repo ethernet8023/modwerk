@@ -5,6 +5,7 @@ import { testServer } from './test-server'
 import { mentionedUsernames } from '../../server/notifications'
 import { mentionQueryAt, splitMentions } from './forum-contract'
 import { notificationLines } from './notification-text'
+import { threadPath } from './forum-links'
 import type { NotificationItem } from './notification-contract'
 
 const databases: DatabaseSync[] = [], sent: { to: string[]; text: string }[] = [], password = 'a long original test passphrase'
@@ -24,7 +25,7 @@ describe('mentions', () => {
   it('links a Shoutbox mention to the archive and a thread mention to its post', () => {
     const base: NotificationItem = { id: 'n1', kind: 'mention', seen: false, created_at: '2026-10-07T10:00:00Z', thread_id: null, post_id: null, module_id: null, actor: 'alice', actorOfficial: false, title: null, excerpt: 'Hey @bob, try the new verb', rating: null, issue_id: null, github_actor: null, url: null }
     expect(notificationLines([base])[0]).toMatchObject({ text: '@alice mentioned you in Shoutbox 8', excerpt: 'Hey @bob, try the new verb', href: '#forum/shoutbox' })
-    expect(notificationLines([{ ...base, thread_id: 't1', post_id: 'p2', title: 'Verb settings' }])[0]).toMatchObject({ text: '@alice mentioned you in “Verb settings”', href: '#forum/thread/t1?post=p2' })
+    expect(notificationLines([{ ...base, thread_id: 't1', post_id: 'p2', title: 'Verb settings' }])[0]).toMatchObject({ text: '@alice mentioned you in “Verb settings”', href: threadPath('t1', 'Verb settings') + '?post=p2' })
   })
   it('finds the @name being typed before the caret', () => {
     expect(mentionQueryAt('hello @al', 9)).toEqual({ start: 6, query: 'al' })
