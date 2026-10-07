@@ -17,6 +17,7 @@ import { api, post } from './api'
 import { useCommunity } from './context'
 import { SUPPORT_MAILTO } from '../support'
 import { DeveloperVerification } from './DeveloperVerification'
+import { profileHref } from '../routing'
 import { GetStarted } from './GetStarted'
 type DeviceSession = { id:string; current:boolean; expires:number }
 function AccountContent({route}:{route:string}) {
@@ -60,7 +61,7 @@ function AccountContent({route}:{route:string}) {
     {member?<>
       <section className="configuration-section account-member" aria-labelledby="account-identity">
         <div className="account-identity"><ForumAvatar username={session.user!.username??session.user!.displayName} avatar={session.user!.avatar}/><div><h2 id="account-identity">{session.user!.displayName||session.user!.username}</h2><p>@{session.user!.username}<span>Community member</span></p></div></div>
-        <div className="account-member-actions"><a className="text-button" href={'#forum/profile/'+session.user!.username}>Your public profile</a><a className="text-button" href="#forum?saved=1">Your bookmarks</a><button className="text-button" disabled={busy} onClick={()=>void endSessions(false)}>Sign out</button></div>
+        <div className="account-member-actions"><a className="text-button" href={profileHref(session.user!.username??'')}>Your public profile</a><a className="text-button" href="#forum?saved=1">Your bookmarks</a><button className="text-button" disabled={busy} onClick={()=>void endSessions(false)}>Sign out</button></div>
       </section>
       {section==='profile'&&<GetStarted/>}
       <nav className="account-navigation" aria-label="Account settings">{accountSections.map(item=><a key={item.id} href={item.href} aria-current={section===item.id?'page':undefined}>{item.label}</a>)}</nav>
