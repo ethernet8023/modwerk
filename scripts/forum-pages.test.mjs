@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { afterEach, expect, it, vi } from 'vitest'
-import { fetchForumThreads, forumPages, forumThreadPageHtml, threadCard, wrapTitle } from './forum-pages.ts'
+import { fetchForumThreads, forumPages, forumThreadPageHtml, threadCard } from './forum-pages.ts'
+import { wrapTitle } from './social-cards.ts'
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8').replace('%BASE_URL%', './')
 const id = '0f3a1b2c-4d5e-4f60-8a9b-0c1d2e3f4a5b'
