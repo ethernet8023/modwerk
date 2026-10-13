@@ -473,7 +473,7 @@
         }
       ],
       "flash": "Elektron Transfer over USB: set MIDI IN and OUT to the device, drop the .syx on and press YES on the device. It restarts by itself.",
-      "recovery": "Hold FUNC while powering on, choose TRIG 4 (OS UPGRADE), then send the owner's stock .syx from Transfer's SysEx Transfer Recovery Mode over MIDI DIN; recovery mode does not use USB. No MIDI interface needed: a USB-serial adapter at 31250 baud works as the sender (FT232RL proven: +5V via 220 ohm to DIN pin 4, TXD via 220 ohm to pin 5, GND to pin 2), streaming the .syx raw."
+      "recovery": "Recovery mode is MIDI DIN ONLY — it does NOT work over USB: the startup menu never enumerates USB, so once a non-stock OS is on the unit a MIDI-DIN sender is REQUIRED (a USB-MIDI interface, or a hand-wired FT232RL serial adapter at 31250 baud: +5V/220 ohm to DIN 4, TXD/220 ohm to DIN 5, GND to DIN 2, raw .syx). Hold FUNC at power-on, TRIG 4 (OS UPGRADE), send the owner's stock .syx."
     },
     "research": [
       {
