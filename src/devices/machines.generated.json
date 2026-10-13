@@ -443,7 +443,7 @@
     "order": 80,
     "name": "Analog Rytm",
     "status": "research",
-    "summary": "OS 1.73 and 1.74 file formats documented and rebuilt byte-identical; modified OS 1.73 boots on hardware and the stock file recovers it; 1.74 replacement OS in progress.",
+    "summary": "OS 1.73 and 1.74 formats documented and rebuilt byte-identical; modified 1.73 and a from-source 1.74 replacement OS boot on hardware; stock recovers both over MIDI DIN.",
     "steps": {
       "format": "done",
       "rebuild": "done",
@@ -473,13 +473,13 @@
         }
       ],
       "flash": "Elektron Transfer over USB: set MIDI IN and OUT to the device, drop the .syx on and press YES on the device. It restarts by itself.",
-      "recovery": "Hold FUNC while powering on, choose TRIG 4 (OS UPGRADE), then send the owner's stock .syx from Transfer's SysEx Transfer Recovery Mode over MIDI DIN; recovery mode does not use USB."
+      "recovery": "Hold FUNC while powering on, choose TRIG 4 (OS UPGRADE), then send the owner's stock .syx from Transfer's SysEx Transfer Recovery Mode over MIDI DIN; recovery mode does not use USB. No MIDI interface needed: a USB-serial adapter at 31250 baud works as the sender (FT232RL proven: +5V via 220 ohm to DIN pin 4, TXD via 220 ohm to pin 5, GND to pin 2), streaming the .syx raw."
     },
     "research": [
       {
         "label": "rytm-fw-re",
         "url": "https://github.com/ethernet8023/rytm-fw-re",
-        "note": "Static analysis of OS 1.74: container/transport format, boot contract, startup-menu recovery path, display pipeline (FPGA fifo bridge protocol), plus a from-source replacement OS that builds and wraps into a flashable syx. No firmware hosted."
+        "note": "Static analysis of OS 1.74: format, boot contract, startup-menu recovery, display pipeline, plus a from-source replacement OS. Hardware-verified: flashed over USB, booted (display + memory probe), recovered to stock 1.74 over MIDI DIN via a hand-wired FT232RL adapter. No firmware hosted."
       },
       {
         "label": "elektron-firmware-tool",
